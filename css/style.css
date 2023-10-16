@@ -1,0 +1,13 @@
+/* サムネイルのプレビュー */
+.previewImg {
+    max-height: 140px;
+    max-width: 200px;
+    display: block;
+    margin: auto;
+    border: 1px solid gray;
+}
+
+/* 非表示 */
+.noneDisplay{
+    display: none;
+}
