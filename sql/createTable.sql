@@ -62,6 +62,7 @@ CREATE TABLE project_course (
     project_id INT NOT NULL,
     project_course_detail_id INT NOT NULL,
     project_course_name VARCHAR(191) NOT NULL,
+    project_course_thumbnail VARCHAR(191) NOT NULL DEFAULT 'img/project_course/default.png',
     project_course_intro VARCHAR(191) NOT NULL,
     PRIMARY KEY (project_id, project_course_detail_id),
     FOREIGN KEY (project_id) REFERENCES project(project_id)
