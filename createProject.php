@@ -46,42 +46,110 @@ if(isset($_SESSION['id']) == false){
 
     <form action="createProjectConfirm.php" method="post" enctype="multipart/form-data">
 
-        <p>プロジェクト名</p>
-        <input type="text" name="project_name">
+        <span>
 
-        <p>サムネイル画像</p>
-        <p>画像の入力欄を追加する</p>
+            <p>プロジェクト名</p>
+            <input type="text" name="project_name">
+        
+        </span><hr>
+       
         <span class="row mb-5">
 
-            
-            <!-- 追加された画像を表示する箇所 -->
-            <div id="preview"></div>
-
             <!-- 画像追加のinputタグ -->
-            <div>
-                <input class="noneDisplay" type="file" name="project_thumbnail" id="project_thumbnail" ><br>
-                <input type="button" onclick="document.getElementById('project_thumbnail').click()" value="アップロード">
-                <p onclick="deleteThumbnail()" >この入力欄を削除する</p>
+            <div class="project_Thumbnail">
+
+                <p>サムネイル画像</p>
+                <p onclick="addThumbnail()">入力欄を追加する</p>
+                
+                <div id="project_thumbnail_1">
+            
+                    <input class="noneDisplay" type="file" name="project_thumbnail[]" id="project_thumbnail_input_1" onchange="handleFileSelectThumbnail('project_thumbnail_input_1','project_thumbnail_img_1')"><br>
+                    <img src="img/project_thumbnail/default.png" class="ThumbnailImg" id="project_thumbnail_img_1" alt="Image" onclick="document.getElementById('project_thumbnail_input_1').click()">
+
+                </div>
+                
+                
+            
             </div>
             
             
-        </span>
-
-        <p>画像の入力欄を追加する</p>
+        </span><hr>
         
 
-        <p>目標金額</p>
+        <span>
 
-        <p>プロジェクト期間</p>
+            <p>目標金額</p>
+            <input type="num" name="project_goal_money" required>円
 
+        </span><hr>
+
+        <span>
+            <p>プロジェクト期間</p>
+
+            <input type="date" name="project_start" required>
+            <input type="date" name="project_end" required>
+
+        </span><hr>
 
         <!-- ここは一旦プロジェクトコースの入力欄にしておきました -->
-        <p>プロジェクトリターン内容</p>
+        <span>
+    
+            <p>プロジェクトリターン内容</p>
+            <p onclick="addCourse()">コースの入力欄を増やす</p>
+        
+            <div class="project_course">
 
-        <p>プロジェクト内容</p>
+                <div id="project_course_1">
+                    
+                    <input type="text" name="project_course_name[]" id="project_course_name_1">
+                    <input class="noneDisplay" type="file" name="project_course_file[]" id="project_course_file_1" onchange="handleFileSelectCourse('project_course_file_1','project_course_img_1')"><br>
+                    <img src="img/project_Course/default.png" class="CourseImg" id="project_course_img_1" alt="Image" onclick="document.getElementById('project_course_file_1').click()">
+                    <input type="text" name="project_course_intro[]" id="project_course_intro_1">
+                
+                </div>
+            
+            </div>
+    
+        </span><hr>
+        
+        
+        
+        <span>
 
-        <p>タグ</p>
+            
 
+            <div class="project_intro">
+
+                <p>プロジェクト内容</p>
+                <p onclick="addIntro(0)">テキストを追加する</p><p onclick="addIntro(1)">画像を追加する</p>
+            
+                <div id="project_intro_1">
+                    
+                    <!-- テキストボックスか画像を入れるタグかを判別する -->
+                    <input type="hidden" id="project_intro_flag_1" name="project_intro_flag[]" value="0">
+                    <input type="text" id="project_intro_content_1" name="project_intro_text[]">
+                
+                </div>
+            
+            </div>
+
+
+        </span><hr>
+        
+
+
+        <span>
+            <div class="project_tag">
+            
+                <p>タグ</p>
+                <p onclick="addTag()">タグを追加する</p>
+                
+
+            </div>
+            
+        </span>
+        
+        <input type="submit" value="投稿する">
 
 
     </form>
@@ -104,7 +172,10 @@ if(isset($_SESSION['id']) == false){
 
     <!-- javascriptの導入 -->
     <script src="./script/script.js"></script>
-    <script src="./script./createProject/addProjectThumbnail.js"></script>
+    <script src="./script./createProject/newCourseAppend.js"></script>
+    <script src="./script./createProject/newThumbnailAppend.js"></script>
+    <script src="./script./createProject/newIntroAppend.js"></script>
+    <script src="./script./createProject/newTagAppend.js"></script>
 
     <!-- bootstrapのjavascriptの導入 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
