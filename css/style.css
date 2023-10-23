@@ -11,3 +11,9 @@
 .noneDisplay{
     display: none;
 }
+
+.user_icon_ft {
+    width: 70px;
+    height: 70px;
+    /* その他のスタイルプロパティ */
+}

@@ -59,8 +59,66 @@ class DAO{
             }
             // recipe_name
         }
+//掲示板関連
+        //掲示板ランダム投稿取得
+        public function board_get_randam(){
+            $pdo=$this->dbConnect();
+            $sql= "SELECT bc.comment_id,bc.comment_content,bc.comment_time,u.user_name,u.user_icon FROM board_comment bc JOIN user u ON bc.user_id = u.user_id WHERE bc.parent_comment_id IS NULL";
+            $ps= $pdo->prepare($sql);
+            $ps->execute();
+            $randamBord = $ps->fetchAll();
+            return $randamBord;
+        }
+        public function board_get_all(){
+            $pdo=$this->dbConnect();
+            $sql= "SELECT bc.comment_id,bc.comment_content,bc.comment_time,u.user_name,u.user_icon FROM board_comment bc JOIN user u ON bc.user_id = u.user_id WHERE bc.parent_comment_id IS NULL";
+            $ps= $pdo->prepare($sql);
+            $ps->execute();
+            $allBord = $ps->fetchAll();
+            return $allBord;
+        }
+        //ユーザー名、アイコン取得
+        public function get_username_icon(){
+            $pdo=$this->dbConnect();
+            $sql= "SELECT user_name,user_icon FROM user WHERE user_id = ?";
+            $ps= $pdo->prepare($sql);
+            $ps->bindValue(1, $_SESSION['id'], PDO::PARAM_STR);
+            $ps->execute();
+            $searchUser = $ps->fetchAll();
+            return $searchUser;
+        }
 
+        //掲示板コメント投稿
+        public function post_bord_comment($post_comment){
+            $pdo=$this->dbConnect();
+            $sql= "INSERT INTO board_comment(comment_id,comment_content,comment_time,parent_comment_id,user_id) VALUES (0,?,CURRENT_DATE(),NULL,?)";
+            $ps= $pdo->prepare($sql);
+            $ps->bindValue(1, $post_comment, PDO::PARAM_STR);
+            $ps->bindValue(2, $_SESSION['id'], PDO::PARAM_STR);
+            $ps->execute();
+            $postcomments = $ps->fetchAll();
+            return $postcomments;
+        }
+        //掲示板いいね順にコメントを表示するメソッド.
+        public function get_heart_comment(){
+            $pdo=$this->dbConnect();
+            $sql= "SELECT bc.comment_id,bc.comment_content,bc.comment_time,COUNT(bh.comment_id) AS heart_count,u.user_name,u.user_icon
+                    FROM board_comment AS bc LEFT JOIN board_heart AS bh ON bc.comment_id = bh.comment_id LEFT JOIN user AS u ON bc.user_id = u.user_id GROUP BY bc.comment_id, bc.comment_content, bc.comment_time, u.user_name, u.user_icon ORDER BY heart_count DESC;";
+            $ps= $pdo->prepare($sql);
+            $ps->execute();
+            $comments = $ps->fetchAll();
+            return $comments;
+        }
 
+        public function get_time_comment(){
+            $pdo=$this->dbConnect();
+            $sql="SELECT bc.comment_content,bc.comment_time,u.user_name,u.user_icon
+                   FROM board_comment AS bc LEFT JOIN board_heart AS bh ON bc.comment_id = bh.comment_id LEFT JOIN user AS u ON bc.user_id = u.user_id ORDER BY bc.comment_time DESC;";
+            $ps= $pdo->prepare($sql);
+            $ps->execute();
+            $tcomments = $ps->fetchAll();
+            return $tcomments;
+        }
 
 
 
