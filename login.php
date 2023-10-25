@@ -21,7 +21,9 @@ session_start();
 
 </head>
 <body style="background-image: url('hai.svg');">
-<div style="background-image: url('header.svg');"></div>
+<!-- <body style="background-image: url('header.svg');"> -->
+<!-- <header style="background-image: url('header.svg'); background-size: cover; height: 72px;"></header> -->
+
 
     <div class="haikei">
     
