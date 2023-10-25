@@ -11,7 +11,7 @@ session_start();
     <title>ログイン</title>
 
     <!-- cssの導入 -->
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/login.css?<?php echo date('YmdHis'); ?>">
 
     <!-- javascriptの導入 -->
     <script src="./script/script.js"></script>
@@ -21,9 +21,11 @@ session_start();
 
 </head>
 <body style="background-image: url('hai.svg');">
+<div style="background-image: url('header.svg');"></div>
+
     <div class="haikei">
     
-    <h2>ログイン</h2>
+    <h2 class="login">ログイン</h2>
 
     <form action="loginCheck.php" method="post">
 
@@ -33,11 +35,11 @@ session_start();
         <p>パスワード</p>
         <input type="password" name="user_password" placeholder="パスワード"><br>
 
-        <input type="submit" value="ログイン">
+        <input type="submit" id="loginbutton" value="ログイン">
 
     </form>
 
-    <a href="signUp.php">アカウントをお持ちでない方</a>
+    <a href="signUp.php" class="signUp">アカウントをお持ちでない方</a>
 
     </div>
 
