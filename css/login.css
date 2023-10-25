@@ -1,0 +1,67 @@
+/* 非表示 */
+.noneDisplay{
+    display: none;
+}
+
+/* body {
+    background-image: url('haikei.svg');
+    background-size: cover;
+} */
+
+/* body {
+    background-image: url('hai.svg');
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; 
+    margin: 0; 
+} */
+
+.haikei {
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.8); /* 背景色を設定 */
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    margin-top: 30%;
+}
+
+form {
+    width: 300px;
+    margin: 0 auto;
+}
+
+p {
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+input[type="submit"] {
+    background-color: #007bff; /* ログインボタンの背景色を設定 */
+    color: #fff;
+    cursor: pointer;
+}
+
+a {
+    display: block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #007bff; /* リンクの色を設定 */
+}
+
+a:hover {
+    text-decoration: underline; /* ホバー時に下線を表示 */
+}
