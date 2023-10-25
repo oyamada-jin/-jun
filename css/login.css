@@ -4,7 +4,7 @@
 }
 
 /* body {
-    background-image: url('haikei.svg');
+    background-image: url('/hai.svg');
     background-size: cover;
 } */
 
@@ -19,16 +19,40 @@
 } */
 
 .haikei {
+    position: absolute;
+    left: 441px; /* x座標 */
+    top: 140px; /* y座標 */
+    width: 398px; /* 幅 */
+    height: 636px; /* 高さ */
+
     text-align: center;
     padding: 20px;
     border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.8); /* 背景色を設定 */
+    background-color: #F8F5F2; 
+    box-sizing: border-box;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid #000000;
 }
 
-h2 {
+
+.login {
     font-size: 24px;
     margin-bottom: 20px;
-    margin-top: 30%;
+    margin-left: 35%;
+    margin-right: 35%;
+    margin-top: 10%;
+}
+
+.signUp {
+    margin-left: 25%;
+    margin-right: 25%;
+    color: black;
+
+}
+
+#loginbutton {
+    background-color:#EDB83D;
+    margin-top: 5%;
 }
 
 form {
