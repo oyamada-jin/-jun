@@ -62,7 +62,7 @@ if(isset($_SESSION['id']) == false){
 
     <!-- メインビュー -->
     <div class="mainView">
-        <img src="img/Aso.png" alt="メインビュー" class="mainView-image">
+        <img src="img/Sauna.jpg" alt="メインビュー" class="mainView-image">
         <div class="mainview-overlapContents">
             <div class="mainView-title">麻生情報ビジネス専門学校を建て替える！</div>
             <div class="mainView-contents">
