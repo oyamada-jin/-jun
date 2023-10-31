@@ -1,0 +1,79 @@
+/* ヘッダー全体 */
+.header {
+    display: flex;
+    align-items: center;
+    background-color: #000b29;
+    height: 70px;
+    width: 100%;
+    /* position: fixed; */
+    top: 0; left: 0;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+/* ロゴ */
+.header-logo {
+    width: 120px;
+    flex-shrink: 0;
+    margin-left: 40px;
+}
+
+/* 検索バー */
+.search-bar {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+}
+
+.search-input {
+    border: none;
+    border-bottom: 2px solid #edb83d;
+    width: 100%;
+    padding-left: 30px;
+    background: #000B29;
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    width: 120px;
+}
+
+/* 各リンク、ボタン */
+.header-contents-area {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+.project-link {
+    font-size: 16px;
+    color: #FFF;
+    display: inline-block;
+    margin: 0 15px;
+}
+
+.login-button {
+    width: 80px;
+    height: 31px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    background: #000B29;
+    color: #EDB83D;
+    border: 2px solid #EDB83D;
+    font-size: 12px;
+    margin-left: 15px;
+}
+
+.signUp-button {
+    width: 80px;
+    height: 31px;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 4px;
+    background: #EDB83D;
+    font-size: 12px;
+    margin-left: 15px;
+}
