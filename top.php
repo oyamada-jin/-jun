@@ -52,8 +52,8 @@ if(isset($_SESSION['id']) == false){
         </div>
 
         <div class="header-contents-area">
-            <div class="project-link">プロジェクトを始める</div>
-            <div class="project-link">プロジェクト掲載</div>
+            <a href=""><div class="project-link">プロジェクトを始める</div></a>
+            <a href=""><div class="project-link">プロジェクト掲載</div></a>
             <button class="header-button login-button">ログイン</button>
             <button class="header-button signUp-button">新規登録</button>
         </div>
@@ -72,7 +72,7 @@ if(isset($_SESSION['id']) == false){
                     <li class="mainView-contents-supporter mainView-contents-lists">支援者　<b>150人</b></li>
                     <li class="mainView-contents-dayLeft mainView-contents-lists">残り　<b>3日</b></li>
                 </ul>
-                <div class="button mainView-contents-button">VIEW</div>
+                <a href="" style="text-decoration: none;"><div class="button mainView-contents-button">VIEW</div></a>
             </div>
         </div>
     </div>
@@ -107,10 +107,10 @@ if(isset($_SESSION['id']) == false){
         <!-- ランキング -->
         <div class="project-ranking project-margin-bottom container-fluid">
             <div class="project-title">ランキング</div>
-            <div class="more">すべて見る ></div>
+            <a href="" class="more-link"><div class="more">すべて見る ></div></a>
             <ul class="project-contents-list row justify-content-start">
                 <li class="project-contents-lists col-md-3">
-                    <div class="rank">1</div>
+                    <div class="rank" style="color: #d70026;">1</div>
                     <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
                 </li>
 
@@ -134,7 +134,7 @@ if(isset($_SESSION['id']) == false){
         <!-- 新着プロジェクト -->
         <div class="project-newProject project-margin-bottom container-fluid">
             <div class="project-title">新着プロジェクト</div>
-            <div class="more">すべて見る ></div>
+            <a href="" class="more-link"><div class="more">すべて見る ></div></a>
                 <ul class="project-contents-list row justify-content-start">
                     <li class="project-contents-lists col-md-3">
                         <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
@@ -161,7 +161,7 @@ if(isset($_SESSION['id']) == false){
         <!-- もうすぐ始まるプロジェクト -->
         <div class="project-soon project-margin-bottom container-fluid">
             <div class="project-title">もうすぐ始まるプロジェクト</div>
-            <div class="more">すべて見る ></div>
+            <a href="" class="more-link"><div class="more">すべて見る ></div></a>
                 <ul class="project-contents-list row justify-content-start">
                     <li class="project-contents-lists col-md-3">
                         <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
@@ -184,7 +184,7 @@ if(isset($_SESSION['id']) == false){
         <!-- おすすめプロジェクト -->
         <div class="project-recommendationProject project-margin-bottom container-fluid">
             <div class="project-title">おすすめプロジェクト</div>
-            <div class="more">すべて見る ></div>
+            <a href="" class="more-link"><div class="more">すべて見る ></div></a>
                 <ul class="project-contents-list row justify-content-start">
                     <li class="project-contents-lists col-md-3">
                         <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
@@ -207,7 +207,7 @@ if(isset($_SESSION['id']) == false){
         <!-- 達成したプロジェクト -->
         <div class="project-achievedProject project-margin-bottom container-fluid">
             <div class="project-title">達成したプロジェクト</div>
-            <div class="more">すべて見る ></div>
+            <a href="" class="more-link"><div class="more">すべて見る ></div></a>
                 <ul class="project-contents-list row justify-content-start">
                     <li class="project-contents-lists col-md-3">
                         <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
@@ -256,57 +256,64 @@ if(isset($_SESSION['id']) == false){
     </div>
 
     <!-- フッター -->
-    <footer class="footer">
-        <!-- カテゴリ -->
-        <div class="footer-category">
-            <div class="footer-category-title">カテゴリ</div>
-            <ul class="footer-category-list">
-                <li class="footer-category-lists">テクノロジー・ガジェット</div>
-                <li class="footer-category-lists">まちづくり・地域活性化</div>
-                <li class="footer-category-lists">プロダクト</div>
-                <li class="footer-category-lists">音楽</div>
-                <li class="footer-category-lists">フード・飲食店</div>
-                <li class="footer-category-lists">チャレンジ</div>
-                <li class="footer-category-lists">アニメ・映画</div>
-                <li class="footer-category-lists">スポーツ</div>
-                <li class="footer-category-lists">ファッション</div>
-                <li class="footer-category-lists">映像・映画</div>
-                <li class="footer-category-lists">ゲーム・サービス開発</div>
-                <li class="footer-category-lists">書籍・雑誌出版</div>
-                <li class="footer-category-lists">ビジネス・企業</div>
-                <li class="footer-category-lists">ビューティー・ヘルスケア</div>
-                <li class="footer-category-lists">アート・写真</div>
-                <li class="footer-category-lists">舞台・パフォーマンス</div>
-                <li class="footer-category-lists">ソーシャルグッド</div>
-            </ul>
+    <footer class="footer container-fluid">
+        <div class="row">
+            <!-- カテゴリ -->
+            <div class="footer-category col-md-5 container-fluid">
+                <div class="footer-category-title">カテゴリ</div>
+                <ul class="footer-category-list">
+                    <li class="footer-category-lists">テクノロジー・ガジェット</li>
+                    <li class="footer-category-lists">まちづくり・地域活性化</li>
+                    <li class="footer-category-lists">プロダクト</li>
+                    <li class="footer-category-lists">音楽</li>
+                    <li class="footer-category-lists">フード・飲食店</li>
+                    <li class="footer-category-lists">チャレンジ</li>
+                    <li class="footer-category-lists">アニメ・映画</li>
+                    <li class="footer-category-lists">スポーツ</li>
+                    <li class="footer-category-lists">ファッション</li>
+                    <li class="footer-category-lists">映像・映画</li>
+                    <li class="footer-category-lists">ゲーム・サービス開発</li>
+                    <li class="footer-category-lists">書籍・雑誌出版</li>
+                    <li class="footer-category-lists">ビジネス・企業</li>
+                    <li class="footer-category-lists">ビューティー・ヘルスケア</li>
+                    <li class="footer-category-lists">アート・写真</li>
+                    <li class="footer-category-lists">舞台・パフォーマンス</li>
+                    <li class="footer-category-lists">ソーシャルグッド</li>
+                </ul>
+            </div>
+
+                <!-- プロジェクト -->
+                <div class="footer-project col-md-3">
+                    <div class="border-height">
+                        <div class="footer-project-title">プロジェクト</div>
+                            <ul class="footer-project-list">
+                                <li class="footer-project-lists">すべてのプロジェクト</li>
+                                <li class="footer-project-lists">プロジェクト掲示板</li>
+                                <li class="footer-project-lists">ランキング</li>
+                                <li class="footer-project-lists">新着プロジェクト</li>
+                                <li class="footer-project-lists">もうすぐ始まるプロジェクト</li>
+                                <li class="footer-project-lists">おすすめプロジェクト</li>
+                                <li class="footer-project-lists">達成したプロジェクト</li>
+                                <li class="footer-project-lists">ピックアッププロジェクト</li>
+                            </ul>
+                    </div>
+                </div>
+
+            <!-- IDECAについて -->
+            <div class="footer-about col-md-4">
+                <div class="footer-about-title">IDECAについて</div>
+                <ul class="footer-about-list">
+                    <li class="footer-about-lists">IDECAとは</li>
+                    <li class="footer-about-lists">ヘルプ</li>
+                    <li class="footer-about-lists">お問い合わせ</li><br>
+                    <li class="footer-about-lists">各種設定・利用規約</li>
+                    <li class="footer-about-lists">プライバシーポリシー</li>
+                </ul>
+            </div>            
         </div>
 
-        <!-- プロジェクト -->
-        <div class="footer-project">
-            <div class="footer-project-title">プロジェクト</div>
-            <ul class="footer-project-list">
-                <li class="footer-project-lists">すべてのプロジェクト</li>
-                <li class="footer-project-lists">プロジェクト掲示板</li>
-                <li class="footer-project-lists">ランキング</li>
-                <li class="footer-project-lists">新着プロジェクト</li>
-                <li class="footer-project-lists">もうすぐ始まるプロジェクト</li>
-                <li class="footer-project-lists">おすすめプロジェク</li>
-                <li class="footer-project-lists">達成したプロジェクト</li>
-                <li class="footer-project-lists">ピックアッププロジェクト</li>
-            </ul>
-        </div>
-
-        <!-- IDECAについて -->
-        <div class="footer-about">
-            <div class="footer-about-title">IDECAについて</div>
-            <ul class="footer-about-list">
-                <li class="footer-about-lists">IDECAとは</li>
-                <li class="footer-about-lists"></li>ヘルプ
-                <li class="footer-about-lists">お問い合わせ</li>
-                <li class="footer-about-lists">各種設定・利用規約</li>
-                <li class="footer-about-lists">プライバシーポリシー</li>
-
-            </ul>
+        <div class="copyrightArea">
+            <p class="copyright-text">Copyright @ IDECA, Inc. All Rights Reserved.</p>
         </div>
     </footer>
     
