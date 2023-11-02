@@ -1,4 +1,99 @@
 .footer {
     background-color: #000b29;
     color: #ffffff;
+
+}
+
+/* フッターカテゴリタグ */
+.footer-category {
+   margin-left: 50px;
+}
+
+.footer-category-title {
+    margin-top: 90px;
+    font-size: 25px;
+    font-weight: 500;
+    margin-left: 140px;
+    margin-bottom: 5px;
+    text-decoration: underline 1.5px;
+}
+
+.footer-category-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2つの等幅の列 */
+    grid-gap: 0;
+    padding-left: 100px;
+}
+
+.footer-category-lists {
+    margin: 7px 0;
+    padding:0 0 0 50px;
+    font-size: 15px;
+}
+
+/* フッタープロジェクトタグ */
+.footer-project {
+    font-size: 12px;
+}
+
+.footer-project-title {
+    margin-top: 90px;
+    font-size: 25px;
+    font-weight: 500;
+    margin-left: 23px;
+    margin-bottom: 5px;
+    text-decoration: underline 1.5px;
+}
+
+.footer-project-list {
+    list-style: none;
+    display: grid;
+}
+
+.footer-project-lists {
+    margin: 7px 0;
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+/* フッターIDECAについてタグ */
+.footer-about-title {
+    margin-top: 90px;
+    font-size: 25px;
+    font-weight: 500;
+    margin-left: 23px;
+    margin-bottom: 5px;
+    text-decoration: underline 1.5px;
+}
+
+.footer-about-list {
+    list-style: none;
+    display: grid;
+}
+
+.footer-about-lists {
+    margin: 7px 0;
+    font-size: 15px;
+
+}
+
+/* 縦線 */
+.border-height {
+    border-left: 2px solid #ffffff;
+    border-right: 2px solid #ffffff;
+    height: 350px;
+}
+
+/* コピーライト */
+.copyrightArea {
+    margin: 80px auto 0 auto;
+    width: 1280px;
+    border-top: 2px solid #ffffff;
+    padding-bottom: 5px;
+}
+
+.copyright-text {
+    text-align: right;
+    margin: 10px 0;
 }
