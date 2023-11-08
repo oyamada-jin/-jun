@@ -6,3 +6,11 @@
     margin: auto;
     border: 1px solid gray;
 }
+
+.IntroImg {
+    max-height: 140px;
+    max-width: 200px;
+    display: block;
+    margin: auto;
+    border: 1px solid gray;
+}

@@ -1,5 +1,6 @@
 let courseCount = 1;
 const courseDiv = document.getElementsByClassName("project_course");
+let coursehiddenCount = document.getElementById("project_course_piece");
 
 function addCourse() {
     
@@ -37,12 +38,19 @@ function addCourse() {
     newCourseIntro.name = "project_course_intro[]";
     project_Course_div.appendChild(newCourseIntro);
 
+    let newCourseValue = document.createElement("input");
+    newCourseValue.type = "number";
+    newCourseValue.name = "project_course_value[]";
+    newCourseValue.id = "project_course_value_"+courseCount;
+    project_Course_div.appendChild(newCourseValue);
+
     let newDeletePTag = document.createElement("p");
     newDeletePTag.id = "DeleteCourseP_"+courseCount;
     newDeletePTag.setAttribute('onclick',"deleteCourse('"+courseCount+"')");
     newDeletePTag.textContent = "このコースを削除する";
     project_Course_div.appendChild(newDeletePTag);
 
+    coursehiddenCount.value=String(Number(coursehiddenCount.value)+1);
 }
 
 
@@ -65,7 +73,7 @@ function deleteCourse(deleteId) {
                 //コース名入力欄の変更
                 let courseName = document.getElementById("project_course_name_"+i);
                 if (courseName) {
-                    courseName.id="project_course_name_"+i;
+                    courseName.id="project_course_name_"+(i-1);
                 }
 
                 // 画像アップロードのfileタイプinputタグ変更
@@ -81,6 +89,17 @@ function deleteCourse(deleteId) {
                     courseThumbnaiil.id = "project_course_img_" + (i - 1);
                     courseThumbnaiil.setAttribute('onclick', "document.getElementById('project_course_file_" + (i - 1) + "').click()");
                 }
+
+                //コース内容入力欄の変更
+                let courseIntro = document.getElementById("project_course_intro_"+i);
+                if (courseIntro) {
+                    courseIntro.id="project_course_intro_"+(i - 1);
+                }
+
+                let courseValue = document.getElementById("project_course_value_"+i);
+                if(courseValue){
+                    courseValue.id = "project_course_value_" + (i-1);
+                }
                 
                 //Pタグの変更
                 let DeleteP = document.getElementById("DeleteCourseP_" + i);
@@ -89,6 +108,7 @@ function deleteCourse(deleteId) {
                     DeleteP.setAttribute('onclick', "deleteCourse(" + (i - 1) + ")");
                 }
             }
+            coursehiddenCount.value=String(Number(coursehiddenCount.value)-1);
 
             courseCount--;
         }

@@ -1,5 +1,6 @@
 let tagCount = 0;
 const tagDiv = document.getElementsByClassName("project_tag");
+let taghiddenCount = document.getElementById("project_tag_piece");
 
 function addTag(flag) {
     
@@ -20,6 +21,8 @@ function addTag(flag) {
     newDeletePTag.setAttribute('onclick',"deleteTag('"+tagCount+"')");
     newDeletePTag.textContent = "このコースを削除する";
     project_Tag_div.appendChild(newDeletePTag);
+
+    taghiddenCount.value = String(Number(taghiddenCount.value)+1);
 
 }
 
@@ -53,6 +56,7 @@ function deleteTag(deleteId) {
                     DeleteP.setAttribute('onclick', "deleteTag(" + (i - 1) + ")");
                 }
             }
+            taghiddenCount.value = String(Number(taghiddenCount.value)-1);
 
             tagCount--;
         }
