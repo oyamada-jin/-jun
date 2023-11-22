@@ -23,6 +23,7 @@ function addIntro(flag) {
         newIntroText.type = "text";
         newIntroText.id = "project_intro_content_"+introCount;
         newIntroText.name = "project_intro_text[]";
+        newIntroText.setAttribute('required', 'required');
         project_Intro_div.appendChild(newIntroText);
     
     }else if(flag==1){ //画像を追加する
@@ -33,6 +34,7 @@ function addIntro(flag) {
         newIntroFile.name = "project_intro_file[]";
         newIntroFile.id = "project_intro_content_" + introCount;
         newIntroFile.setAttribute('onchange',"handleFileSelectIntro('project_intro_content_"+introCount+"','project_intro_img_"+introCount+"')");
+        newIntroFile.setAttribute('required', 'required');
         project_Intro_div.appendChild(newIntroFile);
 
         let newIntroThumbnail = document.createElement("img");
@@ -41,6 +43,7 @@ function addIntro(flag) {
         newIntroThumbnail.id = "project_intro_img_" + introCount;
         newIntroThumbnail.alt = "Image";
         newIntroThumbnail.setAttribute('onclick',"document.getElementById('project_intro_content_"+introCount+"').click()");
+        newIntroThumbnail.setAttribute('required', 'required');
         project_Intro_div.appendChild(newIntroThumbnail);
     }
 

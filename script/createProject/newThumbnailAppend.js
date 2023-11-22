@@ -16,6 +16,7 @@ function addThumbnail() {
     newInput.name = "project_thumbnail[]";
     newInput.id = "project_thumbnail_input_" + thumbnailCount;
     newInput.setAttribute('onchange',"handleFileSelectThumbnail('project_thumbnail_input_"+thumbnailCount+"','project_thumbnail_img_"+thumbnailCount+"')");
+    newInput.setAttribute('required', 'required');
     project_Thumbnail_div.appendChild(newInput);
 
     let newImage = document.createElement("img");

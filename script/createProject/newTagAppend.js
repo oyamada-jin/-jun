@@ -14,6 +14,7 @@ function addTag(flag) {
     newTagText.type = "text";
     newTagText.id = "project_tag_Text"+tagCount;
     newTagText.name = "project_tag_Text[]";
+    newTagText.setAttribute('required', 'required');
     project_Tag_div.appendChild(newTagText);
 
     let newDeletePTag = document.createElement("p");

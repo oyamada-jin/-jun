@@ -14,6 +14,7 @@ function addCourse() {
     newCourseName.type = "text";
     newCourseName.id = "project_course_name_"+courseCount;
     newCourseName.name = "project_course_name[]";
+    newCourseName.setAttribute('required', 'required');
     project_Course_div.appendChild(newCourseName);
 
     let newCourseFile = document.createElement("input");
@@ -22,6 +23,7 @@ function addCourse() {
     newCourseFile.name = "project_course_file[]";
     newCourseFile.id = "project_course_file_" + courseCount;
     newCourseFile.setAttribute('onchange',"handleFileSelectCourse('project_course_file_"+courseCount+"','project_course_img_"+courseCount+"')");
+    newCourseFile.setAttribute('required', 'required');
     project_Course_div.appendChild(newCourseFile);
 
     let newcourseThumbnail = document.createElement("img");
@@ -36,12 +38,14 @@ function addCourse() {
     newCourseIntro.type = "text";
     newCourseIntro.id = "project_course_intro_"+courseCount;
     newCourseIntro.name = "project_course_intro[]";
+    newCourseIntro.setAttribute('required', 'required');
     project_Course_div.appendChild(newCourseIntro);
 
     let newCourseValue = document.createElement("input");
     newCourseValue.type = "number";
     newCourseValue.name = "project_course_value[]";
     newCourseValue.id = "project_course_value_"+courseCount;
+    newCourseValue.setAttribute('required', 'required');
     project_Course_div.appendChild(newCourseValue);
 
     let newDeletePTag = document.createElement("p");

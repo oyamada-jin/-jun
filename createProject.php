@@ -49,7 +49,7 @@ if(isset($_SESSION['id']) == false){
         <span>
 
             <p>プロジェクト名</p>
-            <input type="text" name="project_name">
+            <input type="text" name="project_name" required>
         
         </span><hr>
        
@@ -64,7 +64,7 @@ if(isset($_SESSION['id']) == false){
                 
                 <div id="project_thumbnail_1">
             
-                    <input class="noneDisplay" type="file" name="project_thumbnail[]" id="project_thumbnail_input_1" onchange="handleFileSelectThumbnail('project_thumbnail_input_1','project_thumbnail_img_1')"><br>
+                    <input class="noneDisplay" type="file" name="project_thumbnail[]" id="project_thumbnail_input_1" onchange="handleFileSelectThumbnail('project_thumbnail_input_1','project_thumbnail_img_1')" required><br>
                     <img src="img/project_thumbnail/default.png" class="ThumbnailImg" id="project_thumbnail_img_1" alt="Image" onclick="document.getElementById('project_thumbnail_input_1').click()">
 
                 </div>
@@ -103,11 +103,11 @@ if(isset($_SESSION['id']) == false){
 
                 <div id="project_course_1">
                     
-                    <input type="text" name="project_course_name[]" id="project_course_name_1">
-                    <input class="noneDisplay" type="file" name="project_course_file[]" id="project_course_file_1" onchange="handleFileSelectCourse('project_course_file_1','project_course_img_1')"><br>
+                    <input type="text" name="project_course_name[]" id="project_course_name_1" required>
+                    <input class="noneDisplay" type="file" name="project_course_file[]" id="project_course_file_1" onchange="handleFileSelectCourse('project_course_file_1','project_course_img_1')" required><br>
                     <img src="img/project_Course/default.png" class="CourseImg" id="project_course_img_1" alt="Image" onclick="document.getElementById('project_course_file_1').click()">
-                    <input type="text" name="project_course_intro[]" id="project_course_intro_1"><br>
-                    <input type="number" name="project_course_value[]" id="project_course_value_1">
+                    <input type="text" name="project_course_intro[]" id="project_course_intro_1" required><br>
+                    <input type="number" name="project_course_value[]" id="project_course_value_1" required>
 
                 </div>
             
