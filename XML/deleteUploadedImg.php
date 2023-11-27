@@ -26,8 +26,6 @@ function deleteUploadedImg($thumbnailArray,$courseArray,$introArray){
         }
     }
 
-    // header('Location:createProject.php');
-    // exit;
     
 }
 

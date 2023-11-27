@@ -1,4 +1,4 @@
-<!-- 多分sessionは全ページ必須？なので消さないでください。 -->
+<!-- 多分sessionは全ページ必須？なので消さないでください。comp -->
 <?php
 session_start();
 ?>
@@ -40,8 +40,10 @@ if(isset($_SESSION['id']) == false){
 </head>
 <body>
     
-    完了しました
-    それはどうかな？
+    プロジェクトの作成が完了しました。
+    
+
+    <button onclick="window.location.href='top.php'">トップに戻る</button>
 
 <!-- bootstrapのjavascriptの導入 -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

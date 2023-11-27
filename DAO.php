@@ -124,10 +124,11 @@ class DAO{
         }
 
         //project_tag行数取得
-        function countProjectTag(){
+        function countProjectTag($project_id){
             $pdo = $this->dbConnect();
-            $sql = "SELECT * FROM project_tag";
+            $sql = "SELECT * FROM project_tag WHERE project_id = :project_id";
             $sAPT = $pdo->prepare($sql);
+            $sAPT ->bindValue(":project_id",$project_id,PDO::PARAM_INT);
             $sAPT->execute();
             $sAPT->fetchAll();
             $re = $sAPT ->rowCount();
@@ -137,7 +138,7 @@ class DAO{
         //project_tagテーブル新規登録
         function insertProjectTag($project_id,$tag_id){
             $pdo = $this->dbConnect();
-            $count = $this->countProjectTag();
+            $count = $this->countProjectTag($project_id);
             
             $sql = "INSERT INTO `project_tag`(`project_id`, `project_tag_detail_id`, `tag_id`) VALUES (:project_id,:detail_id,:tag_id)";
             $iPT = $pdo->prepare($sql);
@@ -154,17 +155,32 @@ class DAO{
         function tagCheck($project_id,$tag_names){
             $pdo = $this->dbConnect();
             $tag_data = $this->selectAllTag();
-            foreach ($tag_names as $name) {
+            if(is_array($tag_names)===true){
+                foreach ($tag_names as $name) {
+                    $isExistChecker = 0;
+                    foreach ($tag_data as $data) {
+                        if($name === $data['tag_name']){//タグが存在したら
+                            $this->insertProjectTag($project_id,$data['tag_id']);
+                            $isExistChecker++;
+                            break;
+                        }
+                    }
+                    if ($isExistChecker===0) {//タグが存在しない場合
+                        $tag_id = $this->insertTag($name);
+                        $this->insertProjectTag($project_id,$tag_id);
+                    }
+                }
+            }else{
                 $isExistChecker = 0;
                 foreach ($tag_data as $data) {
-                    if($name = $data['tag_name']){//タグが存在したら
+                    if($tag_names === $data['tag_name']){//タグが存在したら
                         $this->insertProjectTag($project_id,$data['tag_id']);
                         $isExistChecker++;
                         break;
                     }
                 }
                 if ($isExistChecker==0) {//タグが存在しない場合
-                    $tag_id = $this->insertTag($name);
+                    $tag_id = $this->insertTag($tag_names);
                     $this->insertProjectTag($project_id,$tag_id);
                 }
             }
@@ -186,14 +202,14 @@ class DAO{
         //project_courseテーブル　新規登録
         function insertProjectCourse($id,$detail_id,$name,$thumbnail,$intro,$value){
             $pdo = $this->dbConnect();
-            $sql = "INSERT INTO project_course(project_id, project_course_detail_id, project_course_name, project_course_thumbnail, project_course_intro, project_course_value) VALUES (:id,:detail_id,:name,:thumbnail,:intro,:courseValue)";
+            $sql = "INSERT INTO project_course(project_id, project_course_detail_id, project_course_name, project_course_thumbnail, project_course_intro, project_course_value) VALUES (:id,:detail_id,:courseName,:thumbnail,:intro,:courseValue)";
             $q = $pdo->prepare($sql);
             $q->bindValue(":id",$id,PDO::PARAM_INT);
             $q->bindValue(":detail_id",$detail_id,PDO::PARAM_INT);
-            $q->bindValue(":name",$name,PDO::PARAM_STR);
+            $q->bindValue(":courseName",$name,PDO::PARAM_STR);
             $q->bindValue(":thumbnail",$thumbnail,PDO::PARAM_STR);
             $q->bindValue(":intro",$intro,PDO::PARAM_STR);
-            $q->bindValue(":courseValue",$value,PDO::PARAM_INT);
+            $q->bindValue(":courseValue",(int)$value,PDO::PARAM_INT);
 
             $q->execute();     
         }
@@ -205,14 +221,13 @@ class DAO{
             $q = $pdo->prepare($sql);
             $q->bindValue(":id",$id,PDO::PARAM_INT);
             $q->bindValue(":detail_id",$detail_id,PDO::PARAM_INT);
-            $q->bindValue(":flag",$flag,PDO::PARAM_INT);
-            $q->bindValue(":image",$image,PDO::PARAM_INT);
-            $q->bindValue(":text",$text,PDO::PARAM_INT);
+            $q->bindValue(":flag",(int)$flag,PDO::PARAM_INT);
+            $q->bindValue(":image",$image,PDO::PARAM_STR);
+            $q->bindValue(":text",$text,PDO::PARAM_STR);
  
             $q->execute();
         }
 
-        
 
         // function  (){
         //     $pdo = $this->dbConnect();

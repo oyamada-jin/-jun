@@ -1,8 +1,10 @@
 <?php
 
+session_start();
+
 require_once 'deleteUploadedImg.php';
-// require_once '../DAO.php';
-// $dao = new Dao();
+require_once '../DAO.php';
+$dao = new Dao();
 
 function uploadProject($project_name,$project_goal_money,$project_start,$project_end,$user_id,
                        $thumbnailImg,$courseImg,$introImg,$thumbnailPiece,$coursePiece,
@@ -24,12 +26,12 @@ function uploadProject($project_name,$project_goal_money,$project_start,$project
             $imageFileType = strtolower(pathinfo($thumbnailImg["name"][$count_1], PATHINFO_EXTENSION));
             
             //保存するファイル名を格納
-            $targetFile = $targetThumbnailDir.$project_id."_thumbnail_".$count_1.".".$imageFileType;
-
+            $DBtargetFile = $targetThumbnailDir.$project_id."_thumbnail_".$count_1.".".$imageFileType;
+            $targetFile = "../".$DBtargetFile;
             //アップロード
             move_uploaded_file($thumbnailImg["tmp_name"][$count_1], $targetFile);
 
-            $dao->insertProjectThumbnail($project_id,$count_1,$targetFile);
+            $dao->insertProjectThumbnail($project_id,$count_1,$DBtargetFile);
         }
         
     }
@@ -44,89 +46,80 @@ function uploadProject($project_name,$project_goal_money,$project_start,$project
     //プロジェクトコース画像のアップロード
     if(!empty($courseImg)){
         $targetCourseDir = "img/project_course/";
+
         for($count_2 = 0; $count_2 < $coursePiece; $count_2++){
             
             //拡張子を格納
             $imageFileType = strtolower(pathinfo($courseImg["name"][$count_2], PATHINFO_EXTENSION));
             
             //保存するファイル名を格納
-            $targetFile = $targetCourseDir.$project_id."_thumbnail_".$count_2.".".$imageFileType;
-
+            $DBtargetFile = $targetCourseDir.$project_id."_thumbnail_".$count_2.".".$imageFileType;
+            $targetFile = "../".$DBtargetFile;
             //アップロード
             move_uploaded_file($courseImg["tmp_name"][$count_2], $targetFile);
-        
-            $dao->insertProjectCourse($project_id,$count_2,$courseName[$count_2],$targetFile,$courseIntro[$count_2],$courseValue[$count_2]);
+            $dao->insertProjectCourse($project_id,$count_2,$courseName[$count_2],$DBtargetFile,$courseIntro[$count_2],(int)$courseValue[$count_2]);
         }
         
     }
-    // //プロジェクトコースが存在する場合
-    // if($_POST['project_course_piece'] > 0){
-    //     for($i = 0; $i < $_POST['project_course_piece']; $i++){
-    //         $dao->insertProjectCourse($project_id,$i,$_POST['project_course_name'][$i],$courseArray[$i],$_POST['project_course_intro'][$i],$_POST['project_course_value'][$i]);
-    //     }
-    // }
+
+
 
 
     //プロジェクト内容画像の存在確認＋アップロード
-if(!empty($introImg)){
+    if(!empty($introImg)){
 
-    $fileCount = 0;
-    $text = 0;
-    $targetIntroDir = "img/project_intro/";
+        $fileCount = 0;
+        $text = 0;
+        $targetIntroDir = "img/project_intro/";
 
-    for($count_3 = 0; $count_3 < $introPiece; $count_3++){
+        for($count_3 = 0; $count_3 < $introPiece; $count_3++){
 
-        if($introFlag[$count_3]==1){//画像ならば
+            if((int)$introFlag[$count_3]==1){//画像ならば
 
-            //拡張子を格納
-            $imageFileType = strtolower(pathinfo($introImg["name"][$fileCount], PATHINFO_EXTENSION));
+                //拡張子を格納
+                $imageFileType = strtolower(pathinfo($introImg["name"][$fileCount], PATHINFO_EXTENSION));
+                
+                //保存するファイル名を格納
+                $DBtargetFile = $targetIntroDir.$project_id."_thumbnail_".$fileCount.".".$imageFileType;
+                $targetFile = "../".$DBtargetFile;
+
+                //アップロード
+                move_uploaded_file($introImg["tmp_name"][$fileCount], $targetFile);
+
+                $dao->insertProjectIntro($project_id,$count_3,$introFlag[$count_3],$DBtargetFile,null);
+
+                //画像を格納した回数を記録する
+                $fileCount++;
+            }else if($introFlag[$count_3]==0){//テキストならば
+                $dao->insertProjectIntro($project_id,$count_3,$introFlag[$count_3],null,$introText[$text]);    
+                    $text++;
+            }
             
-            //保存するファイル名を格納
-            $targetFile = $targetIntroDir.$project_id."_thumbnail_".$fileCount.".".$imageFileType;
-
-            //アップロード
-            move_uploaded_file($introImg["tmp_name"][$fileCount], $targetFile);
-        
-            $dao->insertProjectIntro($project_id,$count_3,$introFlag[$count_3],$targetFile,null);
-
-            //画像を格納した回数を記録する
-            $fileCount++;
-        }else if($introFlag[$count_3]==0){//テキストならば
-            $dao->insertProjectIntro($project_id,$count_3,$introFlag[$count_3],null,$introText[$text]);    
-                $text++;
         }
         
     }
-    
-}
-    // //プロジェクト内容が存在する場合
-    // if($_POST['project_intro_piece'] > 0){
-        
-    //     for ($i=0; $i < $_POST['project_intro_piece']; $i++) { 
-    //         if($_POST['project_intro_flag'][$i] == "0"){ //テキストの場合
-    //             $dao->insertProjectIntro($project_id,$i,$_POST['project_intro_flag'][$i],null,$_POST['project_intro_text'][$text]);    
-    //             $text++;
-    //         }else{  //画像の場合
-    //             $dao->insertProjectIntro($project_id,$i,$_POST['project_intro_flag'][$i],$introArray[$i],null);
-    //         }
-            
-    //     }
-    // }
+
 
     //プロジェクトタグが存在する場合
     if($tagPiece > 0){
-        // for($i = 0; $i < $_POST['project_tag_piece']; $i++){
-        //     $dao->tagCheck($project_id,$_POST['project_tag_Text'][$i]);
-        // }
+        
         $dao->tagCheck($project_id,$tagText);
     }
 
     //本アップロードが完了したので仮アップロード画像を削除
 
-    // deleteUploadedImg($thumbnailArray,$courseArray,$introArray);
+    deleteUploadedImg($thumbnailArray,$courseArray,$introArray);
 
-    // header('Location:createProjectComplete.php');
-    // exit;
+
+    // レスポンスデータ
+    $responseData = array(
+        'status' => 'success',
+        'message' => 'プロジェクトの作成が完了しました。',
+    );
+
+    // データをJSON形式にエンコードして出力
+    header('Content-Type: application/json');
+    echo json_encode($responseData);
 }
 
 $projectName = $_POST['project_name'];
@@ -143,11 +136,26 @@ $projectTagPiece = $_POST['project_tag_piece'];
 $projectCourseNames = $_POST['project_course_name'];
 
 // 他の配列データも同様に取得
-$projectCourseIntro = json_encode($_POST['project_course_intro']);
-$projectCourseValue = json_encode($_POST['project_course_value']);
-$projectIntroFlag = json_encode($_POST['project_intro_flag']);
-$projectIntroText = json_encode($_POST['project_intro_text']);
-$projectTagText = json_encode($_POST['project_tag_Text']);
+$projectCourseIntro = explode(",",json_decode(json_encode($_POST['project_course_intro'])));
+$projectCourseValue = explode(",",json_decode(json_encode($_POST['project_course_value']),true));
+$projectCourseValue = str_replace("[","",$projectCourseValue);
+$projectCourseValue = str_replace("]","",$projectCourseValue);
+$projectCourseValue = str_replace('"',"",$projectCourseValue);
+
+$projectIntroFlag = explode(",",json_decode(json_encode($_POST['project_intro_flag']),true));
+$projectIntroFlag = str_replace("[","",$projectIntroFlag);
+$projectIntroFlag = str_replace("]","",$projectIntroFlag);
+$projectIntroFlag = str_replace('"',"",$projectIntroFlag);
+
+$projectIntroText = explode(",",json_decode(json_encode($_POST['project_intro_text']),true));
+$projectIntroText = str_replace("[","",$projectIntroText);
+$projectIntroText = str_replace("]","",$projectIntroText);
+$projectIntroText = str_replace('"',"",$projectIntroText);
+
+$projectTagText = explode(",",json_decode(json_encode($_POST['project_tag_Text']),true));
+$projectTagText = str_replace("[","",$projectTagText);
+$projectTagText = str_replace("]","",$projectTagText);
+$projectTagText = str_replace('"',"",$projectTagText);
 
 // 画像ファイルやその他のファイルも同様に取得
 $thumbnailFiles = $_FILES['project_thumbnail'];
