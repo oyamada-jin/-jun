@@ -1,5 +1,6 @@
 let courseCount = 1;
 const courseDiv = document.getElementsByClassName("project_course");
+let coursehiddenCount = document.getElementById("project_course_piece");
 
 function addCourse() {
     
@@ -13,6 +14,7 @@ function addCourse() {
     newCourseName.type = "text";
     newCourseName.id = "project_course_name_"+courseCount;
     newCourseName.name = "project_course_name[]";
+    newCourseName.setAttribute('required', 'required');
     project_Course_div.appendChild(newCourseName);
 
     let newCourseFile = document.createElement("input");
@@ -21,6 +23,7 @@ function addCourse() {
     newCourseFile.name = "project_course_file[]";
     newCourseFile.id = "project_course_file_" + courseCount;
     newCourseFile.setAttribute('onchange',"handleFileSelectCourse('project_course_file_"+courseCount+"','project_course_img_"+courseCount+"')");
+    newCourseFile.setAttribute('required', 'required');
     project_Course_div.appendChild(newCourseFile);
 
     let newcourseThumbnail = document.createElement("img");
@@ -35,7 +38,15 @@ function addCourse() {
     newCourseIntro.type = "text";
     newCourseIntro.id = "project_course_intro_"+courseCount;
     newCourseIntro.name = "project_course_intro[]";
+    newCourseIntro.setAttribute('required', 'required');
     project_Course_div.appendChild(newCourseIntro);
+
+    let newCourseValue = document.createElement("input");
+    newCourseValue.type = "number";
+    newCourseValue.name = "project_course_value[]";
+    newCourseValue.id = "project_course_value_"+courseCount;
+    newCourseValue.setAttribute('required', 'required');
+    project_Course_div.appendChild(newCourseValue);
 
     let newDeletePTag = document.createElement("p");
     newDeletePTag.id = "DeleteCourseP_"+courseCount;
@@ -43,6 +54,7 @@ function addCourse() {
     newDeletePTag.textContent = "このコースを削除する";
     project_Course_div.appendChild(newDeletePTag);
 
+    coursehiddenCount.value=String(Number(coursehiddenCount.value)+1);
 }
 
 
@@ -65,7 +77,7 @@ function deleteCourse(deleteId) {
                 //コース名入力欄の変更
                 let courseName = document.getElementById("project_course_name_"+i);
                 if (courseName) {
-                    courseName.id="project_course_name_"+i;
+                    courseName.id="project_course_name_"+(i-1);
                 }
 
                 // 画像アップロードのfileタイプinputタグ変更
@@ -81,6 +93,17 @@ function deleteCourse(deleteId) {
                     courseThumbnaiil.id = "project_course_img_" + (i - 1);
                     courseThumbnaiil.setAttribute('onclick', "document.getElementById('project_course_file_" + (i - 1) + "').click()");
                 }
+
+                //コース内容入力欄の変更
+                let courseIntro = document.getElementById("project_course_intro_"+i);
+                if (courseIntro) {
+                    courseIntro.id="project_course_intro_"+(i - 1);
+                }
+
+                let courseValue = document.getElementById("project_course_value_"+i);
+                if(courseValue){
+                    courseValue.id = "project_course_value_" + (i-1);
+                }
                 
                 //Pタグの変更
                 let DeleteP = document.getElementById("DeleteCourseP_" + i);
@@ -89,6 +112,7 @@ function deleteCourse(deleteId) {
                     DeleteP.setAttribute('onclick', "deleteCourse(" + (i - 1) + ")");
                 }
             }
+            coursehiddenCount.value=String(Number(coursehiddenCount.value)-1);
 
             courseCount--;
         }

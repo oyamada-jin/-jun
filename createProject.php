@@ -31,7 +31,7 @@ if(isset($_SESSION['id']) == false){
     <title>プロジェクト作成</title>
 
     <!-- cssの導入 -->
-    <link rel="stylesheet" href="css/style.css?v=2">
+
     <link rel="stylesheet" href="css/createProject.css?v=2">
 
     <!-- bootstrapのCSSの導入 -->
@@ -49,7 +49,7 @@ if(isset($_SESSION['id']) == false){
         <span>
 
             <p>プロジェクト名</p>
-            <input type="text" name="project_name">
+            <input type="text" name="project_name" required>
         
         </span><hr>
        
@@ -59,11 +59,12 @@ if(isset($_SESSION['id']) == false){
             <div class="project_Thumbnail">
 
                 <p>サムネイル画像</p>
+                <input type="hidden" name="project_thumbnail_piece" id="project_thumbnail_piece" value=1>
                 <p onclick="addThumbnail()">入力欄を追加する</p>
                 
                 <div id="project_thumbnail_1">
             
-                    <input class="noneDisplay" type="file" name="project_thumbnail[]" id="project_thumbnail_input_1" onchange="handleFileSelectThumbnail('project_thumbnail_input_1','project_thumbnail_img_1')"><br>
+                    <input class="noneDisplay" type="file" name="project_thumbnail[]" id="project_thumbnail_input_1" onchange="handleFileSelectThumbnail('project_thumbnail_input_1','project_thumbnail_img_1')" required><br>
                     <img src="img/project_thumbnail/default.png" class="ThumbnailImg" id="project_thumbnail_img_1" alt="Image" onclick="document.getElementById('project_thumbnail_input_1').click()">
 
                 </div>
@@ -95,17 +96,19 @@ if(isset($_SESSION['id']) == false){
         <span>
     
             <p>プロジェクトリターン内容</p>
+            <input type="hidden" name="project_course_piece" id="project_course_piece" value=1>
             <p onclick="addCourse()">コースの入力欄を増やす</p>
         
             <div class="project_course">
 
                 <div id="project_course_1">
                     
-                    <input type="text" name="project_course_name[]" id="project_course_name_1">
-                    <input class="noneDisplay" type="file" name="project_course_file[]" id="project_course_file_1" onchange="handleFileSelectCourse('project_course_file_1','project_course_img_1')"><br>
+                    <input type="text" name="project_course_name[]" id="project_course_name_1" required>
+                    <input class="noneDisplay" type="file" name="project_course_file[]" id="project_course_file_1" onchange="handleFileSelectCourse('project_course_file_1','project_course_img_1')" required><br>
                     <img src="img/project_Course/default.png" class="CourseImg" id="project_course_img_1" alt="Image" onclick="document.getElementById('project_course_file_1').click()">
-                    <input type="text" name="project_course_intro[]" id="project_course_intro_1">
-                
+                    <input type="text" name="project_course_intro[]" id="project_course_intro_1" required><br>
+                    <input type="number" name="project_course_value[]" id="project_course_value_1" required>
+
                 </div>
             
             </div>
@@ -121,15 +124,8 @@ if(isset($_SESSION['id']) == false){
             <div class="project_intro">
 
                 <p>プロジェクト内容</p>
+                <input type="hidden" name="project_intro_piece" id="project_intro_piece" value=0>
                 <p onclick="addIntro(0)">テキストを追加する</p><p onclick="addIntro(1)">画像を追加する</p>
-            
-                <div id="project_intro_1">
-                    
-                    <!-- テキストボックスか画像を入れるタグかを判別する -->
-                    <input type="hidden" id="project_intro_flag_1" name="project_intro_flag[]" value="0">
-                    <input type="text" id="project_intro_content_1" name="project_intro_text[]">
-                
-                </div>
             
             </div>
 
@@ -142,6 +138,7 @@ if(isset($_SESSION['id']) == false){
             <div class="project_tag">
             
                 <p>タグ</p>
+                <input type="hidden" name="project_tag_piece" id="project_tag_piece" value=0>
                 <p onclick="addTag()">タグを追加する</p>
                 
 

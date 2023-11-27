@@ -6,3 +6,19 @@
     margin: auto;
     border: 1px solid gray;
 }
+
+.IntroImg {
+    max-height: 140px;
+    max-width: 200px;
+    display: block;
+    margin: auto;
+    border: 1px solid gray;
+}
+/* 非表示 */
+.noneDisplay{
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }

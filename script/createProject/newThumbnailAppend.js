@@ -1,5 +1,6 @@
 let thumbnailCount = 1;
 const thumbnailDiv = document.getElementsByClassName("project_Thumbnail");
+let thumbnailhiddenCount = document.getElementById("project_thumbnail_piece");
 
 function addThumbnail() {
     
@@ -15,6 +16,7 @@ function addThumbnail() {
     newInput.name = "project_thumbnail[]";
     newInput.id = "project_thumbnail_input_" + thumbnailCount;
     newInput.setAttribute('onchange',"handleFileSelectThumbnail('project_thumbnail_input_"+thumbnailCount+"','project_thumbnail_img_"+thumbnailCount+"')");
+    newInput.setAttribute('required', 'required');
     project_Thumbnail_div.appendChild(newInput);
 
     let newImage = document.createElement("img");
@@ -30,6 +32,8 @@ function addThumbnail() {
     newDeletePTag.setAttribute('onclick',"deleteThumbnail('"+thumbnailCount+"')");
     newDeletePTag.textContent = "このサムネイルを削除する";
     project_Thumbnail_div.appendChild(newDeletePTag);
+
+    thumbnailhiddenCount.value=String(Number(thumbnailhiddenCount.value)+1);
 
 }
 
@@ -112,6 +116,8 @@ function deleteThumbnail(deleteId) {
                     DeleteP.setAttribute('onclick', "deleteThumbnail(" + (i - 1) + ")");
                 }
             }
+
+            thumbnailhiddenCount.value = thumbnailhiddenCount.value-1;
 
             thumbnailCount--;
         }
