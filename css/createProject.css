@@ -14,3 +14,11 @@
     margin: auto;
     border: 1px solid gray;
 }
+/* 非表示 */
+.noneDisplay{
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }

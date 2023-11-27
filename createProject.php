@@ -31,7 +31,7 @@ if(isset($_SESSION['id']) == false){
     <title>プロジェクト作成</title>
 
     <!-- cssの導入 -->
-    <link rel="stylesheet" href="css/style.css?v=2">
+
     <link rel="stylesheet" href="css/createProject.css?v=2">
 
     <!-- bootstrapのCSSの導入 -->
