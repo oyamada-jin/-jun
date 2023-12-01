@@ -9,7 +9,7 @@ session_start();
     <title>プロフィール</title>
 
     <link rel="stylesheet" href="css/header.css?<?php echo date('YmdHis'); ?>">
-    <link rel="stylesheet" href="css/profile.css?<?php echo date('YmdHis'); ?>">
+    <link rel="stylesheet" href="css/profile3.css?<?php echo date('YmdHis'); ?>">
 
 </head>
 <body style="background-image: url('hai.svg');">
@@ -34,13 +34,7 @@ session_start();
         <div class="d1">プロフィール</div>
         <div class="d2">プロジェクト</div>
         <div class="d3">届け先情報</div>
-        <div class="d4">井之頭 権三郎</div>
-        <div class="d5">gonzapzap@outlook.jp</div>
-        <div class="d6">私は井之頭 権三郎と申します。
-            リンゴ味のマーガリンや、バニラ味のアイスなど、
-            様々なものを開発しました。
-            どうぞ応援よろしくお願いします。
-        </div>
+        <div class="d4">井之頭 権三郎さんの登録した届け先情報</div>
 
     </div>
 </body>
