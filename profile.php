@@ -11,7 +11,7 @@ session_start();
     <link rel="stylesheet" href="css/header.css?<?php echo date('YmdHis'); ?>">
 
 </head>
-<body>
+<body style="background-image: url('hai.svg');">
      <!-- ヘッダーここから -->
    <header class="header">
         <img class="header-logo" src="img/IdecaLogo.png">
