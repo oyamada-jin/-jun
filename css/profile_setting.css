@@ -18,7 +18,7 @@
     margin-bottom: 20px;
     margin-left: 5%;
     margin-right: 75%;
-    margin-top: 10%;
+    /* margin-top: 100%; */
 }
 
 .d2 {
@@ -62,8 +62,8 @@
 }
 
 .size {
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
     margin-left: 75%;
     margin-right: 5%;
 }
