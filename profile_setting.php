@@ -9,7 +9,7 @@ session_start();
     <title>プロフィール</title>
 
     <link rel="stylesheet" href="css/header.css?<?php echo date('YmdHis'); ?>">
-    <link rel="stylesheet" href="css/profile1.css?<?php echo date('YmdHis'); ?>">
+    <link rel="stylesheet" href="css/profile_setting.css?<?php echo date('YmdHis'); ?>">
 
 </head>
 <body style="background-image: url('hai.svg');">
@@ -42,6 +42,8 @@ session_start();
             様々なものを開発しました。
             どうぞ応援よろしくお願いします。
         </div>
+
+        <button>新規登録</button>
 
     </div>
 </body>
