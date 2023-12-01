@@ -52,7 +52,7 @@ if(isset($_SESSION['id']) == false){
         </div>
 
         <div class="header-contents-area">
-            <a href=""><div class="project-link">プロジェクトを始める</div></a>
+            <a href="IdeaPost.php"><div class="project-link">プロジェクトを始める</div></a>
             <a href=""><div class="project-link">プロジェクト掲載</div></a>
             <button class="header-button login-button">ログイン</button>
             <button class="header-button signUp-button">新規登録</button>

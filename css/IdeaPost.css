@@ -1,0 +1,174 @@
+body {
+    min-width: 1200px;
+    width: 100%;
+    height: 100vh;
+} 
+
+.background {
+    background-color: #f8f5f2;
+}
+
+/* メインビュー */
+.mainView-image {
+    min-width: 1200px;
+    width: 100%;
+}
+
+/* ホームへ */
+.home-button {
+    display: block;
+    font-size: 20px;
+    padding: 15px 200px;
+    color: #000b29;
+    background-color:#edb83d ;
+    border-radius: 4px;
+    border:#edb83d;
+    margin: 80px auto;
+}
+
+/* 注目のアイデア */
+.featuredIdeas {
+    width: 1100px;
+    background-color: #FFFAFA;
+    margin: 0 auto;
+    border-radius: 5px;
+    padding-bottom: 50px;
+    margin-bottom: 80px;
+}
+
+.featuredIdeas-contents {
+    margin-bottom: 30px;
+}
+
+.featuredIdeas-title {
+    /* color: #000b29; */
+    color: #D70026;
+    font-size: 36px;
+    font-weight: 600;
+    padding: 50px 0;
+    margin-left: 80px;
+}
+
+.featuredIdeas-contents-area {
+    background-color: rgba(237, 184, 61, 0.05);
+    margin: 0 100px;
+    padding-bottom: 30px;
+}
+
+.featuredIdeas-contents-area-head {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.featuredIdeas-contents-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin: 15px 30px;
+}
+
+.featuredIdeas-contents-username {
+    color: #000b29;
+    font-weight: 500;
+    font-size: 25px;
+}
+
+.featuredIdeas-contents-date {
+    font-size: 12px;
+    justify-content: right;
+    margin-left: auto;
+    margin-right: 30px;
+}
+
+.featuredIdeas-contents-text {
+    margin: 0 30px;
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* ここに表示したい行数を指定 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 16px;
+}
+
+/* .featuredIdeas-contents-text-continue {
+    text-align: right;
+    margin-right: 30px;
+    text-decoration: none;
+} */
+
+/* みんなのアイデア */
+.everyoneIdeas {
+    background-color: #FFFAFA;
+    width: 1100px;
+    margin: 0 auto;
+    border-radius: 5px;
+    padding-bottom: 50px;
+    margin-bottom: 100px;
+}
+
+.everyoneIdeas-title {
+    color: #D70026;
+    font-size: 36px;
+    font-weight: 600;
+    text-align: left;
+    margin-left: 80px;
+    padding: 50px 0;
+}
+
+.everyoneIdeas-head1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.everyoneIdeas-head1-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 0 60px 0 0px;
+}
+
+.everyoneIdeas-head1-username {
+    font-size: 36px;
+    margin-right: 20px;
+}
+
+.everyoneIdeas-head1-toshite {
+    font-size: 28px;
+    margin-right: 130px;
+}
+
+.everyoneIdeas-head1-order {
+    font-size: 20px;
+    margin: 0 25px;
+}
+
+.everyoneIdeas-head1-order:hover {
+    border-bottom: #000b29 solid 2px;
+}
+
+.everyoneIdeas-head2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 50px;
+}
+
+.everyoneIdeas-head2-comment {
+    width: 600px;
+    border: none;
+    border-bottom: 1px solid #000b29 ;
+    font-size: 28px;
+    margin-right: 25px;
+}
+
+.everyoneIdeas-head2-post {
+    font-size: 20px;
+    padding: 15px 65px;
+    margin: 0 15px;
+    border: none;
+    border-radius: 4px;
+    background: #EDB83B;
+}
