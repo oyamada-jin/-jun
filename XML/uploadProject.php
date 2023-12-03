@@ -20,6 +20,7 @@ function uploadProject($project_name,$project_goal_money,$project_start,$project
     //サムネイル画像のアップロード
     if(!empty($thumbnailImg)){
         $targetThumbnailDir = "img/project_thumbnail/";
+        $targetThumbnailDirFrom = "../img/project_thumbnail/uploadNow/pre";
         for($count_1 = 0; $count_1 < $thumbnailPiece; $count_1++){
             
             //拡張子を格納
@@ -27,10 +28,7 @@ function uploadProject($project_name,$project_goal_money,$project_start,$project
             
             //保存するファイル名を格納
             $DBtargetFile = $targetThumbnailDir.$project_id."_thumbnail_".$count_1.".".$imageFileType;
-            $targetFile = "../".$DBtargetFile;
-            //アップロード
-            move_uploaded_file($thumbnailImg["tmp_name"][$count_1], $targetFile);
-
+            rename($targetThumbnailDirFrom.$thumbnailImg['name'][$count_1],"../".$DBtargetFile);
             $dao->insertProjectThumbnail($project_id,$count_1,$DBtargetFile);
         }
         
@@ -42,21 +40,18 @@ function uploadProject($project_name,$project_goal_money,$project_start,$project
     //     }
     // }
 
-
     //プロジェクトコース画像のアップロード
     if(!empty($courseImg)){
         $targetCourseDir = "img/project_course/";
-
+        $targetCourseDirFrom = "../img/project_course/uploadNow/pre";
         for($count_2 = 0; $count_2 < $coursePiece; $count_2++){
             
             //拡張子を格納
             $imageFileType = strtolower(pathinfo($courseImg["name"][$count_2], PATHINFO_EXTENSION));
             
             //保存するファイル名を格納
-            $DBtargetFile = $targetCourseDir.$project_id."_thumbnail_".$count_2.".".$imageFileType;
-            $targetFile = "../".$DBtargetFile;
-            //アップロード
-            move_uploaded_file($courseImg["tmp_name"][$count_2], $targetFile);
+            $DBtargetFile = $targetCourseDir.$project_id."_courseThumbnail_".$count_2.".".$imageFileType;
+            rename($targetCourseDirFrom.$courseImg['name'][$count_2],"../".$DBtargetFile);
             $dao->insertProjectCourse($project_id,$count_2,$courseName[$count_2],$DBtargetFile,$courseIntro[$count_2],(int)$courseValue[$count_2]);
         }
         
@@ -64,13 +59,14 @@ function uploadProject($project_name,$project_goal_money,$project_start,$project
 
 
 
-
+ 
     //プロジェクト内容画像の存在確認＋アップロード
     if(!empty($introImg)){
 
         $fileCount = 0;
         $text = 0;
         $targetIntroDir = "img/project_intro/";
+        $targetIntroDirFrom = "../img/project_intro/uploadNow/pre";
 
         for($count_3 = 0; $count_3 < $introPiece; $count_3++){
 
@@ -80,12 +76,8 @@ function uploadProject($project_name,$project_goal_money,$project_start,$project
                 $imageFileType = strtolower(pathinfo($introImg["name"][$fileCount], PATHINFO_EXTENSION));
                 
                 //保存するファイル名を格納
-                $DBtargetFile = $targetIntroDir.$project_id."_thumbnail_".$fileCount.".".$imageFileType;
-                $targetFile = "../".$DBtargetFile;
-
-                //アップロード
-                move_uploaded_file($introImg["tmp_name"][$fileCount], $targetFile);
-
+                $DBtargetFile = $targetIntroDir.$project_id."_introThumbnail_".$fileCount.".".$imageFileType;
+                rename($targetIntroDirFrom.$introImg['name'][$fileCount],"../".$DBtargetFile);
                 $dao->insertProjectIntro($project_id,$count_3,$introFlag[$count_3],$DBtargetFile,null);
 
                 //画像を格納した回数を記録する
@@ -98,6 +90,8 @@ function uploadProject($project_name,$project_goal_money,$project_start,$project
         }
         
     }
+
+
 
 
     //プロジェクトタグが存在する場合

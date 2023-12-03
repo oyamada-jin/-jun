@@ -228,6 +228,117 @@ class DAO{
             $q->execute();
         }
 
+        function  selectProjectAndCourseById($project_id,$detail_id){
+            $pdo = $this->dbConnect();
+            $sql = "SELECT
+                        p.project_id AS project_id,
+                        pc.project_course_detail_id AS project_detail_id,
+                        p.project_name AS project_name,
+                        pc.project_course_name AS project_course_name,
+                        pc.project_course_thumbnail AS project_course_thumbnail,
+                        pc.project_course_intro AS project_course_intro,
+                        pc.project_course_value AS project_course_value
+                    FROM
+                        project p
+                    JOIN
+                        project_course pc ON p.project_id = pc.project_id
+                    WHERE
+                        p.project_id = :project_id
+                        AND pc.project_course_detail_id = :project_course_detail_id;";
+            $q = $pdo->prepare($sql);
+            $q->bindValue(":project_id",$project_id,PDO::PARAM_INT);
+            $q->bindValue(":project_course_detail_id",$detail_id,PDO::PARAM_INT);
+
+            $q->execute();
+
+            return $q->fetch();
+        }
+
+        function selectAddressById($user_id,$detail_id){
+            $pdo = $this->dbConnect();
+            $sql = "SELECT * FROM Address WHERE user_id = :user_id AND address_detail_id = :address_detail_id";
+            $q = $pdo->prepare($sql);
+            $q->bindValue(":user_id",$user_id,PDO::PARAM_INT);
+            $q->bindValue(":address_detail_id",$detail_id,PDO::PARAM_INT);
+
+            $q->execute();
+
+            return $q->fetch();            
+        }
+
+        function selectAllAddressById($user_id){
+            $pdo = $this->dbConnect();
+            $sql = "SELECT * FROM Address WHERE user_id = :user_id";
+            $q = $pdo->prepare($sql);
+            $q->bindValue(":user_id",$user_id,PDO::PARAM_INT);
+
+            $q->execute();
+
+            return $q->fetchAll();            
+        }
+
+
+        function insertAddress($user_id, $chi_name, $kana_name, $phone_number, $post_code, $user_address, $mail_address) {
+            $pdo = $this->dbConnect();
+            
+            $sql = "INSERT INTO `address` 
+                    (`user_id`, `address_detail_id`, `chi_name`, `kana_name`, `phone_number`, `post_code`, `user_address`, `mail_address`) 
+                    VALUES 
+                    (:user_id, :address_detail_id, :chi_name, :kana_name, :phone_number, :post_code, :user_address, :mail_address)";
+            
+            $addressDetailId = $this->countAddressById($user_id);
+            
+            $q = $pdo->prepare($sql);
+            $q->bindValue(":user_id", $user_id, PDO::PARAM_INT);
+            $q->bindValue(":address_detail_id", $addressDetailId, PDO::PARAM_INT);
+            $q->bindValue(":chi_name", $chi_name, PDO::PARAM_STR);
+            $q->bindValue(":kana_name", $kana_name, PDO::PARAM_STR);
+            $q->bindValue(":phone_number", $phone_number, PDO::PARAM_STR);
+            $q->bindValue(":post_code", $post_code, PDO::PARAM_STR);
+            $q->bindValue(":user_address", $user_address, PDO::PARAM_STR);
+            $q->bindValue(":mail_address", $mail_address, PDO::PARAM_STR);
+        
+            $q->execute();
+        }
+        
+        function insertProjectSupport($user_id,$method,$project_id,$course_detail_id,$address_detail_id) {
+            $pdo = $this->dbConnect();
+            
+            $sql = "INSERT INTO `project_support`
+                (`support_method`, `support_limit`, `support_flag`, `project_id`, `project_course_detail_id`, `user_id`, `address_detail_id`) 
+            VALUES 
+                (:support_method, :support_limit, :support_flag, :project_id, :project_course_detail_id, :user_id, :address_detail_id)";
+            $date = new DateTime();
+            $date->modify('+1 weeks');
+
+            $q = $pdo->prepare($sql);
+            $q->bindValue(":support_method", $method, PDO::PARAM_STR);
+            $q->bindValue(":support_limit", $date->format('Y年m月d日 H時'), PDO::PARAM_STR);
+            $q->bindValue(":support_flag", "決済完了待ち", PDO::PARAM_STR);
+            $q->bindValue(":project_id", $project_id, PDO::PARAM_INT);
+            $q->bindValue(":project_course_detail_id", $course_detail_id, PDO::PARAM_INT);
+            $q->bindValue(":user_id", $user_id, PDO::PARAM_INT);
+            $q->bindValue(":address_detail_id", $address_detail_id, PDO::PARAM_INT);
+            
+
+        
+            $q->execute();
+        }
+
+        function countAddressById($user_id) {
+            $pdo = $this->dbConnect();
+            $sql = "SELECT COUNT(*) AS record_count FROM address WHERE user_id = :user_id";
+            
+            $q = $pdo->prepare($sql);
+            $q->bindValue(":user_id", $user_id, PDO::PARAM_INT);
+            $q->execute();
+        
+            $result = $q->fetch(PDO::FETCH_ASSOC);
+        
+            return $result['record_count'];
+        }
+        
+
 
         // function  (){
         //     $pdo = $this->dbConnect();
@@ -240,6 +351,7 @@ class DAO{
 
             
         // }
+
 
         
 

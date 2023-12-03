@@ -1,4 +1,4 @@
-<!-- 多分sessionは全ページ必須？なので消さないでください。comp -->
+<!-- 多分sessionは全ページ必須？なので消さないでください。 -->
 <?php
 session_start();
 ?>
@@ -26,10 +26,10 @@ if(isset($_SESSION['id']) == false){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>プロジェクト作成完了</title>
+    <title>ここに論理ページ名を入力</title>
 
     <!-- cssの導入 -->
-
+    
 
     <!-- javascriptの導入 -->
 
@@ -40,10 +40,25 @@ if(isset($_SESSION['id']) == false){
 </head>
 <body>
     
-    プロジェクトの作成が完了しました。
-    
+    <div>
+        <form action="insertAddressCheck.php" method="post">
+            <p>お名前【全角文字】</p>
+            <input type="text" name="chi_name">
+            <p>お名前カナ【全角カタカナ】</p>
+            <input type="text" name="kana_name">
+            <p>電話番号【半角数字】</p>
+            <input type="text" name="phone_number">
+            <p>郵便番号【半角数字】</p>
+            <input type="text" name="post_code">
+            <p>ご自宅住所【全角文字】</p>
+            <input type="text" name="user_address">
+            <p>お名前【全角英数字】</p>
+            <input type="text" name="mail_address">
 
-    <button onclick="window.location.href='top.php'">トップに戻る</button>
+            <input type="submit" value="登録する">
+        </form>
+    </div>
+
 
 <!-- bootstrapのjavascriptの導入 -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
