@@ -72,11 +72,10 @@ if(isset($_SESSION['id']) == false){
     <title>プロジェクト確認</title>
 
     <!-- cssの導入 -->
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/createProject.css">
 
     <!-- javascriptの導入 -->
-    <script src="script/script.js"></script>
+
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     
 
@@ -204,7 +203,7 @@ if(isset($_SESSION['id']) == false){
             formData.append('project_course_value', JSON.stringify(<?php echo json_encode($_POST['project_course_value']); ?>));
             formData.append('project_intro_flag', JSON.stringify(<?php echo json_encode($_POST['project_intro_flag']); ?>));
             formData.append('project_intro_text', JSON.stringify(<?php echo json_encode($_POST['project_intro_text']); ?>));
-            formData.append('project_tag_Text', JSON.stringify(<?php echo json_encode($_POST['project_tag_Text']); ?>));
+            formData.append('project_tag_Text', JSON.stringify(<?php if(!empty($_POST['project_tag_Text'])){echo json_encode($_POST['project_tag_Text']);}else{echo null;} ?>));
             formData.append('thumbnailArray', JSON.stringify(<?php echo json_encode($thumbnailArray); ?>));
             formData.append('courseArray', JSON.stringify(<?php echo json_encode($courseArray); ?>));
             formData.append('introArray', JSON.stringify(<?php echo json_encode($introArray); ?>));

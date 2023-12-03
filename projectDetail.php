@@ -1,17 +1,8 @@
-<!-- 多分sessionは全ページ必須？なので消さないでください。comp -->
+<!-- 多分sessionは全ページ必須？なので消さないでください。 -->
 <?php
 session_start();
 ?>
 <!-- sessionここまで -->
-
-<!-- ログイン必須ページだけここのコードを残してください。 -->
-<?php
-if(isset($_SESSION['id']) == false){
-   header('Location: login.php');
-   exit();
-}
-?>
-<!-- ログイン必須用はここまで -->
 
 <!-- DAOを使用する場合は残してください。 -->
 <?php
@@ -26,7 +17,7 @@ if(isset($_SESSION['id']) == false){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>プロジェクト作成完了</title>
+    <title>応援プロジェクトID入力</title>
 
     <!-- cssの導入 -->
 
@@ -39,11 +30,14 @@ if(isset($_SESSION['id']) == false){
 
 </head>
 <body>
-    
-    プロジェクトの作成が完了しました。
+    <h1>応援するプロジェクトのproject_idを入力してください。</h1>
+    <form action="projectSupport.php" method="post">
+        コースID<input type="number" name="project_id">
+        コース明細ID<input type="number" name="project_detail_id">
+        <input type="submit" value="プロジェクトを応援する">
+    </form>
     
 
-    <button onclick="window.location.href='top.php'">トップに戻る</button>
 
 <!-- bootstrapのjavascriptの導入 -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

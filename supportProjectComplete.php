@@ -40,7 +40,7 @@ if(isset($_SESSION['id']) == false){
 </head>
 <body>
     
-    プロジェクトの作成が完了しました。
+    プロジェクトの応援が完了しました。
     
 
     <button onclick="window.location.href='top.php'">トップに戻る</button>
