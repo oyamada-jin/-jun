@@ -228,7 +228,60 @@ class DAO{
             $q->execute();
         }
 
-
+        function searchProjects($keyword) {
+            // 入力を空白で分割
+            $searchTerms = explode(' ', $keyword);
+        
+            // データベース接続
+            $pdo = $this->dbConnect();
+        
+            // プレースホルダーの準備
+            $placeholders = array_fill(0, count($searchTerms), '?');
+        
+            // LIKE検索の条件を生成
+            $likeConditions = array_map(function ($term) {
+                return "(project.project_name LIKE ? OR project_course.project_course_name LIKE ?)";
+            }, $searchTerms);
+        
+            // SQLクエリの生成
+            $sql = "SELECT project.project_id, 
+                           project.project_name, 
+                           project.project_start, 
+                           COUNT(project_support.project_id) AS support_count,
+                           SUM(project_course.project_course_value) AS total_money,
+                           project.project_goal_money,
+                           SUM(project_course.project_course_value) / project.project_goal_money * 100 AS money_ratio
+                    FROM project
+                    LEFT JOIN project_course ON project.project_id = project_course.project_id
+                    LEFT JOIN project_support ON project.project_id = project_support.project_id
+                                             AND project_course.project_course_detail_id = project_support.project_course_detail_id
+                    LEFT JOIN project_thumbnail ON project.project_id = project_thumbnail.project_id
+                                              AND project_thumbnail.project_thumbnail_detail_id = 0
+                    WHERE " . implode(' AND ', $likeConditions) . "
+                    GROUP BY project.project_id";
+        
+            // プリペアドステートメントの準備
+            $stmt = $pdo->prepare($sql);
+        
+            // プレースホルダーに値をバインド
+            $params = [];
+            foreach ($searchTerms as $term) {
+                $params[] = '%' . $term . '%';
+                $params[] = '%' . $term . '%';
+            }
+            $stmt->execute($params);
+        
+            // 結果の取得
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+            // データベース接続のクローズ
+            $pdo = null;
+        
+            // 結果を返す
+            return $results;
+        }
+        
+        
         // function  (){
         //     $pdo = $this->dbConnect();
         //     $sql = "";
