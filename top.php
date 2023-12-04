@@ -47,8 +47,9 @@ if(isset($_SESSION['id']) == false){
         <img class="header-logo" src="img/IdecaLogo.png">
 
         <div class="search-bar">
+            <form id="search" action="searchResult.php" method="get"></form>
             <img class="search-icon" src="">
-            <input class="search-input" type="text">
+            <input class="search-input" type="text" form="search" name="keyword">
         </div>
 
         <div class="header-contents-area">
