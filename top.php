@@ -4,20 +4,28 @@ session_start();
 ?>
 <!-- sessionここまで -->
 
-<!-- ログイン必須ページだけここのコードを残してください。 -->
-<?php
-if(isset($_SESSION['id']) == false){
-   header('Location: login.php');
-   exit();
-}
-?>
-<!-- ログイン必須用はここまで -->
-
 <!-- DAOを使用する場合は残してください。 -->
 <?php
     //DAOの呼び出し
     require_once 'DAO.php';
     $dao = new DAO();
+
+    //ランキング表示
+    $rankingArray = $dao->selectAllProjectRanking();
+
+    // 新着表示
+    $newArray = $dao->selectAllProjectNew();
+
+    // おすすめ表示
+    $likeArray = $dao->selectAllProjectLike();
+
+    // もうすぐ始まる表示
+    $readyArray = $dao->selectAllProjectReady();
+
+    // 達成済み表示
+    $compArray = $dao->selectAllProjectComplete();
+
+
 
 ?>
 <!-- ここまで -->
@@ -29,7 +37,7 @@ if(isset($_SESSION['id']) == false){
     <title>ホーム画面</title>
 
     <!-- cssの導入 -->
-    <link rel="stylesheet" href="css/style.css?v=2">
+    
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/top.css">
@@ -110,25 +118,30 @@ if(isset($_SESSION['id']) == false){
             <div class="project-title">ランキング</div>
             <a href="" class="more-link"><div class="more">すべて見る ></div></a>
             <ul class="project-contents-list row justify-content-start">
-                <li class="project-contents-lists col-md-3">
+                <!-- <li class="project-contents-lists col-md-3">
                     <div class="rank" style="color: #d70026;">1</div>
                     <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                </li>
+                </li> -->
 
-                <li class="project-contents-lists col-md-3">
-                    <div class="rank">2</div>
-                    <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                </li>
+                <?php
 
-                <li class="project-contents-lists col-md-3"> 
-                    <div class="rank">3</div>
-                    <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                </li>
+                if(!empty($rankingArray)){
+                    foreach ($rankingArray as $result) {
+                        echo "<li class='project-contents-lists col-md-3' onclick=\"window.location.href = 'projectDetail.php?pid=".$result['project_id']."';\">";
+                        echo "Project ID: " . $result['project_id'] . '<br>';
+                        echo "Project Name: " . $result['project_name'] . '<br>';
+                        echo "Support Count: " . $result['support_count'] . '人<br>';
+                        echo "Total Money: " . $result['total_money'] . '円<br>';
+                        echo "Money Ratio: " . (int)$result['money_ratio'] . '%<br>';
+                        echo "Remaining Days: " . (int)((strtotime($result['project_end']) - time()) / (60 * 60 * 24)) . '日<br>';
+                        echo "Thumbnail Image: " . $result['project_thumbnail_image'] . '<br>';
+                        echo "</li>";
+                    }
+                }else{
+                    echo "<p>このトピックに当てはまるプロジェクトはありませんでした。</p>";
+                }
 
-                <li class="project-contents-lists col-md-3">
-                    <div class="rank">4</div>
-                    <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                </li>
+                ?>
             </ul>
         </div>
 
@@ -137,25 +150,29 @@ if(isset($_SESSION['id']) == false){
             <div class="project-title">新着プロジェクト</div>
             <a href="" class="more-link"><div class="more">すべて見る ></div></a>
                 <ul class="project-contents-list row justify-content-start">
-                    <li class="project-contents-lists col-md-3">
+                    <!-- <li class="project-contents-lists col-md-3">
                         <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    </li> -->
 
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    <?php
 
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    if(!empty($newArray)){
+                        foreach ($newArray as $result) {
+                            echo "<li class='project-contents-lists col-md-3' onclick=\"window.location.href = 'projectDetail.php?pid=".$result['project_id']."';\">";
+                            echo "Project ID: " . $result['project_id'] . '<br>';
+                            echo "Project Name: " . $result['project_name'] . '<br>';
+                            echo "Support Count: " . $result['support_count'] . '人<br>';
+                            echo "Total Money: " . $result['total_money'] . '円<br>';
+                            echo "Money Ratio: " . (int)$result['money_ratio'] . '%<br>';
+                            echo "Remaining Days: " . (int)((strtotime($result['project_end']) - time()) / (60 * 60 * 24)) . '日<br>';
+                            echo "Thumbnail Image: " . $result['project_thumbnail_image'] . '<br>';
+                            echo "</li>";
+                        }
+                    }else{
+                        echo "<p>このトピックに当てはまるプロジェクトはありませんでした。</p>";
+                    }
 
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
-
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    ?>
                 </ul>
         </div>
 
@@ -164,21 +181,29 @@ if(isset($_SESSION['id']) == false){
             <div class="project-title">もうすぐ始まるプロジェクト</div>
             <a href="" class="more-link"><div class="more">すべて見る ></div></a>
                 <ul class="project-contents-list row justify-content-start">
-                    <li class="project-contents-lists col-md-3">
+                    <!-- <li class="project-contents-lists col-md-3">
                         <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    </li> -->
 
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    <?php
 
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    if(!empty($readyArray)){
+                        foreach ($readyArray as $result) {
+                            echo "<li class='project-contents-lists col-md-3' onclick=\"window.location.href = 'projectDetail.php?pid=".$result['project_id']."';\">";
+                            echo "Project ID: " . $result['project_id'] . '<br>';
+                            echo "Project Name: " . $result['project_name'] . '<br>';
+                            echo "Support Count: " . $result['support_count'] . '人<br>';
+                            echo "Total Money: " . $result['total_money'] . '円<br>';
+                            echo "Money Ratio: " . (int)$result['money_ratio'] . '%<br>';
+                            echo "Remaining Days: " . (int)((strtotime($result['project_end']) - time()) / (60 * 60 * 24)) . '日<br>';
+                            echo "Thumbnail Image: " . $result['project_thumbnail_image'] . '<br>';
+                            echo "</li>";
+                        }
+                    }else{
+                        echo "<p>このトピックに当てはまるプロジェクトはありませんでした。</p>";
+                    }
 
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    ?>
                 </ul>
         </div>
 
@@ -187,21 +212,29 @@ if(isset($_SESSION['id']) == false){
             <div class="project-title">おすすめプロジェクト</div>
             <a href="" class="more-link"><div class="more">すべて見る ></div></a>
                 <ul class="project-contents-list row justify-content-start">
-                    <li class="project-contents-lists col-md-3">
+                    <!-- <li class="project-contents-lists col-md-3">
                         <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    </li> -->
 
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    <?php
 
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    if(!empty($likeArray)){
+                        foreach ($likeArray as $result) {
+                            echo "<li class='project-contents-lists col-md-3' onclick=\"window.location.href = 'projectDetail.php?pid=".$result['project_id']."';\">";
+                            echo "Project ID: " . $result['project_id'] . '<br>';
+                            echo "Project Name: " . $result['project_name'] . '<br>';
+                            echo "Support Count: " . $result['support_count'] . '人<br>';
+                            echo "Total Money: " . $result['total_money'] . '円<br>';
+                            echo "Money Ratio: " . (int)$result['money_ratio'] . '%<br>';
+                            echo "Remaining Days: " . (int)((strtotime($result['project_end']) - time()) / (60 * 60 * 24)) . '日<br>';
+                            echo "Thumbnail Image: " . $result['project_thumbnail_image'] . '<br>';
+                            echo "</li>";
+                        }
+                    }else{
+                        echo "<p>このトピックに当てはまるプロジェクトはありませんでした。</p>";
+                    }
 
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    ?>
                 </ul>
         </div>
 
@@ -210,21 +243,29 @@ if(isset($_SESSION['id']) == false){
             <div class="project-title">達成したプロジェクト</div>
             <a href="" class="more-link"><div class="more">すべて見る ></div></a>
                 <ul class="project-contents-list row justify-content-start">
-                    <li class="project-contents-lists col-md-3">
+                    <!-- <li class="project-contents-lists col-md-3">
                         <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    </li> -->
 
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    <?php
 
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    if(!empty($compArray)){
+                        foreach ($compArray as $result) {
+                            echo "<li class='project-contents-lists col-md-3' onclick=\"window.location.href = 'projectDetail.php?pid=".$result['project_id']."';\">";
+                            echo "Project ID: " . $result['project_id'] . '<br>';
+                            echo "Project Name: " . $result['project_name'] . '<br>';
+                            echo "Support Count: " . $result['support_count'] . '人<br>';
+                            echo "Total Money: " . $result['total_money'] . '円<br>';
+                            echo "Money Ratio: " . (int)$result['money_ratio'] . '%<br>';
+                            echo "Remaining Days: " . (int)((strtotime($result['project_end']) - time()) / (60 * 60 * 24)) . '日<br>';
+                            echo "Thumbnail Image: " . $result['project_thumbnail_image'] . '<br>';
+                            echo "</li>";
+                        }
+                    }else{
+                        echo "<p>このトピックに当てはまるプロジェクトはありませんでした。</p>";
+                    }
 
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    ?>
                 </ul>
         </div>
     </div>
