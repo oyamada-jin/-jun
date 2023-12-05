@@ -228,41 +228,45 @@ class DAO{
             $q->execute();
         }
 
+        // プロジェクトを検索するメソッド
         function searchProjects($keyword) {
             // 入力を空白で分割
             $searchTerms = explode(' ', $keyword);
-        
+
             // データベース接続
             $pdo = $this->dbConnect();
-        
+
             // プレースホルダーの準備
             $placeholders = array_fill(0, count($searchTerms), '?');
-        
+
             // LIKE検索の条件を生成
             $likeConditions = array_map(function ($term) {
                 return "(project.project_name LIKE ? OR project_course.project_course_name LIKE ?)";
             }, $searchTerms);
-        
+
             // SQLクエリの生成
-            $sql = "SELECT project.project_id, 
-                           project.project_name, 
-                           project.project_start, 
-                           COUNT(project_support.project_id) AS support_count,
-                           SUM(project_course.project_course_value) AS total_money,
-                           project.project_goal_money,
-                           SUM(project_course.project_course_value) / project.project_goal_money * 100 AS money_ratio
+            $sql = "SELECT 
+                        project.project_id AS project_id,
+                        project.project_name AS project_name,
+                        support_count,
+                        total_money,
+                        (SUM(DISTINCT project_support.total_money) / project.project_goal_money * 100) AS money_ratio,
+                        project.project_end AS project_end,
+                        project_thumbnail.project_thumbnail_image
                     FROM project
-                    LEFT JOIN project_course ON project.project_id = project_course.project_id
-                    LEFT JOIN project_support ON project.project_id = project_support.project_id
-                                             AND project_course.project_course_detail_id = project_support.project_course_detail_id
-                    LEFT JOIN project_thumbnail ON project.project_id = project_thumbnail.project_id
-                                              AND project_thumbnail.project_thumbnail_detail_id = 0
+                    LEFT JOIN (SELECT project_id, SUM(support_money) AS total_money, COUNT(project_id) AS support_count FROM project_support GROUP BY project_support.project_id) AS project_support
+                        ON project.project_id = project_support.project_id
+                    LEFT JOIN project_course
+                        ON project.project_id = project_course.project_id
+                    LEFT JOIN project_thumbnail
+                        ON project.project_id = project_thumbnail.project_id
                     WHERE " . implode(' AND ', $likeConditions) . "
-                    GROUP BY project.project_id";
-        
+                    GROUP BY project.project_id;
+                    ";
+
             // プリペアドステートメントの準備
             $stmt = $pdo->prepare($sql);
-        
+
             // プレースホルダーに値をバインド
             $params = [];
             foreach ($searchTerms as $term) {
@@ -270,16 +274,20 @@ class DAO{
                 $params[] = '%' . $term . '%';
             }
             $stmt->execute($params);
-        
+
             // 結果の取得
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
+
             // データベース接続のクローズ
             $pdo = null;
-        
+
             // 結果を返す
             return $results;
         }
+
+
+
+        
         
         
         function  selectProjectAndCourseById($project_id,$detail_id){
@@ -354,27 +362,31 @@ class DAO{
         
             $q->execute();
         }
-        
-        function insertProjectSupport($user_id,$method,$project_id,$course_detail_id,$address_detail_id) {
+
+        function insertProjectSupport($user_id, $method, $project_id, $course_detail_id, $address_detail_id) {
             $pdo = $this->dbConnect();
             
             $sql = "INSERT INTO `project_support`
-                (`support_method`, `support_limit`, `support_flag`, `project_id`, `project_course_detail_id`, `user_id`, `address_detail_id`) 
+                (`support_method`, `support_limit`, `support_flag`, `support_money` , `project_id`, `project_course_detail_id`, `user_id`, `address_detail_id`) 
             VALUES 
-                (:support_method, :support_limit, :support_flag, :project_id, :project_course_detail_id, :user_id, :address_detail_id)";
+                (:support_method, :support_limit, :support_flag, :support_money, :project_id, :project_course_detail_id, :user_id, :address_detail_id)";
+            
             $date = new DateTime();
             $date->modify('+1 weeks');
-
+        
+            $money = $this->selectProjectAndCourseById($project_id, $course_detail_id);
+        
             $q = $pdo->prepare($sql);
             $q->bindValue(":support_method", $method, PDO::PARAM_STR);
-            $q->bindValue(":support_limit", $date->format('Y年m月d日 H時'), PDO::PARAM_STR);
+            // ここで PDO::PARAM_STR を使用する
+            $q->bindValue(":support_limit", $date->format('Y-m-d H:i:s'), PDO::PARAM_STR);
             $q->bindValue(":support_flag", "決済完了待ち", PDO::PARAM_STR);
+            // ここで PDO::PARAM_STR を使用する
+            $q->bindValue(":support_money", $money['project_course_value'], PDO::PARAM_STR);
             $q->bindValue(":project_id", $project_id, PDO::PARAM_INT);
             $q->bindValue(":project_course_detail_id", $course_detail_id, PDO::PARAM_INT);
             $q->bindValue(":user_id", $user_id, PDO::PARAM_INT);
             $q->bindValue(":address_detail_id", $address_detail_id, PDO::PARAM_INT);
-            
-
         
             $q->execute();
         }
