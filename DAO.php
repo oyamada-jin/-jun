@@ -82,6 +82,9 @@ class DAO{
             $pdo=$this->dbConnect();
             $sql= "SELECT user_name,user_icon FROM user WHERE user_id = ?";
             $ps= $pdo->prepare($sql);
+            if(isset($_SESSION['id'])==false){
+                header("Location: login.php");
+            }
             $ps->bindValue(1, $_SESSION['id'], PDO::PARAM_STR);
             $ps->execute();
             $searchUser = $ps->fetchAll();
@@ -120,25 +123,45 @@ class DAO{
             return $tcomments;
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        public function heart_add($user_id, $commentId) {
+            try {
+                $pdo = $this->dbConnect();
+                $sql = "INSERT INTO board_heart (project_id, user_id, comment_id, heart_id) VALUES (?, ?, ?, CURRENT_DATE())";
+                $ps = $pdo->prepare($sql);
+                $ps->bindParam(1, $commentId, PDO::PARAM_INT);
+                $ps->bindParam(2, $user_id, PDO::PARAM_INT);
+                $ps->execute();
+                
+                // 成功した場合に true を返す
+                return true;
+            } catch (PDOException $e) {
+                // エラーが発生した場合にログを出力などの処理を行う
+                error_log("heart_add error: " . $e->getMessage());
+                
+                // 失敗した場合に false を返す
+                return false;
+            }
+        }
+        public function heart_del($user_id, $commentId) {
+            try {
+                $pdo = $this->dbConnect();
+                $sql = "DELETE FROM board_heart WHERE project_id = ? AND user_id = ? AND comment_id = ?";
+                $ps = $pdo->prepare($sql);
+                $ps->bindParam(1, $commentId, PDO::PARAM_INT);
+                $ps->bindParam(2, $user_id, PDO::PARAM_INT);
+                $ps->execute();
+    
+                // 成功した場合に true を返す
+                return true;
+            } catch (PDOException $e) {
+                // エラーが発生した場合にログを出力などの処理を行う
+                error_log("heart_del error: " . $e->getMessage());
+                
+                // 失敗した場合に false を返す
+                return false;
+            }
+        }
+                
 
 }
 

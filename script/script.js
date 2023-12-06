@@ -21,10 +21,11 @@ document.addEventListener("DOMContentLoaded", function () {
         comments.forEach(function (row) {
             const commentDiv = document.createElement("div");
             commentDiv.innerHTML = `
-                <img src="${row.user_icon}" class="user_icon_ft">
-                ${row.user_name}
-                ${row.comment_time}<br>
-                ${row.comment_content}<br>`;
+            <img src="${row.user_icon}" class="user_icon_ft">
+            ${row.user_name}
+            ${row.comment_time}<br>
+            ${row.comment_content}
+            <img src="img/button/good_button.png" class="hart" data-comment-id="${row.comment_id}"><br>`;
             commentsContainer.appendChild(commentDiv);
         });
     }
@@ -47,4 +48,41 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 初期表示
     displayInitialData();
+});
+$(document).on('click', '.hart', function() {
+    const $img = $(this);
+    let action = '';
+    let commentId = $img.data('comment-id');
+
+    if ($img.attr('src') === 'img/button/good_button.png') {
+        $img.attr('src', 'img/button/good_button2.png');
+        action = 'add';
+    } else {
+        $img.attr('src', 'img/button/good_button.png');
+        action = 'delete';
+    }
+
+    // ハートがクリックされたときの通常のリクエスト
+    $.ajax({
+        type: 'POST',
+        url: 'ajax.php',
+        data: {
+            action: action,
+            commentId: commentId
+        },
+        success: function(response) {
+            // 成功時の処理を記述
+            console.log(response);
+            
+            // 遷移しない
+
+            // ここでハート画像に遷移するためのリンクを追加
+            const link = $('<a>').attr('href', 'ajax.php');
+            $img.wrap(link);
+        },
+        error: function(xhr, status, error) {
+            // エラー時の処理を記述
+            console.error(error);
+        }
+    });
 });
