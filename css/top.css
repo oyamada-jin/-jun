@@ -134,7 +134,9 @@ body {
 .more {
     text-align: right;
     margin: 0 30px 15px 0;
-    color: #000b29;
+    color: #d70026;
+    font-weight: 500;
+    font-size: 20px;
 }
 
 .more-link {

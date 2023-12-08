@@ -30,6 +30,7 @@
     width: 100%;
     padding-left: 30px;
     background: #000B29;
+    color: #FFF;
 }
 
 .search-icon {
@@ -38,6 +39,7 @@
     left: 5px;
     transform: translateY(-50%);
     width: 120px;
+    color: #EDB83D;
 }
 
 /* 各リンク、ボタン */
