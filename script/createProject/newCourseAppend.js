@@ -13,6 +13,7 @@ function addCourse() {
     let newCourseName = document.createElement("input");
     newCourseName.type = "text";
     newCourseName.id = "project_course_name_"+courseCount;
+    newCourseName.className = "project_course_name";
     newCourseName.name = "project_course_name[]";
     newCourseName.setAttribute('required', 'required');
     project_Course_div.appendChild(newCourseName);
@@ -37,6 +38,7 @@ function addCourse() {
     let newCourseIntro = document.createElement("input");
     newCourseIntro.type = "text";
     newCourseIntro.id = "project_course_intro_"+courseCount;
+    newCourseIntro.className = "project_course_intro";
     newCourseIntro.name = "project_course_intro[]";
     newCourseIntro.setAttribute('required', 'required');
     project_Course_div.appendChild(newCourseIntro);
@@ -45,6 +47,7 @@ function addCourse() {
     newCourseValue.type = "number";
     newCourseValue.name = "project_course_value[]";
     newCourseValue.id = "project_course_value_"+courseCount;
+    newCourseValue.className = "project_course_value";
     newCourseValue.setAttribute('required', 'required');
     project_Course_div.appendChild(newCourseValue);
 
