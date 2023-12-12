@@ -44,18 +44,33 @@ if(isset($_SESSION['id']) == false){
 <body class="background">
     <!-- ヘッダーここから -->
     <header class="header">
-        <a href="top.php"><img class="header-logo" src="img/IdecaLogo.png"></a>
+        <img class="header-logo" src="img/IdecaLogo.png" onclick="window.location.href = 'top.php'">
 
         <div class="search-bar">
-            <img class="search-icon" src="">
-            <input class="search-input" type="text">
+            <form id="search" action="searchResult.php" method="get"></form>
+            <img class="search-icon" src="" onclick="document.getElementById('search-input-id').click()">
+            <input class="search-input" id="search-input-id" type="text" form="search" name="keyword">
         </div>
+            <div class="header-contents-area">
+                <a href="createProject.php"><div class="project-link">プロジェクトを始める</div></a>
+                <a href="createProject.php"><div class="project-link">プロジェクト掲載</div></a>
+            <?php
+                if(isset($_SESSION['id'])){
+                        echo"
+                            <div class='user-content'>
+                                <img src='".$userdata['user_icon']."' class='user-icon'>
+                                <p class='user-name'>".$userdata['user_name']."</p>
+                            </div>        
+                        ";
+                }else{
+                        echo"
+                            <button class='header-button login-button' onclick=\'window.location.href='Login.php'\'>ログイン</button>
+                            <button class='header-button signUp-button' onclick=\'window.location.href='signUp.php'\'>新規登録</button>
+                            
+                        ";
+                }
 
-        <div class="header-contents-area">
-            <a href="IdeaPost.php"><div class="project-link">プロジェクトを始める</div></a>
-            <a href=""><div class="project-link">プロジェクト掲載</div></a>
-            <button class="header-button login-button">ログイン</button>
-            <button class="header-button signUp-button">新規登録</button>
+            ?>
         </div>
     </header>
     <!-- ヘッダーここまで -->

@@ -26,7 +26,7 @@ if(isset($_SESSION['id']) == false){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>掲示板トップ画面</title>
+    <title>掲示板画面</title>
 
     <!-- cssの導入 -->
     <link rel="stylesheet" href="css/style.css?v=2">
@@ -39,6 +39,39 @@ if(isset($_SESSION['id']) == false){
 
 </head>
 <body>
+    <!-- ヘッダーここから -->
+    <!-- ヘッダーここから -->
+    <header class="header">
+        <img class="header-logo" src="img/IdecaLogo.png" onclick="window.location.href = 'top.php'">
+
+        <div class="search-bar">
+            <form id="search" action="searchResult.php" method="get"></form>
+            <img class="search-icon" src="" onclick="document.getElementById('search-input-id').click()">
+            <input class="search-input" id="search-input-id" type="text" form="search" name="keyword">
+        </div>
+            <div class="header-contents-area">
+                <a href="createProject.php"><div class="project-link">プロジェクトを始める</div></a>
+                <a href="createProject.php"><div class="project-link">プロジェクト掲載</div></a>
+            <?php
+                if(isset($_SESSION['id'])){
+                        echo"
+                            <div class='user-content'>
+                                <img src='".$userdata['user_icon']."' class='user-icon'>
+                                <p class='user-name'>".$userdata['user_name']."</p>
+                            </div>        
+                        ";
+                }else{
+                        echo"
+                            <button class='header-button login-button' onclick=\'window.location.href='Login.php'\'>ログイン</button>
+                            <button class='header-button signUp-button' onclick=\'window.location.href='signUp.php'\'>新規登録</button>
+                            
+                        ";
+                }
+
+            ?>
+        </div>
+    </header>
+    <!-- ヘッダーここまで -->
 <button type=“button” onclick="location.href='top.php'">ホーム画面に遷移する！</button>
 <h1>このアイデアが注目されています</h1>
 <?php

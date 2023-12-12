@@ -26,20 +26,9 @@ session_start();
 <!-- <body style="background-image: url('header.svg');"> -->
 <!-- <header style="background-image: url('header.svg'); background-size: cover; height: 72px;"></header> -->
    <!-- ヘッダーここから -->
+   <!-- ヘッダーここから -->
    <header class="header">
-        <img class="header-logo" src="img/IdecaLogo.png">
-
-        <div class="search-bar">
-            <img class="search-icon" src="">
-            <input class="search-input" type="text">
-        </div>
-
-        <div class="header-contents-area">
-            <div class="project-link">プロジェクトを始める</div>
-            <div class="project-link">プロジェクト掲載</div>
-            <button class="header-button login-button">ログイン</button>
-            <button class="header-button signUp-button">新規登録</button>
-        </div>
+        <img class="header-logo" src="img/IdecaLogo.png" onclick="window.location.href = 'top.php'">
     </header>
     <!-- ヘッダーここまで -->
 

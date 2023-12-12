@@ -95,6 +95,11 @@ if ($projectId !== null && $projectDetailId !== null) {
 
 </head>
 <body>
+    <!-- ヘッダーここから -->
+    <header class="header">
+        <img class="header-logo" src="img/IdecaLogo.png" onclick="window.location.href = 'top.php'">
+    </header>
+    <!-- ヘッダーここまで -->
     
     <div class="borderContents">
         <h3 class="text-center">応援購入の内容を確認する</h3>

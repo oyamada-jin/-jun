@@ -458,6 +458,49 @@ class DAO{
     }
 
 
+    //view表示(プロジェクトを1つだけ表示)
+    function  selectAllProjectView(){
+        $pdo = $this->dbConnect();
+        $currentDate = date("Y-m-d");
+        $sql = "SELECT 
+                    project.project_id AS project_id,
+                    project.project_name AS project_name,
+                    support_count,
+                    total_money,
+                    (SUM(DISTINCT project_support.total_money) / project.project_goal_money * 100) AS money_ratio,
+                    project.project_end AS project_end,
+                    project_thumbnail.project_thumbnail_image,
+                    IFNULL(project_heart.heart_count, 0) AS heart_count
+                FROM project
+                LEFT JOIN (
+                    SELECT 
+                        project_id, 
+                        SUM(support_money) AS total_money, 
+                        COUNT(project_id) AS support_count 
+                    FROM project_support 
+                    GROUP BY project_support.project_id
+                ) AS project_support ON project.project_id = project_support.project_id
+                LEFT JOIN project_course ON project.project_id = project_course.project_id
+                LEFT JOIN project_thumbnail ON project.project_id = project_thumbnail.project_id
+                LEFT JOIN (
+                    SELECT 
+                        project_id, 
+                        COUNT(*) AS heart_count 
+                    FROM project_heart 
+                    GROUP BY project_id
+                ) AS project_heart ON project.project_id = project_heart.project_id
+                WHERE project.project_start <= :currentDate 
+                    AND project.project_end >= :currentDate
+                GROUP BY project.project_id
+                LIMIT 1;
+            ";
+        $q = $pdo->prepare($sql);
+        $q ->bindValue(':currentDate', $currentDate, PDO::PARAM_STR);
+        $q->execute();
+        return $q->fetchAll();
+    }
+
+
     //ランキング表示
     function  selectAllProjectRanking(){
         $pdo = $this->dbConnect();

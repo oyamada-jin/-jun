@@ -48,7 +48,7 @@ function uploadProject($project_name,$project_goal_money,$project_start,$project
             
             //拡張子を格納
             $imageFileType = strtolower(pathinfo($courseImg["name"][$count_2], PATHINFO_EXTENSION));
-            
+
             //保存するファイル名を格納
             $DBtargetFile = $targetCourseDir.$project_id."_courseThumbnail_".$count_2.".".$imageFileType;
             rename($targetCourseDirFrom.$courseImg['name'][$count_2],"../".$DBtargetFile);
