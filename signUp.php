@@ -53,14 +53,14 @@ session_start();
             <h2 class="form-title">サインイン</h2>
             <form action="signUpCheck.php" method="post">
                 <div class="form-group">
-                    <label for="email">メールアドレス</label><br>
-                    <input type="text" name="user_mail" placeholder="メールアドレス" required><br>
+                        <p>メールアドレス</p>
+                        <input type="text" name="user_mail" class="form-Input" placeholder="メールアドレス" required><br>
 
-                    <label for="password">パスワード</label><br>
-                    <input type="password" name="user_password" placeholder="パスワード" required><br>
+                        <p>パスワード</p>
+                        <input type="password" name="user_password"class="form-Input" placeholder="パスワード" required><br>
 
-                    <label for="user_name">ユーザー名</label><br>
-                    <input type="text" name="user_name" placeholder="ユーザ名" required><br>
+                        <p>ユーザー名</p>
+                        <input type="text" name="user_name" class="form-Input" placeholder="ユーザ名" required><br>
 
                     <input type="submit" class="form-submit" value="サインイン">
 
