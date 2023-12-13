@@ -30,9 +30,11 @@ session_start();
 
 </head>
 <body>
-   <!-- ヘッダーここから -->
-   <header class="header">
-        <img class="header-logo" src="img/IdecaLogo.png">
+    <!-- ヘッダーここから -->
+    <header class="header">
+        <img class="header-logo" src="img/IdecaLogo.png" onclick="window.location.href = 'top.php'">
+    </header>
+    <!-- ヘッダーここまで -->
 
         <div class="search-bar">
             <img class="search-icon" src="">

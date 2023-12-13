@@ -4,20 +4,34 @@ session_start();
 ?>
 <!-- sessionここまで -->
 
-<!-- ログイン必須ページだけここのコードを残してください。 -->
-<?php
-if(isset($_SESSION['id']) == false){
-   header('Location: login.php');
-   exit();
-}
-?>
-<!-- ログイン必須用はここまで -->
-
 <!-- DAOを使用する場合は残してください。 -->
 <?php
     //DAOの呼び出し
     require_once 'DAO.php';
     $dao = new DAO();
+
+    //View表示
+    $viewArray = $dao->selectAllProjectView();
+
+    //ランキング表示
+    $rankingArray = $dao->selectAllProjectRanking();
+
+    // 新着表示
+    $newArray = $dao->selectAllProjectNew();
+
+    // おすすめ表示
+    $likeArray = $dao->selectAllProjectLike();
+
+    // もうすぐ始まる表示
+    $readyArray = $dao->selectAllProjectReady();
+
+    // 達成済み表示
+    $compArray = $dao->selectAllProjectComplete();
+
+    $userdata=null;
+    if(isset($_SESSION['id'])){
+        $userdata = $dao->selectUserById($_SESSION['id']);
+    }
 
 ?>
 <!-- ここまで -->
@@ -29,52 +43,96 @@ if(isset($_SESSION['id']) == false){
     <title>ホーム画面</title>
 
     <!-- cssの導入 -->
-    <link rel="stylesheet" href="css/style.css?v=2">
+    
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/top.css">
+    <link rel="stylesheet" href="css/postContents.css">
 
     <!-- javascriptの導入 -->
     <script src="./script/script.js"></script>
 
     <!-- bootstrapのCSSの導入 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
 </head>
 <body class="background">
     <!-- ヘッダーここから -->
     <header class="header">
-        <img class="header-logo" src="img/IdecaLogo.png">
+        <img class="header-logo" src="img/IdecaLogo.png" onclick="window.location.href = 'top.php'">
 
         <div class="search-bar">
-            <img class="search-icon" src="">
-            <input class="search-input" type="text">
-        </div>
+            <form id="search" action="searchResult.php" method="get"></form>
 
-        <div class="header-contents-area">
-            <a href=""><div class="project-link">プロジェクトを始める</div></a>
-            <a href=""><div class="project-link">プロジェクト掲載</div></a>
-            <button class="header-button login-button">ログイン</button>
-            <button class="header-button signUp-button">新規登録</button>
+            <i class="bi bi-search search-icon" onclick="document.getElementById('search-input-id').click()"></i>
+            <input class="search-input" id="search-input-id" type="text" form="search" name="keyword">
+
+        </div>
+            <div class="header-contents-area">
+                <a href="createProject.php"><div class="project-link">プロジェクトを始める</div></a>
+                <a href="createProject.php"><div class="project-link">プロジェクト掲載</div></a>
+            <?php
+                if(isset($_SESSION['id'])){
+                        echo"
+                            <div class='user-content'>
+                                <img src='".$userdata['user_icon']."' class='user-icon'>
+                                <p class='user-name'>".$userdata['user_name']."</p>
+                            </div>        
+                        ";
+                }else{
+                        echo"
+                            <button class='header-button login-button' onclick=\'window.location.href='Login.php'\'>ログイン</button>
+                            <button class='header-button signUp-button' onclick=\'window.location.href='signUp.php'\'>新規登録</button>
+                            
+                        ";
+                }
+
+            ?>
         </div>
     </header>
     <!-- ヘッダーここまで -->
 
     <!-- メインビュー -->
     <div class="mainView">
-        <img src="img/Sauna.jpg" alt="メインビュー" class="mainView-image">
-        <div class="mainview-overlapContents">
-            <div class="mainView-title">麻生情報ビジネス専門学校を建て替える！</div>
-            <div class="mainView-contents">
-                <ul class="mainView-contents-list">
-                    <li class="mainView-contents-money mainView-contents-lists">現在の支援金額　<b>1,200,000円</b></li>
-                    <li class="mainView-contents-achievement mainView-contents-lists">達成率　<b>150%</b></li>
-                    <li class="mainView-contents-supporter mainView-contents-lists">支援者　<b>150人</b></li>
-                    <li class="mainView-contents-dayLeft mainView-contents-lists">残り　<b>3日</b></li>
-                </ul>
-                <a href="" style="text-decoration: none;"><div class="button mainView-contents-button">VIEW</div></a>
-            </div>
+        <div>
+            <!-- ここでビューの表示 -->
+            <?php
+                foreach ($viewArray as $view) {
+                    echo "<img src='";
+                    echo (file_exists($view['project_thumbnail_image'])) ? $view['project_thumbnail_image'] : 'img/noImage_'.rand(1,2).'.jpg';
+                    echo "' alt='メインビュー' class='mainView-image'>";
+                    echo    "<div class='mainview-overlapContents'>
+                                <div class='mainView-title'>".$view['project_name']."</div>
+                                <div class='mainView-contents'>
+                                    <ul class='mainView-contents-list'>
+                                        <li class='mainView-contents-money mainView-contents-lists'>現在の支援金額　<b>".number_format($view['COALESCE(total_money,0)'])."円</b></li>
+                                        <li class='mainView-contents-achievement mainView-contents-lists'>達成率　<b>".(int)$view['money_ratio']."'%</b></li>
+                                        <li class='mainView-contents-supporter mainView-contents-lists'>支援者　<b>".$view['COALESCE(support_count,0)']."人</b></li>
+                                        <li class='mainView-contents-dayLeft mainView-contents-lists'>残り　<b>".(int)((strtotime($view['project_end']) - time()) / (60 * 60 * 24))."日</b></li>
+                                    </ul>
+                                    <a href='projectDetail.php?pid=".$view['project_id']."' style='text-decoration: none;'><div class='button mainView-contents-button'>VIEW</div></a>
+                                </div>
+                            </div>";
+                }
+                
+
+            ?>
+            <!-- <img src="img/Sauna.jpg" alt="メインビュー" class="mainView-image">
+            <div class="mainview-overlapContents">
+                <div class="mainView-title">麻生情報ビジネス専門学校を建て替える！</div>
+                <div class="mainView-contents">
+                    <ul class="mainView-contents-list">
+                        <li class="mainView-contents-money mainView-contents-lists">現在の支援金額　<b>1,200,000円</b></li>
+                        <li class="mainView-contents-achievement mainView-contents-lists">達成率　<b>150%</b></li>
+                        <li class="mainView-contents-supporter mainView-contents-lists">支援者　<b>150人</b></li>
+                        <li class="mainView-contents-dayLeft mainView-contents-lists">残り　<b>3日</b></li>
+                    </ul>
+                    <a href="" style="text-decoration: none;"><div class="button mainView-contents-button">VIEW</div></a>
+                </div>
+            </div> -->
         </div>
+        
     </div>
 
     <!-- ピックアッププロジェクト -->
@@ -109,25 +167,90 @@ if(isset($_SESSION['id']) == false){
             <div class="project-title">ランキング</div>
             <a href="" class="more-link"><div class="more">すべて見る ></div></a>
             <ul class="project-contents-list row justify-content-start">
-                <li class="project-contents-lists col-md-3">
+
+                <!-- <li class="project-contents-lists col-md-3">
                     <div class="rank" style="color: #d70026;">1</div>
                     <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                </li>
+                </li> -->
 
-                <li class="project-contents-lists col-md-3">
+                <?php
+
+                if(!empty($rankingArray)){
+                    $counter = 1;
+                    foreach ($rankingArray as $result) {
+                        echo "<li class='project-contents-lists col-md-3'>";
+
+                        if($counter==1){
+                            echo "<div class='rank' style='color: #edb83d; font-weight: 600;'>$counter</div>";
+                        }else{
+                            echo "<div class='rank'>$counter</div>";
+                        }
+                            
+                        echo "
+                                <div class='postArea'>
+                                    <img src='";
+                                    echo (file_exists($result['project_thumbnail_image'])) ? $result['project_thumbnail_image'] : 'img/noImage_'.rand(1,2).'.jpg';
+                                    echo "' alt='' class='postImage'>
+                                    <div class='postTextArea'>
+                                        <p class='postText'>$result[project_name]</p>
+                                        <div class='postValuePercent'>
+                                            <div class='postValue'>".number_format($result['total_money'])."円</div>
+                                            <div class='postPercent'>".(int)$result['money_ratio']."%</div>
+                                        </div>
+                                        <div class='postNumberDay'>
+                                            <div class='postUnder'><i class='bi bi-people'></i>　".$result['support_count']."人</div>
+                                            <div class='postUnder'><i class='bi bi-clock'></i>　".(int)((strtotime($result['project_end']) - time()) / (60 * 60 * 24))."日</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 投稿ここまで -->
+                            </li>
+                        
+                        ";
+                        $counter++;
+                    }
+                }else{
+                    echo "<p>このトピックに当てはまるプロジェクトはありませんでした。</p>";
+                }
+
+                ?>
+
+                <!-- <li class="project-contents-lists col-md-3">
+                    <div class="rank" style="color: #edb83d; font-weight: 600;">1</div>
+                    <div class="postArea">
+                        <img src="img/postImage.png" alt="" class="postImage">
+                        <div class="postTextArea">
+                            <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
+                            <div class="postValuePercent">
+                                <div class="postValue">15,396,200円</div>
+                                <div class="postPercent">5132%</div>
+                            </div>
+                            <div class="postNumberDay">
+                                <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
+                                <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
+                            </div>
+                        </div>
+                    </div>
+                </li> -->
+
+                <!-- <li class="project-contents-lists col-md-3">
                     <div class="rank">2</div>
-                    <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                </li>
+                    <div class="postArea">
+                        <img src="img/postImage.png" alt="" class="postImage">
+                        <div class="postTextArea">
+                            <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
+                            <div class="postValuePercent">
+                                <div class="postValue">15,396,200円</div>
+                                <div class="postPercent">5132%</div>
+                            </div>
+                            <div class="postNumberDay">
+                                <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
+                                <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
+                            </div>
+                        </div>
+                    </div>
+                </li> -->
 
-                <li class="project-contents-lists col-md-3"> 
-                    <div class="rank">3</div>
-                    <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                </li>
-
-                <li class="project-contents-lists col-md-3">
-                    <div class="rank">4</div>
-                    <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                </li>
             </ul>
         </div>
 
@@ -136,25 +259,53 @@ if(isset($_SESSION['id']) == false){
             <div class="project-title">新着プロジェクト</div>
             <a href="" class="more-link"><div class="more">すべて見る ></div></a>
                 <ul class="project-contents-list row justify-content-start">
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
 
-                    <li class="project-contents-lists col-md-3">
+                    <!-- <li class="project-contents-lists col-md-3">
                         <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    </li> -->
 
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    <?php
 
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    if(!empty($newArray)){
+                        $counter = 1;
+                        foreach ($newArray as $result) {
+                            echo "<li class='project-contents-lists col-md-3'>";
 
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                            if($counter==1){
+                                echo "<div class='rank' style='color: #edb83d; font-weight: 600;'>$counter</div>";
+                            }else{
+                                echo "<div class='rank'>$counter</div>";
+                            }
+                                
+                            echo "
+                                    <div class='postArea'>
+                                        <img src='";
+                                        echo (file_exists($result['project_thumbnail_image'])) ? $result['project_thumbnail_image'] : 'img/noImage_'.rand(1,2).'.jpg';
+                                        echo "' alt='' class='postImage'>
+                                        <div class='postTextArea'>
+                                            <p class='postText'>$result[project_name]</p>
+                                            <div class='postValuePercent'>
+                                                <div class='postValue'>".number_format($result['total_money'])."円</div>
+                                                <div class='postPercent'>".(int)$result['money_ratio']."%</div>
+                                            </div>
+                                            <div class='postNumberDay'>
+                                                <div class='postUnder'><i class='bi bi-people'></i>　".$result['support_count']."人</div>
+                                                <div class='postUnder'><i class='bi bi-clock'></i>　".(int)((strtotime($result['project_end']) - time()) / (60 * 60 * 24))."日</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 投稿ここまで -->
+                                </li>
+                            
+                            ";
+                            $counter++;
+                        }
+                    }else{
+                        echo "<p>このトピックに当てはまるプロジェクトはありませんでした。</p>";
+                    }
+
+                    ?>
+
                 </ul>
         </div>
 
@@ -163,21 +314,53 @@ if(isset($_SESSION['id']) == false){
             <div class="project-title">もうすぐ始まるプロジェクト</div>
             <a href="" class="more-link"><div class="more">すべて見る ></div></a>
                 <ul class="project-contents-list row justify-content-start">
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
 
-                    <li class="project-contents-lists col-md-3">
+                    <!-- <li class="project-contents-lists col-md-3">
                         <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    </li> -->
 
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    <?php
 
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    if(!empty($readyArray)){
+                        $counter = 1;
+                        foreach ($readyArray as $result) {
+                            echo "<li class='project-contents-lists col-md-3'>";
+
+                            if($counter==1){
+                                echo "<div class='rank' style='color: #edb83d; font-weight: 600;'>$counter</div>";
+                            }else{
+                                echo "<div class='rank'>$counter</div>";
+                            }
+                                
+                            echo "
+                                    <div class='postArea'>
+                                        <img src='";
+                                        echo (file_exists($result['project_thumbnail_image'])) ? $result['project_thumbnail_image'] : 'img/noImage_'.rand(1,2).'.jpg';
+                                        echo "' alt='' class='postImage'>
+                                        <div class='postTextArea'>
+                                            <p class='postText'>$result[project_name]</p>
+                                            <div class='postValuePercent'>
+                                                <div class='postValue'>".number_format($result['total_money'])."円</div>
+                                                <div class='postPercent'>".(int)$result['money_ratio']."%</div>
+                                            </div>
+                                            <div class='postNumberDay'>
+                                                <div class='postUnder'><i class='bi bi-people'></i>　".$result['support_count']."人</div>
+                                                <div class='postUnder'><i class='bi bi-clock'></i>　".(int)((strtotime($result['project_end']) - time()) / (60 * 60 * 24))."日</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 投稿ここまで -->
+                                </li>
+                            
+                            ";
+                            $counter++;
+                        }
+                    }else{
+                        echo "<p>このトピックに当てはまるプロジェクトはありませんでした。</p>";
+                    }
+
+                    ?>
+
                 </ul>
         </div>
 
@@ -186,21 +369,52 @@ if(isset($_SESSION['id']) == false){
             <div class="project-title">おすすめプロジェクト</div>
             <a href="" class="more-link"><div class="more">すべて見る ></div></a>
                 <ul class="project-contents-list row justify-content-start">
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
 
-                    <li class="project-contents-lists col-md-3">
+                    <!-- <li class="project-contents-lists col-md-3">
                         <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    </li> -->
 
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    <?php
 
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    if(!empty($likeArray)){
+                        $counter = 1;
+                        foreach ($likeArray as $result) {
+                            echo "<li class='project-contents-lists col-md-3'>";
+
+                            if($counter==1){
+                                echo "<div class='rank' style='color: #edb83d; font-weight: 600;'>$counter</div>";
+                            }else{
+                                echo "<div class='rank'>$counter</div>";
+                            }
+                                
+                            echo "
+                                    <div class='postArea'>
+                                        <img src='";
+                                        echo (file_exists($result['project_thumbnail_image'])) ? $result['project_thumbnail_image'] : 'img/noImage_'.rand(1,2).'.jpg';
+                                        echo "' alt='' class='postImage'>
+                                        <div class='postTextArea'>
+                                            <p class='postText'>$result[project_name]</p>
+                                            <div class='postValuePercent'>
+                                                <div class='postValue'>".number_format($result['total_money'])."円</div>
+                                                <div class='postPercent'>".(int)$result['money_ratio']."%</div>
+                                            </div>
+                                            <div class='postNumberDay'>
+                                                <div class='postUnder'><i class='bi bi-people'></i>　".$result['support_count']."人</div>
+                                                <div class='postUnder'><i class='bi bi-clock'></i>　".(int)((strtotime($result['project_end']) - time()) / (60 * 60 * 24))."日</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 投稿ここまで -->
+                                </li>
+                            
+                            ";
+                            $counter++;
+                        }
+                    }else{
+                        echo "<p>このトピックに当てはまるプロジェクトはありませんでした。</p>";
+                    }
+
+                    ?>
                 </ul>
         </div>
 
@@ -209,21 +423,52 @@ if(isset($_SESSION['id']) == false){
             <div class="project-title">達成したプロジェクト</div>
             <a href="" class="more-link"><div class="more">すべて見る ></div></a>
                 <ul class="project-contents-list row justify-content-start">
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
 
-                    <li class="project-contents-lists col-md-3">
+                    <!-- <li class="project-contents-lists col-md-3">
                         <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    </li> -->
 
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    <?php
 
-                    <li class="project-contents-lists col-md-3">
-                        <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
-                    </li>
+                    if(!empty($compArray)){
+                        $counter = 1;
+                        foreach ($compArray as $result) {
+                            echo "<li class='project-contents-lists col-md-3'>";
+
+                            if($counter==1){
+                                echo "<div class='rank' style='color: #edb83d; font-weight: 600;'>$counter</div>";
+                            }else{
+                                echo "<div class='rank'>$counter</div>";
+                            }
+                                
+                            echo "
+                                    <div class='postArea'>
+                                        <img src='";
+                                        echo (file_exists($result['project_thumbnail_image'])) ? $result['project_thumbnail_image'] : 'img/noImage_'.rand(1,2).'.jpg';
+                                        echo "' alt='' class='postImage'>
+                                        <div class='postTextArea'>
+                                            <p class='postText'>$result[project_name]</p>
+                                            <div class='postValuePercent'>
+                                                <div class='postValue'>".number_format($result['total_money'])."円</div>
+                                                <div class='postPercent'>".(int)$result['money_ratio']."%</div>
+                                            </div>
+                                            <div class='postNumberDay'>
+                                                <div class='postUnder'><i class='bi bi-people'></i>　".$result['support_count']."人</div>
+                                                <div class='postUnder'><i class='bi bi-clock'></i>　".(int)((strtotime($result['project_end']) - time()) / (60 * 60 * 24))."日</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 投稿ここまで -->
+                                </li>
+                            
+                            ";
+                            $counter++;
+                        }
+                    }else{
+                        echo "<p>このトピックに当てはまるプロジェクトはありませんでした。</p>";
+                    }
+
+                    ?>
                 </ul>
         </div>
     </div>

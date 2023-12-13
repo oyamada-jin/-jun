@@ -1,0 +1,18 @@
+.borderContents{
+    border: 2px solid #000000;
+}
+
+.text-center{
+    text-align: center;
+}
+
+/* サムネイルのプレビュー */
+.Img {
+    max-height: 140px;
+    max-width: 200px;
+    display: block;
+    margin: auto;
+    border: 1px solid gray;
+}
+
+

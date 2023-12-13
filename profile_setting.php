@@ -1,47 +1,21 @@
-<!-- 多分sessionは全ページ必須？なので消さないでください。 -->
 <?php
 session_start();
 ?>
-<!-- sessionここまで -->
-
-<!-- ログイン必須ページだけここのコードを残してください。 -->
-<?php
-if(isset($_SESSION['id']) == false){
-   header('Location: login.php');
-   exit();
-}
-?>
-<!-- ログイン必須用はここまで -->
-
-<!-- DAOを使用する場合は残してください。 -->
-<?php
-    //DAOの呼び出し
-    require_once 'DAO.php';
-    $dao = new DAO();
-
-?>
-<!-- ここまで -->
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>掲示板画面</title>
+    <title>プロフィール</title>
 
-    <!-- cssの導入 -->
-    <link rel="stylesheet" href="css/style.css?v=2">
-
-    <!-- javascriptの導入 -->
-    <script src="./script/script.js"></script>
-
-    <!-- bootstrapのCSSの導入 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/header.css?<?php echo date('YmdHis'); ?>">
+    <link rel="stylesheet" href="css/profile_setting.css?<?php echo date('YmdHis'); ?>">
 
 </head>
-<body>
-    <!-- ヘッダーここから -->
-    <!-- ヘッダーここから -->
-    <header class="header">
+<body style="background-image: url('hai.svg');">
+     <!-- ヘッダーここから -->
+   <!-- ヘッダーここから -->
+   <header class="header">
         <img class="header-logo" src="img/IdecaLogo.png" onclick="window.location.href = 'top.php'">
 
         <div class="search-bar">
@@ -72,15 +46,22 @@ if(isset($_SESSION['id']) == false){
         </div>
     </header>
     <!-- ヘッダーここまで -->
-<button type=“button” onclick="location.href='top.php'">ホーム画面に遷移する！</button>
-<h1>このアイデアが注目されています</h1>
-<?php
-    
-?>
 
+    <div class="haikei">
+    <img src="./img/gear.svg" width="50" height="50" alt="" class="size">
+        <div class="d1">プロフィール</div>
+        <div class="d2">プロジェクト</div>
+        <div class="d3">届け先情報</div>
+        <div class="d4">井之頭 権三郎</div>
+        <div class="d5">gonzapzap@outlook.jp</div>
+        <div class="d6">私は井之頭 権三郎と申します。
+            リンゴ味のマーガリンや、バニラ味のアイスなど、
+            様々なものを開発しました。
+            どうぞ応援よろしくお願いします。
+        </div>
 
+        <button>新規登録</button>
 
-<!-- bootstrapのjavascriptの導入 -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    </div>
 </body>
 </html>

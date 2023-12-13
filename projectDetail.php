@@ -4,15 +4,6 @@ session_start();
 ?>
 <!-- sessionここまで -->
 
-<!-- ログイン必須ページだけここのコードを残してください。 -->
-<?php
-if(isset($_SESSION['id']) == false){
-   header('Location: login.php');
-   exit();
-}
-?>
-<!-- ログイン必須用はここまで -->
-
 <!-- DAOを使用する場合は残してください。 -->
 <?php
     //DAOの呼び出し
@@ -26,20 +17,19 @@ if(isset($_SESSION['id']) == false){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>掲示板画面</title>
+    <title>応援プロジェクトID入力</title>
 
     <!-- cssの導入 -->
-    <link rel="stylesheet" href="css/style.css?v=2">
+
 
     <!-- javascriptの導入 -->
-    <script src="./script/script.js"></script>
+
 
     <!-- bootstrapのCSSの導入 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 </head>
 <body>
-    <!-- ヘッダーここから -->
     <!-- ヘッダーここから -->
     <header class="header">
         <img class="header-logo" src="img/IdecaLogo.png" onclick="window.location.href = 'top.php'">
@@ -72,12 +62,13 @@ if(isset($_SESSION['id']) == false){
         </div>
     </header>
     <!-- ヘッダーここまで -->
-<button type=“button” onclick="location.href='top.php'">ホーム画面に遷移する！</button>
-<h1>このアイデアが注目されています</h1>
-<?php
+    <h1>応援するプロジェクトのproject_idを入力してください。</h1>
+    <form action="projectSupport.php" method="post">
+        コースID<input type="number" name="project_id">
+        コース明細ID<input type="number" name="project_detail_id">
+        <input type="submit" value="プロジェクトを応援する">
+    </form>
     
-?>
-
 
 
 <!-- bootstrapのjavascriptの導入 -->

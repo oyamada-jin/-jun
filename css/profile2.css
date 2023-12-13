@@ -1,0 +1,46 @@
+.haikei {
+    position: absolute;
+    left: 175px; /* x座標 */
+    top: 144px; /* y座標 */
+    width: 900px; /* 幅 */
+    height: 600px; /* 高さ */
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #F8F5F2; 
+    box-sizing: border-box;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid #000000;
+}
+
+.d1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    margin-left: 5%;
+    margin-right: 75%;
+    margin-top: 10%;
+}
+
+.d2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    margin-left: 5%;
+    margin-right: 75%;
+    /* margin-top: 10%; */
+}
+
+.d3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    margin-left: 5%;
+    margin-right: 75%;
+    /* margin-top: 10%; */
+}
+
+.d4 {
+    font-size: 24px;
+    /* margin-bottom: 20px; */
+    margin-left: 30%;
+    margin-right: 30%;
+    /* margin-top: 10%; */
+}

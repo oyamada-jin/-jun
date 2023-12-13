@@ -30,6 +30,7 @@
     width: 100%;
     padding-left: 30px;
     background: #000B29;
+    color: #FFF;
 }
 
 .search-icon {
@@ -38,6 +39,7 @@
     left: 5px;
     transform: translateY(-50%);
     width: 120px;
+    color: #EDB83D;
 }
 
 /* 各リンク、ボタン */
@@ -77,4 +79,16 @@
     background: #EDB83D;
     font-size: 12px;
     margin-left: 15px;
+}
+.user-content{
+    width: 200px;
+    white-space: nowrap;
+}
+.user-icon{
+    width: 60px;
+    height: 60px;
+}
+
+.user-name{
+    color: #FFFFFF;
 }

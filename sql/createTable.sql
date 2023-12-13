@@ -19,7 +19,7 @@ CREATE TABLE user (
     user_icon VARCHAR(191) NOT NULL DEFAULT 'img/icon/default.png',
     user_intro VARCHAR(191),
     PRIMARY KEY (user_id)
-);
+);;
 
 -- addressテーブル
 CREATE TABLE address (
@@ -35,8 +35,8 @@ CREATE TABLE address (
     FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 
--- project_tagテーブル
-CREATE TABLE project_tag (
+-- tagテーブル
+CREATE TABLE tag (
     tag_id INT NOT NULL AUTO_INCREMENT,
     tag_name VARCHAR(191) NOT NULL,
     PRIMARY KEY (tag_id)
@@ -47,14 +47,21 @@ CREATE TABLE project (
     project_id INT NOT NULL AUTO_INCREMENT,
     project_name VARCHAR(191) NOT NULL,
     project_goal_money INT NOT NULL,
-    project_intro VARCHAR(191) NOT NULL,
     project_start DATE NOT NULL,
     project_end DATE NOT NULL,
     user_id INT NOT NULL,
-    tag_id INT NOT NULL,
     PRIMARY KEY (project_id),
-    FOREIGN KEY (user_id) REFERENCES user(user_id),
-    FOREIGN KEY (tag_id) REFERENCES project_tag(tag_id)
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
+);
+
+-- project_tagテーブル
+CREATE TABLE project_tag (
+    project_id INT NOT NULL,
+    project_tag_detail_id INT NOT NULL,
+    tag_id INT NOT NULL,
+    PRIMARY KEY (project_id, project_tag_detail_id),
+    FOREIGN KEY (project_id) REFERENCES project(project_id),
+    FOREIGN KEY (tag_id) REFERENCES tag(tag_id)
 );
 
 -- project_courseテーブル
@@ -64,6 +71,7 @@ CREATE TABLE project_course (
     project_course_name VARCHAR(191) NOT NULL,
     project_course_thumbnail VARCHAR(191) NOT NULL DEFAULT 'img/project_course/default.png',
     project_course_intro VARCHAR(191) NOT NULL,
+    project_course_value INT NOT NULL,
     PRIMARY KEY (project_id, project_course_detail_id),
     FOREIGN KEY (project_id) REFERENCES project(project_id)
 );
@@ -74,6 +82,7 @@ CREATE TABLE project_support (
     support_method VARCHAR(191) NOT NULL,
     support_limit DATETIME NOT NULL,
     support_flag VARCHAR(191) NOT NULL,
+    support_money INT NOT NULL,
     project_id INT NOT NULL,
     project_course_detail_id INT NOT NULL,
     user_id INT NOT NULL,

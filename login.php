@@ -12,6 +12,8 @@ session_start();
 
     <!-- cssの導入 -->
     <link rel="stylesheet" href="css/login.css?<?php echo date('YmdHis'); ?>">
+    <link rel="stylesheet" href="css/header.css?<?php echo date('YmdHis'); ?>">
+
 
     <!-- javascriptの導入 -->
     <script src="./script/script.js"></script>
@@ -23,6 +25,12 @@ session_start();
 <body style="background-image: url('hai.svg');">
 <!-- <body style="background-image: url('header.svg');"> -->
 <!-- <header style="background-image: url('header.svg'); background-size: cover; height: 72px;"></header> -->
+   <!-- ヘッダーここから -->
+   <!-- ヘッダーここから -->
+   <header class="header">
+        <img class="header-logo" src="img/IdecaLogo.png" onclick="window.location.href = 'top.php'">
+    </header>
+    <!-- ヘッダーここまで -->
 
 
     <div class="haikei">

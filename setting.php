@@ -7,8 +7,8 @@ session_start();
 <!-- ログイン必須ページだけここのコードを残してください。 -->
 <?php
 if(isset($_SESSION['id']) == false){
-   header('Location: login.php');
-   exit();
+    header('Location: login.php');
+    exit();
 }
 ?>
 <!-- ログイン必須用はここまで -->
@@ -19,6 +19,10 @@ if(isset($_SESSION['id']) == false){
     require_once 'DAO.php';
     $dao = new DAO();
 
+    if($_SESSION['id'] != $_GET['uid']){
+        header('Location: login.php');
+        exit();
+    }
 ?>
 <!-- ここまで -->
 <!DOCTYPE html>
@@ -26,7 +30,7 @@ if(isset($_SESSION['id']) == false){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ここに論理ページ名を入力</title>
+    <title>設定</title>
 
     <!-- cssの導入 -->
 
@@ -42,22 +46,8 @@ if(isset($_SESSION['id']) == false){
     <!-- ヘッダーここから -->
     <header class="header">
         <img class="header-logo" src="img/IdecaLogo.png" onclick="window.location.href = 'top.php'">
-
-        <div class="search-bar">
-            <form id="search" action="searchResult.php" method="get"></form>
-            <img class="search-icon" src="" onclick="document.getElementById('search-input-id').click()">
-            <input class="search-input" id="search-input-id" type="text" form="search" name="keyword">
-        </div>
-
-        <div class="header-contents-area">
-            <a href="IdeaPost.php"><div class="project-link" onclick="window.location.href='createProject.php'">プロジェクトを始める</div></a>
-            <a href=""><div class="project-link" onclick="window.location.href='createProject.php'">プロジェクト掲載</div></a>
-            <button class="header-button login-button" onclick="window.location.href='Login.php'">ログイン</button>
-            <button class="header-button signUp-button" onclick="window.location.href='signUp.php'">新規登録</button>
-        </div>
     </header>
     <!-- ヘッダーここまで -->
-    
 
 
 
