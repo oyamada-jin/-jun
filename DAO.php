@@ -427,9 +427,9 @@ class DAO{
         $sql = "SELECT 
                     project.project_id AS project_id,
                     project.project_name AS project_name,
-                    support_count,
-                    total_money,
-                    (SUM(DISTINCT project_support.total_money) / project.project_goal_money * 100) AS money_ratio,
+                    COALESCE(support_count,0),
+                    COALESCE(total_money,0),
+                    COALESCE(SUM(DISTINCT project_support.total_money) / project.project_goal_money * 100,0) AS money_ratio,
                     project.project_end AS project_end,
                     project_thumbnail.project_thumbnail_image
                 FROM project
@@ -465,9 +465,9 @@ class DAO{
         $sql = "SELECT 
                     project.project_id AS project_id,
                     project.project_name AS project_name,
-                    support_count,
-                    total_money,
-                    (SUM(DISTINCT project_support.total_money) / project.project_goal_money * 100) AS money_ratio,
+                    COALESCE(support_count,0),
+                    COALESCE(total_money,0),
+                    COALESCE(SUM(DISTINCT project_support.total_money) / project.project_goal_money * 100,0) AS money_ratio,
                     project.project_end AS project_end,
                     project_thumbnail.project_thumbnail_image,
                     IFNULL(project_heart.heart_count, 0) AS heart_count
@@ -508,9 +508,9 @@ class DAO{
         $sql = "SELECT 
                     project.project_id AS project_id,
                     project.project_name AS project_name,
-                    support_count,
-                    total_money,
-                    (SUM(DISTINCT project_support.total_money) / project.project_goal_money * 100) AS money_ratio,
+                    IFNULL(project_support.support_count, 0) AS support_count,
+                    IFNULL(project_support.total_money, 0) AS total_money,
+                    (IFNULL(SUM(DISTINCT project_support.total_money), 0) / project.project_goal_money * 100) AS money_ratio,
                     project.project_end AS project_end,
                     project_thumbnail.project_thumbnail_image,
                     IFNULL(project_heart.heart_count, 0) AS heart_count
@@ -518,8 +518,8 @@ class DAO{
                 LEFT JOIN (
                     SELECT 
                         project_id, 
-                        SUM(support_money) AS total_money, 
-                        COUNT(project_id) AS support_count 
+                        COALESCE(SUM(support_money),0) AS total_money, 
+                        COALESCE(COUNT(project_id),0) AS support_count 
                     FROM project_support 
                     GROUP BY project_support.project_id
                 ) AS project_support ON project.project_id = project_support.project_id
@@ -534,12 +534,11 @@ class DAO{
                 ) AS project_heart ON project.project_id = project_heart.project_id
                 WHERE project.project_start <= :currentDate AND project.project_end >= :currentDate
                 GROUP BY project.project_id
-                ORDER BY heart_count DESC
-            ";
-        $q = $pdo->prepare($sql);
-        $q ->bindValue(':currentDate', $currentDate, PDO::PARAM_STR);
-        $q->execute();
-        return $q->fetchAll();
+                ORDER BY heart_count DESC";
+                $q = $pdo->prepare($sql);
+                $q ->bindValue(':currentDate', $currentDate, PDO::PARAM_STR);
+                $q->execute();
+                return $q->fetchAll();
 
     }
 
@@ -550,9 +549,9 @@ class DAO{
         $sql = "SELECT 
                     project.project_id AS project_id,
                     project.project_name AS project_name,
-                    support_count,
-                    total_money,
-                    (SUM(DISTINCT project_support.total_money) / project.project_goal_money * 100) AS money_ratio,
+                    IFNULL(project_support.support_count, 0) AS support_count,
+                    IFNULL(project_support.total_money, 0) AS total_money,
+                    (IFNULL(SUM(DISTINCT project_support.total_money), 0) / project.project_goal_money * 100) AS money_ratio,
                     project.project_end AS project_end,
                     project_thumbnail.project_thumbnail_image,
                     IFNULL(project_heart.heart_count, 0) AS heart_count
@@ -560,8 +559,8 @@ class DAO{
                 LEFT JOIN (
                     SELECT 
                         project_id, 
-                        SUM(support_money) AS total_money, 
-                        COUNT(project_id) AS support_count 
+                        COALESCE(SUM(support_money), 0) AS total_money, 
+                        COALESCE(COUNT(project_id), 0) AS support_count 
                     FROM project_support 
                     GROUP BY project_support.project_id
                 ) AS project_support ON project.project_id = project_support.project_id
@@ -576,8 +575,7 @@ class DAO{
                 ) AS project_heart ON project.project_id = project_heart.project_id
                 WHERE project.project_start <= :currentDate AND project.project_end >= :currentDate
                 GROUP BY project.project_id
-                ORDER BY project.project_id DESC
-            ";
+                ORDER BY project.project_id DESC";
         $q = $pdo->prepare($sql);
         $q ->bindValue(':currentDate', $currentDate, PDO::PARAM_STR);
         $q->execute();
@@ -591,9 +589,9 @@ class DAO{
         $sql = "SELECT 
                     project.project_id AS project_id,
                     project.project_name AS project_name,
-                    support_count,
-                    total_money,
-                    (SUM(DISTINCT project_support.total_money) / project.project_goal_money * 100) AS money_ratio,
+                    IFNULL(project_support.support_count, 0) AS support_count,
+                    IFNULL(project_support.total_money, 0) AS total_money,
+                    (IFNULL(SUM(DISTINCT project_support.total_money), 0) / project.project_goal_money * 100) AS money_ratio,
                     project.project_end AS project_end,
                     project_thumbnail.project_thumbnail_image,
                     IFNULL(project_heart.heart_count, 0) AS heart_count
@@ -601,8 +599,8 @@ class DAO{
                 LEFT JOIN (
                     SELECT 
                         project_id, 
-                        SUM(support_money) AS total_money, 
-                        COUNT(project_id) AS support_count 
+                        COALESCE(SUM(support_money), 0) AS total_money, 
+                        COALESCE(COUNT(project_id), 0) AS support_count 
                     FROM project_support 
                     GROUP BY project_support.project_id
                 ) AS project_support ON project.project_id = project_support.project_id
@@ -617,7 +615,7 @@ class DAO{
                 ) AS project_heart ON project.project_id = project_heart.project_id
                 WHERE project.project_start <= :currentDate AND project.project_end >= :currentDate
                 GROUP BY project.project_id
-            ";
+                ORDER BY project.project_id DESC";
         $q = $pdo->prepare($sql);
         $q ->bindValue(':currentDate', $currentDate, PDO::PARAM_STR);
         $q->execute();
@@ -631,9 +629,9 @@ class DAO{
         $sql = "SELECT 
                     project.project_id AS project_id,
                     project.project_name AS project_name,
-                    support_count,
-                    total_money,
-                    (SUM(DISTINCT project_support.total_money) / project.project_goal_money * 100) AS money_ratio,
+                    IFNULL(project_support.support_count, 0) AS support_count,
+                    IFNULL(project_support.total_money, 0) AS total_money,
+                    (IFNULL(SUM(DISTINCT project_support.total_money), 0) / project.project_goal_money * 100) AS money_ratio,
                     project.project_end AS project_end,
                     project_thumbnail.project_thumbnail_image,
                     IFNULL(project_heart.heart_count, 0) AS heart_count
@@ -641,8 +639,8 @@ class DAO{
                 LEFT JOIN (
                     SELECT 
                         project_id, 
-                        SUM(support_money) AS total_money, 
-                        COUNT(project_id) AS support_count 
+                        COALESCE(SUM(support_money), 0) AS total_money, 
+                        COALESCE(COUNT(project_id), 0) AS support_count 
                     FROM project_support 
                     GROUP BY project_support.project_id
                 ) AS project_support ON project.project_id = project_support.project_id
@@ -655,9 +653,9 @@ class DAO{
                     FROM project_heart 
                     GROUP BY project_id
                 ) AS project_heart ON project.project_id = project_heart.project_id
-                WHERE project.project_start > :currentDate
+                WHERE project.project_start <= :currentDate AND project.project_end >= :currentDate
                 GROUP BY project.project_id
-            ";
+                ORDER BY project.project_id DESC";
         $q = $pdo->prepare($sql);
         $q ->bindValue(':currentDate', $currentDate, PDO::PARAM_STR);
         $q->execute();
@@ -671,9 +669,9 @@ class DAO{
         $sql = "SELECT 
                     project.project_id AS project_id,
                     project.project_name AS project_name,
-                    support_count,
-                    total_money,
-                    (SUM(DISTINCT project_support.total_money) / project.project_goal_money * 100) AS money_ratio,
+                    IFNULL(project_support.support_count, 0) AS support_count,
+                    IFNULL(project_support.total_money, 0) AS total_money,
+                    (IFNULL(SUM(DISTINCT project_support.total_money), 0) / project.project_goal_money * 100) AS money_ratio,
                     project.project_end AS project_end,
                     project_thumbnail.project_thumbnail_image,
                     IFNULL(project_heart.heart_count, 0) AS heart_count
@@ -681,8 +679,8 @@ class DAO{
                 LEFT JOIN (
                     SELECT 
                         project_id, 
-                        SUM(support_money) AS total_money, 
-                        COUNT(project_id) AS support_count 
+                        COALESCE(SUM(support_money), 0) AS total_money, 
+                        COALESCE(COUNT(project_id), 0) AS support_count 
                     FROM project_support 
                     GROUP BY project_support.project_id
                 ) AS project_support ON project.project_id = project_support.project_id
@@ -698,8 +696,7 @@ class DAO{
                 WHERE project.project_start <= :currentDate 
                     AND project.project_end >= :currentDate
                 GROUP BY project.project_id
-                HAVING money_ratio >=100
-            ";
+                HAVING money_ratio >= 100";
         $q = $pdo->prepare($sql);
         $q ->bindValue(':currentDate', $currentDate, PDO::PARAM_STR);
         $q->execute();

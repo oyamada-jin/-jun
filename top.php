@@ -99,14 +99,16 @@ session_start();
             <!-- ここでビューの表示 -->
             <?php
                 foreach ($viewArray as $view) {
-                    echo   "<img src='".$view['project_thumbnail_image']."' alt='メインビュー' class='mainView-image'>
-                            <div class='mainview-overlapContents'>
+                    echo "<img src='";
+                    echo (file_exists($view['project_thumbnail_image'])) ? $view['project_thumbnail_image'] : 'img/noImage_'.rand(1,2).'.jpg';
+                    echo "' alt='メインビュー' class='mainView-image'>";
+                    echo    "<div class='mainview-overlapContents'>
                                 <div class='mainView-title'>".$view['project_name']."</div>
                                 <div class='mainView-contents'>
                                     <ul class='mainView-contents-list'>
-                                        <li class='mainView-contents-money mainView-contents-lists'>現在の支援金額　<b>".$view['total_money']."円</b></li>
+                                        <li class='mainView-contents-money mainView-contents-lists'>現在の支援金額　<b>".number_format($view['COALESCE(total_money,0)'])."円</b></li>
                                         <li class='mainView-contents-achievement mainView-contents-lists'>達成率　<b>".(int)$view['money_ratio']."'%</b></li>
-                                        <li class='mainView-contents-supporter mainView-contents-lists'>支援者　<b>".$view['support_count']."人</b></li>
+                                        <li class='mainView-contents-supporter mainView-contents-lists'>支援者　<b>".$view['COALESCE(support_count,0)']."人</b></li>
                                         <li class='mainView-contents-dayLeft mainView-contents-lists'>残り　<b>".(int)((strtotime($view['project_end']) - time()) / (60 * 60 * 24))."日</b></li>
                                     </ul>
                                     <a href='projectDetail.php?pid=".$view['project_id']."' style='text-decoration: none;'><div class='button mainView-contents-button'>VIEW</div></a>
@@ -174,16 +176,38 @@ session_start();
                 <?php
 
                 if(!empty($rankingArray)){
+                    $counter = 1;
                     foreach ($rankingArray as $result) {
-                        echo "<li class='project-contents-lists col-md-3' onclick=\"window.location.href = 'projectDetail.php?pid=".$result['project_id']."';\">";
-                        echo "Project ID: " . $result['project_id'] . '<br>';
-                        echo "Project Name: " . $result['project_name'] . '<br>';
-                        echo "Support Count: " . $result['support_count'] . '人<br>';
-                        echo "Total Money: " . $result['total_money'] . '円<br>';
-                        echo "Money Ratio: " . (int)$result['money_ratio'] . '%<br>';
-                        echo "Remaining Days: " . (int)((strtotime($result['project_end']) - time()) / (60 * 60 * 24)) . '日<br>';
-                        echo "Thumbnail Image: <img src='" . $result['project_thumbnail_image'] . "'><br>";
-                        echo "</li>";
+                        echo "<li class='project-contents-lists col-md-3'>";
+
+                        if($counter==1){
+                            echo "<div class='rank' style='color: #edb83d; font-weight: 600;'>$counter</div>";
+                        }else{
+                            echo "<div class='rank'>$counter</div>";
+                        }
+                            
+                        echo "
+                                <div class='postArea'>
+                                    <img src='";
+                                    echo (file_exists($result['project_thumbnail_image'])) ? $result['project_thumbnail_image'] : 'img/noImage_'.rand(1,2).'.jpg';
+                                    echo "' alt='' class='postImage'>
+                                    <div class='postTextArea'>
+                                        <p class='postText'>$result[project_name]</p>
+                                        <div class='postValuePercent'>
+                                            <div class='postValue'>".number_format($result['total_money'])."円</div>
+                                            <div class='postPercent'>".(int)$result['money_ratio']."%</div>
+                                        </div>
+                                        <div class='postNumberDay'>
+                                            <div class='postUnder'><i class='bi bi-people'></i>　".$result['support_count']."人</div>
+                                            <div class='postUnder'><i class='bi bi-clock'></i>　".(int)((strtotime($result['project_end']) - time()) / (60 * 60 * 24))."日</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 投稿ここまで -->
+                            </li>
+                        
+                        ";
+                        $counter++;
                     }
                 }else{
                     echo "<p>このトピックに当てはまるプロジェクトはありませんでした。</p>";
@@ -191,9 +215,8 @@ session_start();
 
                 ?>
 
-                <li class="project-contents-lists col-md-3">
+                <!-- <li class="project-contents-lists col-md-3">
                     <div class="rank" style="color: #edb83d; font-weight: 600;">1</div>
-                    <!-- 投稿ここから -->
                     <div class="postArea">
                         <img src="img/postImage.png" alt="" class="postImage">
                         <div class="postTextArea">
@@ -208,12 +231,10 @@ session_start();
                             </div>
                         </div>
                     </div>
-                    <!-- 投稿ここまで -->
-                </li>
+                </li> -->
 
-                <li class="project-contents-lists col-md-3">
+                <!-- <li class="project-contents-lists col-md-3">
                     <div class="rank">2</div>
-                    <!-- 投稿ここから -->
                     <div class="postArea">
                         <img src="img/postImage.png" alt="" class="postImage">
                         <div class="postTextArea">
@@ -228,48 +249,7 @@ session_start();
                             </div>
                         </div>
                     </div>
-                    <!-- 投稿ここまで -->
-                </li>
-
-                <li class="project-contents-lists col-md-3"> 
-                    <div class="rank">3</div>
-                    <!-- 投稿ここから -->
-                    <div class="postArea">
-                        <img src="img/postImage.png" alt="" class="postImage">
-                        <div class="postTextArea">
-                            <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
-                            <div class="postValuePercent">
-                                <div class="postValue">15,396,200円</div>
-                                <div class="postPercent">5132%</div>
-                            </div>
-                            <div class="postNumberDay">
-                                <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
-                                <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 投稿ここまで -->
-                </li>
-
-                <li class="project-contents-lists col-md-3">
-                    <div class="rank">4</div>
-                    <!-- 投稿ここから -->
-                    <div class="postArea">
-                        <img src="img/postImage.png" alt="" class="postImage">
-                        <div class="postTextArea">
-                            <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
-                            <div class="postValuePercent">
-                                <div class="postValue">15,396,200円</div>
-                                <div class="postPercent">5132%</div>
-                            </div>
-                            <div class="postNumberDay">
-                                <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
-                                <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 投稿ここまで -->
-                </li>
+                </li> -->
 
             </ul>
         </div>
@@ -287,117 +267,44 @@ session_start();
                     <?php
 
                     if(!empty($newArray)){
+                        $counter = 1;
                         foreach ($newArray as $result) {
-                            echo "<li class='project-contents-lists col-md-3' onclick=\"window.location.href = 'projectDetail.php?pid=".$result['project_id']."';\">";
-                            echo "Project ID: " . $result['project_id'] . '<br>';
-                            echo "Project Name: " . $result['project_name'] . '<br>';
-                            echo "Support Count: " . $result['support_count'] . '人<br>';
-                            echo "Total Money: " . $result['total_money'] . '円<br>';
-                            echo "Money Ratio: " . (int)$result['money_ratio'] . '%<br>';
-                            echo "Remaining Days: " . (int)((strtotime($result['project_end']) - time()) / (60 * 60 * 24)) . '日<br>';
-                            echo "Thumbnail Image: " . $result['project_thumbnail_image'] . '<br>';
-                            echo "</li>";
+                            echo "<li class='project-contents-lists col-md-3'>";
+
+                            if($counter==1){
+                                echo "<div class='rank' style='color: #edb83d; font-weight: 600;'>$counter</div>";
+                            }else{
+                                echo "<div class='rank'>$counter</div>";
+                            }
+                                
+                            echo "
+                                    <div class='postArea'>
+                                        <img src='";
+                                        echo (file_exists($result['project_thumbnail_image'])) ? $result['project_thumbnail_image'] : 'img/noImage_'.rand(1,2).'.jpg';
+                                        echo "' alt='' class='postImage'>
+                                        <div class='postTextArea'>
+                                            <p class='postText'>$result[project_name]</p>
+                                            <div class='postValuePercent'>
+                                                <div class='postValue'>".number_format($result['total_money'])."円</div>
+                                                <div class='postPercent'>".(int)$result['money_ratio']."%</div>
+                                            </div>
+                                            <div class='postNumberDay'>
+                                                <div class='postUnder'><i class='bi bi-people'></i>　".$result['support_count']."人</div>
+                                                <div class='postUnder'><i class='bi bi-clock'></i>　".(int)((strtotime($result['project_end']) - time()) / (60 * 60 * 24))."日</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 投稿ここまで -->
+                                </li>
+                            
+                            ";
+                            $counter++;
                         }
                     }else{
                         echo "<p>このトピックに当てはまるプロジェクトはありませんでした。</p>";
                     }
 
                     ?>
-
-                    <li class="project-contents-lists col-md-3">
-                        <!-- 投稿ここから -->
-                        <div class="postArea">
-                            <img src="img/postImage.png" alt="" class="postImage">
-                            <div class="postTextArea">
-                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
-                                <div class="postValuePercent">
-                                    <div class="postValue">15,396,200円</div>
-                                    <div class="postPercent">5132%</div>
-                                </div>
-                                <div class="postNumberDay">
-                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
-                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 投稿ここまで -->
-                    </li>
-
-                    <li class="project-contents-lists col-md-3">
-                        <!-- 投稿ここから -->
-                        <div class="postArea">
-                            <img src="img/postImage.png" alt="" class="postImage">
-                            <div class="postTextArea">
-                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
-                                <div class="postValuePercent">
-                                    <div class="postValue">15,396,200円</div>
-                                    <div class="postPercent">5132%</div>
-                                </div>
-                                <div class="postNumberDay">
-                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
-                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 投稿ここまで -->
-                    </li>
-
-                    <li class="project-contents-lists col-md-3">
-                        <!-- 投稿ここから -->
-                        <div class="postArea">
-                            <img src="img/postImage.png" alt="" class="postImage">
-                            <div class="postTextArea">
-                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
-                                <div class="postValuePercent">
-                                    <div class="postValue">15,396,200円</div>
-                                    <div class="postPercent">5132%</div>
-                                </div>
-                                <div class="postNumberDay">
-                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
-                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 投稿ここまで -->
-                    </li>
-
-                    <li class="project-contents-lists col-md-3">
-                        <!-- 投稿ここから -->
-                        <div class="postArea">
-                            <img src="img/postImage.png" alt="" class="postImage">
-                            <div class="postTextArea">
-                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
-                                <div class="postValuePercent">
-                                    <div class="postValue">15,396,200円</div>
-                                    <div class="postPercent">5132%</div>
-                                </div>
-                                <div class="postNumberDay">
-                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
-                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 投稿ここまで -->
-                    </li>
-
-                    <li class="project-contents-lists col-md-3">
-                        <!-- 投稿ここから -->
-                        <div class="postArea">
-                            <img src="img/postImage.png" alt="" class="postImage">
-                            <div class="postTextArea">
-                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
-                                <div class="postValuePercent">
-                                    <div class="postValue">15,396,200円</div>
-                                    <div class="postPercent">5132%</div>
-                                </div>
-                                <div class="postNumberDay">
-                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
-                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 投稿ここまで -->
-                    </li>
 
                 </ul>
         </div>
@@ -415,98 +322,44 @@ session_start();
                     <?php
 
                     if(!empty($readyArray)){
+                        $counter = 1;
                         foreach ($readyArray as $result) {
-                            echo "<li class='project-contents-lists col-md-3' onclick=\"window.location.href = 'projectDetail.php?pid=".$result['project_id']."';\">";
-                            echo "Project ID: " . $result['project_id'] . '<br>';
-                            echo "Project Name: " . $result['project_name'] . '<br>';
-                            echo "Support Count: " . $result['support_count'] . '人<br>';
-                            echo "Total Money: " . $result['total_money'] . '円<br>';
-                            echo "Money Ratio: " . (int)$result['money_ratio'] . '%<br>';
-                            echo "Remaining Days: " . (int)((strtotime($result['project_end']) - time()) / (60 * 60 * 24)) . '日<br>';
-                            echo "Thumbnail Image: " . $result['project_thumbnail_image'] . '<br>';
-                            echo "</li>";
+                            echo "<li class='project-contents-lists col-md-3'>";
+
+                            if($counter==1){
+                                echo "<div class='rank' style='color: #edb83d; font-weight: 600;'>$counter</div>";
+                            }else{
+                                echo "<div class='rank'>$counter</div>";
+                            }
+                                
+                            echo "
+                                    <div class='postArea'>
+                                        <img src='";
+                                        echo (file_exists($result['project_thumbnail_image'])) ? $result['project_thumbnail_image'] : 'img/noImage_'.rand(1,2).'.jpg';
+                                        echo "' alt='' class='postImage'>
+                                        <div class='postTextArea'>
+                                            <p class='postText'>$result[project_name]</p>
+                                            <div class='postValuePercent'>
+                                                <div class='postValue'>".number_format($result['total_money'])."円</div>
+                                                <div class='postPercent'>".(int)$result['money_ratio']."%</div>
+                                            </div>
+                                            <div class='postNumberDay'>
+                                                <div class='postUnder'><i class='bi bi-people'></i>　".$result['support_count']."人</div>
+                                                <div class='postUnder'><i class='bi bi-clock'></i>　".(int)((strtotime($result['project_end']) - time()) / (60 * 60 * 24))."日</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 投稿ここまで -->
+                                </li>
+                            
+                            ";
+                            $counter++;
                         }
                     }else{
                         echo "<p>このトピックに当てはまるプロジェクトはありませんでした。</p>";
                     }
 
                     ?>
-
-                    <li class="project-contents-lists col-md-3">
-                        <!-- 投稿ここから -->
-                        <div class="postArea">
-                            <img src="img/postImage.png" alt="" class="postImage">
-                            <div class="postTextArea">
-                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
-                                <div class="postValuePercent">
-                                    <div class="postValue">15,396,200円</div>
-                                    <div class="postPercent">5132%</div>
-                                </div>
-                                <div class="postNumberDay">
-                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
-                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 投稿ここまで -->
-                    </li>
-
-                    <li class="project-contents-lists col-md-3">
-                        <!-- 投稿ここから -->
-                        <div class="postArea">
-                            <img src="img/postImage.png" alt="" class="postImage">
-                            <div class="postTextArea">
-                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
-                                <div class="postValuePercent">
-                                    <div class="postValue">15,396,200円</div>
-                                    <div class="postPercent">5132%</div>
-                                </div>
-                                <div class="postNumberDay">
-                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
-                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 投稿ここまで -->
-                    </li>
-
-                    <li class="project-contents-lists col-md-3">
-                        <!-- 投稿ここから -->
-                        <div class="postArea">
-                            <img src="img/postImage.png" alt="" class="postImage">
-                            <div class="postTextArea">
-                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
-                                <div class="postValuePercent">
-                                    <div class="postValue">15,396,200円</div>
-                                    <div class="postPercent">5132%</div>
-                                </div>
-                                <div class="postNumberDay">
-                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
-                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 投稿ここまで -->
-                    </li>
-
-                    <li class="project-contents-lists col-md-3">
-                        <!-- 投稿ここから -->
-                        <div class="postArea">
-                            <img src="img/postImage.png" alt="" class="postImage">
-                            <div class="postTextArea">
-                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
-                                <div class="postValuePercent">
-                                    <div class="postValue">15,396,200円</div>
-                                    <div class="postPercent">5132%</div>
-                                </div>
-                                <div class="postNumberDay">
-                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
-                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 投稿ここまで -->
-                    </li>
 
                 </ul>
         </div>
@@ -524,99 +377,44 @@ session_start();
                     <?php
 
                     if(!empty($likeArray)){
+                        $counter = 1;
                         foreach ($likeArray as $result) {
-                            echo "<li class='project-contents-lists col-md-3' onclick=\"window.location.href = 'projectDetail.php?pid=".$result['project_id']."';\">";
-                            echo "Project ID: " . $result['project_id'] . '<br>';
-                            echo "Project Name: " . $result['project_name'] . '<br>';
-                            echo "Support Count: " . $result['support_count'] . '人<br>';
-                            echo "Total Money: " . $result['total_money'] . '円<br>';
-                            echo "Money Ratio: " . (int)$result['money_ratio'] . '%<br>';
-                            echo "Remaining Days: " . (int)((strtotime($result['project_end']) - time()) / (60 * 60 * 24)) . '日<br>';
-                            echo "Thumbnail Image: " . $result['project_thumbnail_image'] . '<br>';
-                            echo "</li>";
+                            echo "<li class='project-contents-lists col-md-3'>";
+
+                            if($counter==1){
+                                echo "<div class='rank' style='color: #edb83d; font-weight: 600;'>$counter</div>";
+                            }else{
+                                echo "<div class='rank'>$counter</div>";
+                            }
+                                
+                            echo "
+                                    <div class='postArea'>
+                                        <img src='";
+                                        echo (file_exists($result['project_thumbnail_image'])) ? $result['project_thumbnail_image'] : 'img/noImage_'.rand(1,2).'.jpg';
+                                        echo "' alt='' class='postImage'>
+                                        <div class='postTextArea'>
+                                            <p class='postText'>$result[project_name]</p>
+                                            <div class='postValuePercent'>
+                                                <div class='postValue'>".number_format($result['total_money'])."円</div>
+                                                <div class='postPercent'>".(int)$result['money_ratio']."%</div>
+                                            </div>
+                                            <div class='postNumberDay'>
+                                                <div class='postUnder'><i class='bi bi-people'></i>　".$result['support_count']."人</div>
+                                                <div class='postUnder'><i class='bi bi-clock'></i>　".(int)((strtotime($result['project_end']) - time()) / (60 * 60 * 24))."日</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 投稿ここまで -->
+                                </li>
+                            
+                            ";
+                            $counter++;
                         }
                     }else{
                         echo "<p>このトピックに当てはまるプロジェクトはありませんでした。</p>";
                     }
 
                     ?>
-
-                <li class="project-contents-lists col-md-3">
-                        <!-- 投稿ここから -->
-                        <div class="postArea">
-                            <img src="img/postImage.png" alt="" class="postImage">
-                            <div class="postTextArea">
-                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
-                                <div class="postValuePercent">
-                                    <div class="postValue">15,396,200円</div>
-                                    <div class="postPercent">5132%</div>
-                                </div>
-                                <div class="postNumberDay">
-                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
-                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 投稿ここまで -->
-                    </li>
-
-                    <li class="project-contents-lists col-md-3">
-                        <!-- 投稿ここから -->
-                        <div class="postArea">
-                            <img src="img/postImage.png" alt="" class="postImage">
-                            <div class="postTextArea">
-                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
-                                <div class="postValuePercent">
-                                    <div class="postValue">15,396,200円</div>
-                                    <div class="postPercent">5132%</div>
-                                </div>
-                                <div class="postNumberDay">
-                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
-                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 投稿ここまで -->
-                    </li>
-
-                    <li class="project-contents-lists col-md-3">
-                        <!-- 投稿ここから -->
-                        <div class="postArea">
-                            <img src="img/postImage.png" alt="" class="postImage">
-                            <div class="postTextArea">
-                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
-                                <div class="postValuePercent">
-                                    <div class="postValue">15,396,200円</div>
-                                    <div class="postPercent">5132%</div>
-                                </div>
-                                <div class="postNumberDay">
-                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
-                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 投稿ここまで -->
-                    </li>
-
-                    <li class="project-contents-lists col-md-3">
-                        <!-- 投稿ここから -->
-                        <div class="postArea">
-                            <img src="img/postImage.png" alt="" class="postImage">
-                            <div class="postTextArea">
-                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
-                                <div class="postValuePercent">
-                                    <div class="postValue">15,396,200円</div>
-                                    <div class="postPercent">5132%</div>
-                                </div>
-                                <div class="postNumberDay">
-                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
-                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 投稿ここまで -->
-                    </li>
-
                 </ul>
         </div>
 
@@ -633,99 +431,44 @@ session_start();
                     <?php
 
                     if(!empty($compArray)){
+                        $counter = 1;
                         foreach ($compArray as $result) {
-                            echo "<li class='project-contents-lists col-md-3' onclick=\"window.location.href = 'projectDetail.php?pid=".$result['project_id']."';\">";
-                            echo "Project ID: " . $result['project_id'] . '<br>';
-                            echo "Project Name: " . $result['project_name'] . '<br>';
-                            echo "Support Count: " . $result['support_count'] . '人<br>';
-                            echo "Total Money: " . $result['total_money'] . '円<br>';
-                            echo "Money Ratio: " . (int)$result['money_ratio'] . '%<br>';
-                            echo "Remaining Days: " . (int)((strtotime($result['project_end']) - time()) / (60 * 60 * 24)) . '日<br>';
-                            echo "Thumbnail Image: " . $result['project_thumbnail_image'] . '<br>';
-                            echo "</li>";
+                            echo "<li class='project-contents-lists col-md-3'>";
+
+                            if($counter==1){
+                                echo "<div class='rank' style='color: #edb83d; font-weight: 600;'>$counter</div>";
+                            }else{
+                                echo "<div class='rank'>$counter</div>";
+                            }
+                                
+                            echo "
+                                    <div class='postArea'>
+                                        <img src='";
+                                        echo (file_exists($result['project_thumbnail_image'])) ? $result['project_thumbnail_image'] : 'img/noImage_'.rand(1,2).'.jpg';
+                                        echo "' alt='' class='postImage'>
+                                        <div class='postTextArea'>
+                                            <p class='postText'>$result[project_name]</p>
+                                            <div class='postValuePercent'>
+                                                <div class='postValue'>".number_format($result['total_money'])."円</div>
+                                                <div class='postPercent'>".(int)$result['money_ratio']."%</div>
+                                            </div>
+                                            <div class='postNumberDay'>
+                                                <div class='postUnder'><i class='bi bi-people'></i>　".$result['support_count']."人</div>
+                                                <div class='postUnder'><i class='bi bi-clock'></i>　".(int)((strtotime($result['project_end']) - time()) / (60 * 60 * 24))."日</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 投稿ここまで -->
+                                </li>
+                            
+                            ";
+                            $counter++;
                         }
                     }else{
                         echo "<p>このトピックに当てはまるプロジェクトはありませんでした。</p>";
                     }
 
                     ?>
-
-                <li class="project-contents-lists col-md-3">
-                        <!-- 投稿ここから -->
-                        <div class="postArea">
-                            <img src="img/postImage.png" alt="" class="postImage">
-                            <div class="postTextArea">
-                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
-                                <div class="postValuePercent">
-                                    <div class="postValue">15,396,200円</div>
-                                    <div class="postPercent">5132%</div>
-                                </div>
-                                <div class="postNumberDay">
-                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
-                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 投稿ここまで -->
-                    </li>
-
-                    <li class="project-contents-lists col-md-3">
-                        <!-- 投稿ここから -->
-                        <div class="postArea">
-                            <img src="img/postImage.png" alt="" class="postImage">
-                            <div class="postTextArea">
-                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
-                                <div class="postValuePercent">
-                                    <div class="postValue">15,396,200円</div>
-                                    <div class="postPercent">5132%</div>
-                                </div>
-                                <div class="postNumberDay">
-                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
-                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 投稿ここまで -->
-                    </li>
-
-                    <li class="project-contents-lists col-md-3">
-                        <!-- 投稿ここから -->
-                        <div class="postArea">
-                            <img src="img/postImage.png" alt="" class="postImage">
-                            <div class="postTextArea">
-                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
-                                <div class="postValuePercent">
-                                    <div class="postValue">15,396,200円</div>
-                                    <div class="postPercent">5132%</div>
-                                </div>
-                                <div class="postNumberDay">
-                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
-                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 投稿ここまで -->
-                    </li>
-
-                    <li class="project-contents-lists col-md-3">
-                        <!-- 投稿ここから -->
-                        <div class="postArea">
-                            <img src="img/postImage.png" alt="" class="postImage">
-                            <div class="postTextArea">
-                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
-                                <div class="postValuePercent">
-                                    <div class="postValue">15,396,200円</div>
-                                    <div class="postPercent">5132%</div>
-                                </div>
-                                <div class="postNumberDay">
-                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
-                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 投稿ここまで -->
-                    </li>
-
                 </ul>
         </div>
     </div>
