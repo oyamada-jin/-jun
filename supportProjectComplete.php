@@ -39,7 +39,11 @@ if(isset($_SESSION['id']) == false){
 
 </head>
 <body>
-    
+    <!-- ヘッダーここから -->
+    <header class="header">
+        <img class="header-logo" src="img/IdecaLogo.png" onclick="window.location.href = 'top.php'">
+    </header>
+    <!-- ヘッダーここまで -->
     プロジェクトの応援が完了しました。
     
 

@@ -228,193 +228,483 @@ class DAO{
             $q->execute();
         }
 
-        function searchProjects($keyword) {
-            // 入力を空白で分割
-            $searchTerms = explode(' ', $keyword);
-        
-            // データベース接続
-            $pdo = $this->dbConnect();
-        
-            // プレースホルダーの準備
-            $placeholders = array_fill(0, count($searchTerms), '?');
-        
-            // LIKE検索の条件を生成
-            $likeConditions = array_map(function ($term) {
-                return "(project.project_name LIKE ? OR project_course.project_course_name LIKE ?)";
-            }, $searchTerms);
-        
-            // SQLクエリの生成
-            $sql = "SELECT project.project_id, 
-                           project.project_name, 
-                           project.project_start, 
-                           COUNT(project_support.project_id) AS support_count,
-                           SUM(project_course.project_course_value) AS total_money,
-                           project.project_goal_money,
-                           SUM(project_course.project_course_value) / project.project_goal_money * 100 AS money_ratio
-                    FROM project
-                    LEFT JOIN project_course ON project.project_id = project_course.project_id
-                    LEFT JOIN project_support ON project.project_id = project_support.project_id
-                                             AND project_course.project_course_detail_id = project_support.project_course_detail_id
-                    LEFT JOIN project_thumbnail ON project.project_id = project_thumbnail.project_id
-                                              AND project_thumbnail.project_thumbnail_detail_id = 0
-                    WHERE " . implode(' AND ', $likeConditions) . "
-                    GROUP BY project.project_id";
-        
-            // プリペアドステートメントの準備
-            $stmt = $pdo->prepare($sql);
-        
-            // プレースホルダーに値をバインド
-            $params = [];
-            foreach ($searchTerms as $term) {
-                $params[] = '%' . $term . '%';
-                $params[] = '%' . $term . '%';
-            }
-            $stmt->execute($params);
-        
-            // 結果の取得
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-            // データベース接続のクローズ
-            $pdo = null;
-        
-            // 結果を返す
-            return $results;
+    // プロジェクトを検索するメソッド
+    function searchProjects($keyword) {
+        // 入力を空白で分割
+        $searchTerms = explode(' ', $keyword);
+
+        // データベース接続
+        $pdo = $this->dbConnect();
+
+        // プレースホルダーの準備
+        $placeholders = array_fill(0, count($searchTerms), '?');
+
+        // LIKE検索の条件を生成
+        $likeConditions = array_map(function ($term) {
+            return "(project.project_name LIKE ? OR project_course.project_course_name LIKE ?)";
+        }, $searchTerms);
+
+        // SQLクエリの生成
+        $sql = "SELECT 
+                    project.project_id AS project_id,
+                    project.project_name AS project_name,
+                    support_count,
+                    total_money,
+                    (SUM(DISTINCT project_support.total_money) / project.project_goal_money * 100) AS money_ratio,
+                    project.project_end AS project_end,
+                    project_thumbnail.project_thumbnail_image
+                FROM project
+                LEFT JOIN (SELECT project_id, SUM(support_money) AS total_money, COUNT(project_id) AS support_count FROM project_support GROUP BY project_support.project_id) AS project_support
+                    ON project.project_id = project_support.project_id
+                LEFT JOIN project_course
+                    ON project.project_id = project_course.project_id
+                LEFT JOIN project_thumbnail
+                    ON project.project_id = project_thumbnail.project_id
+                WHERE " . implode(' AND ', $likeConditions) . "
+                GROUP BY project.project_id;
+                ";
+
+        // プリペアドステートメントの準備
+        $stmt = $pdo->prepare($sql);
+
+        // プレースホルダーに値をバインド
+        $params = [];
+        foreach ($searchTerms as $term) {
+            $params[] = '%' . $term . '%';
+            $params[] = '%' . $term . '%';
         }
+        $stmt->execute($params);
+
+        // 結果の取得
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // データベース接続のクローズ
+        $pdo = null;
+
+        // 結果を返す
+        return $results;
+    }
+
+
+
+    
+    
+    
+    function  selectProjectAndCourseById($project_id,$detail_id){
+        $pdo = $this->dbConnect();
+        $sql = "SELECT
+                    p.project_id AS project_id,
+                    pc.project_course_detail_id AS project_detail_id,
+                    p.project_name AS project_name,
+                    pc.project_course_name AS project_course_name,
+                    pc.project_course_thumbnail AS project_course_thumbnail,
+                    pc.project_course_intro AS project_course_intro,
+                    pc.project_course_value AS project_course_value
+                FROM
+                    project p
+                JOIN
+                    project_course pc ON p.project_id = pc.project_id
+                WHERE
+                    p.project_id = :project_id
+                    AND pc.project_course_detail_id = :project_course_detail_id;";
+        $q = $pdo->prepare($sql);
+        $q->bindValue(":project_id",$project_id,PDO::PARAM_INT);
+        $q->bindValue(":project_course_detail_id",$detail_id,PDO::PARAM_INT);
+
+        $q->execute();
+
+        return $q->fetch();
+    }
+
+    function selectAddressById($user_id,$detail_id){
+        $pdo = $this->dbConnect();
+        $sql = "SELECT * FROM Address WHERE user_id = :user_id AND address_detail_id = :address_detail_id";
+        $q = $pdo->prepare($sql);
+        $q->bindValue(":user_id",$user_id,PDO::PARAM_INT);
+        $q->bindValue(":address_detail_id",$detail_id,PDO::PARAM_INT);
+
+        $q->execute();
+
+        return $q->fetch();            
+    }
+
+    function selectAllAddressById($user_id){
+        $pdo = $this->dbConnect();
+        $sql = "SELECT * FROM Address WHERE user_id = :user_id";
+        $q = $pdo->prepare($sql);
+        $q->bindValue(":user_id",$user_id,PDO::PARAM_INT);
+
+        $q->execute();
+
+        return $q->fetchAll();            
+    }
+
+
+    function insertAddress($user_id, $chi_name, $kana_name, $phone_number, $post_code, $user_address, $mail_address) {
+        $pdo = $this->dbConnect();
         
+        $sql = "INSERT INTO `address` 
+                (`user_id`, `address_detail_id`, `chi_name`, `kana_name`, `phone_number`, `post_code`, `user_address`, `mail_address`) 
+                VALUES 
+                (:user_id, :address_detail_id, :chi_name, :kana_name, :phone_number, :post_code, :user_address, :mail_address)";
         
-        function  selectProjectAndCourseById($project_id,$detail_id){
-            $pdo = $this->dbConnect();
-            $sql = "SELECT
-                        p.project_id AS project_id,
-                        pc.project_course_detail_id AS project_detail_id,
-                        p.project_name AS project_name,
-                        pc.project_course_name AS project_course_name,
-                        pc.project_course_thumbnail AS project_course_thumbnail,
-                        pc.project_course_intro AS project_course_intro,
-                        pc.project_course_value AS project_course_value
-                    FROM
-                        project p
-                    JOIN
-                        project_course pc ON p.project_id = pc.project_id
-                    WHERE
-                        p.project_id = :project_id
-                        AND pc.project_course_detail_id = :project_course_detail_id;";
-            $q = $pdo->prepare($sql);
-            $q->bindValue(":project_id",$project_id,PDO::PARAM_INT);
-            $q->bindValue(":project_course_detail_id",$detail_id,PDO::PARAM_INT);
-
-            $q->execute();
-
-            return $q->fetch();
-        }
-
-        function selectAddressById($user_id,$detail_id){
-            $pdo = $this->dbConnect();
-            $sql = "SELECT * FROM Address WHERE user_id = :user_id AND address_detail_id = :address_detail_id";
-            $q = $pdo->prepare($sql);
-            $q->bindValue(":user_id",$user_id,PDO::PARAM_INT);
-            $q->bindValue(":address_detail_id",$detail_id,PDO::PARAM_INT);
-
-            $q->execute();
-
-            return $q->fetch();            
-        }
-
-        function selectAllAddressById($user_id){
-            $pdo = $this->dbConnect();
-            $sql = "SELECT * FROM Address WHERE user_id = :user_id";
-            $q = $pdo->prepare($sql);
-            $q->bindValue(":user_id",$user_id,PDO::PARAM_INT);
-
-            $q->execute();
-
-            return $q->fetchAll();            
-        }
-
-
-        function insertAddress($user_id, $chi_name, $kana_name, $phone_number, $post_code, $user_address, $mail_address) {
-            $pdo = $this->dbConnect();
-            
-            $sql = "INSERT INTO `address` 
-                    (`user_id`, `address_detail_id`, `chi_name`, `kana_name`, `phone_number`, `post_code`, `user_address`, `mail_address`) 
-                    VALUES 
-                    (:user_id, :address_detail_id, :chi_name, :kana_name, :phone_number, :post_code, :user_address, :mail_address)";
-            
-            $addressDetailId = $this->countAddressById($user_id);
-            
-            $q = $pdo->prepare($sql);
-            $q->bindValue(":user_id", $user_id, PDO::PARAM_INT);
-            $q->bindValue(":address_detail_id", $addressDetailId, PDO::PARAM_INT);
-            $q->bindValue(":chi_name", $chi_name, PDO::PARAM_STR);
-            $q->bindValue(":kana_name", $kana_name, PDO::PARAM_STR);
-            $q->bindValue(":phone_number", $phone_number, PDO::PARAM_STR);
-            $q->bindValue(":post_code", $post_code, PDO::PARAM_STR);
-            $q->bindValue(":user_address", $user_address, PDO::PARAM_STR);
-            $q->bindValue(":mail_address", $mail_address, PDO::PARAM_STR);
+        $addressDetailId = $this->countAddressById($user_id);
         
-            $q->execute();
-        }
+        $q = $pdo->prepare($sql);
+        $q->bindValue(":user_id", $user_id, PDO::PARAM_INT);
+        $q->bindValue(":address_detail_id", $addressDetailId, PDO::PARAM_INT);
+        $q->bindValue(":chi_name", $chi_name, PDO::PARAM_STR);
+        $q->bindValue(":kana_name", $kana_name, PDO::PARAM_STR);
+        $q->bindValue(":phone_number", $phone_number, PDO::PARAM_STR);
+        $q->bindValue(":post_code", $post_code, PDO::PARAM_STR);
+        $q->bindValue(":user_address", $user_address, PDO::PARAM_STR);
+        $q->bindValue(":mail_address", $mail_address, PDO::PARAM_STR);
+    
+        $q->execute();
+    }
+
+    function insertProjectSupport($user_id, $method, $project_id, $course_detail_id, $address_detail_id) {
+        $pdo = $this->dbConnect();
         
-        function insertProjectSupport($user_id,$method,$project_id,$course_detail_id,$address_detail_id) {
-            $pdo = $this->dbConnect();
-            
-            $sql = "INSERT INTO `project_support`
-                (`support_method`, `support_limit`, `support_flag`, `project_id`, `project_course_detail_id`, `user_id`, `address_detail_id`) 
-            VALUES 
-                (:support_method, :support_limit, :support_flag, :project_id, :project_course_detail_id, :user_id, :address_detail_id)";
-            $date = new DateTime();
-            $date->modify('+1 weeks');
-
-            $q = $pdo->prepare($sql);
-            $q->bindValue(":support_method", $method, PDO::PARAM_STR);
-            $q->bindValue(":support_limit", $date->format('Y年m月d日 H時'), PDO::PARAM_STR);
-            $q->bindValue(":support_flag", "決済完了待ち", PDO::PARAM_STR);
-            $q->bindValue(":project_id", $project_id, PDO::PARAM_INT);
-            $q->bindValue(":project_course_detail_id", $course_detail_id, PDO::PARAM_INT);
-            $q->bindValue(":user_id", $user_id, PDO::PARAM_INT);
-            $q->bindValue(":address_detail_id", $address_detail_id, PDO::PARAM_INT);
-            
-
+        $sql = "INSERT INTO `project_support`
+            (`support_method`, `support_limit`, `support_flag`, `support_money` , `project_id`, `project_course_detail_id`, `user_id`, `address_detail_id`) 
+        VALUES 
+            (:support_method, :support_limit, :support_flag, :support_money, :project_id, :project_course_detail_id, :user_id, :address_detail_id)";
         
-            $q->execute();
-        }
+        $date = new DateTime();
+        $date->modify('+1 weeks');
+    
+        $money = $this->selectProjectAndCourseById($project_id, $course_detail_id);
+    
+        $q = $pdo->prepare($sql);
+        $q->bindValue(":support_method", $method, PDO::PARAM_STR);
+        // ここで PDO::PARAM_STR を使用する
+        $q->bindValue(":support_limit", $date->format('Y-m-d H:i:s'), PDO::PARAM_STR);
+        $q->bindValue(":support_flag", "決済完了待ち", PDO::PARAM_STR);
+        // ここで PDO::PARAM_STR を使用する
+        $q->bindValue(":support_money", $money['project_course_value'], PDO::PARAM_STR);
+        $q->bindValue(":project_id", $project_id, PDO::PARAM_INT);
+        $q->bindValue(":project_course_detail_id", $course_detail_id, PDO::PARAM_INT);
+        $q->bindValue(":user_id", $user_id, PDO::PARAM_INT);
+        $q->bindValue(":address_detail_id", $address_detail_id, PDO::PARAM_INT);
+    
+        $q->execute();
+    }
 
-        function countAddressById($user_id) {
-            $pdo = $this->dbConnect();
-            $sql = "SELECT COUNT(*) AS record_count FROM address WHERE user_id = :user_id";
-            
-            $q = $pdo->prepare($sql);
-            $q->bindValue(":user_id", $user_id, PDO::PARAM_INT);
-            $q->execute();
+    function countAddressById($user_id) {
+        $pdo = $this->dbConnect();
+        $sql = "SELECT COUNT(*) AS record_count FROM address WHERE user_id = :user_id";
         
-            $result = $q->fetch(PDO::FETCH_ASSOC);
+        $q = $pdo->prepare($sql);
+        $q->bindValue(":user_id", $user_id, PDO::PARAM_INT);
+        $q->execute();
+    
+        $result = $q->fetch(PDO::FETCH_ASSOC);
+    
+        return $result['record_count'];
+    }
+    
+
+
+    
+
+
+    function selectUserById($user_id){
+        $pdo = $this->dbConnect();
+        $sql = "SELECT * FROM user WHERE user_id = :user_id";
+        $q = $pdo->prepare($sql);
+        $q->bindValue(":user_id",$user_id,PDO::PARAM_INT);
+
+        $q->execute();
+
+        return $q->fetch();
+    }
+
+    function searchProjectsByUserId($user_id) {
+
+        $pdo = $this->dbConnect();
         
-            return $result['record_count'];
-        }
+        $sql = "SELECT 
+                    project.project_id AS project_id,
+                    project.project_name AS project_name,
+                    support_count,
+                    total_money,
+                    (SUM(DISTINCT project_support.total_money) / project.project_goal_money * 100) AS money_ratio,
+                    project.project_end AS project_end,
+                    project_thumbnail.project_thumbnail_image
+                FROM project
+                LEFT JOIN (SELECT project_id, SUM(support_money) AS total_money, COUNT(project_id) AS support_count FROM project_support GROUP BY project_support.project_id) AS project_support
+                    ON project.project_id = project_support.project_id
+                LEFT JOIN project_course
+                    ON project.project_id = project_course.project_id
+                LEFT JOIN project_thumbnail
+                    ON project.project_id = project_thumbnail.project_id
+                WHERE project.user_id = :user_id 
+                GROUP BY project.project_id;
+                ";
+
+        // プリペアドステートメントの準備
+        $stmt = $pdo->prepare($sql);
+
+        $stmt ->bindValue(":user_id",$user_id,PDO::PARAM_INT);;
         
+        $stmt->execute();
+
+        // 結果の取得
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // 結果を返す
+        return $results;
+    }
 
 
-        // function  (){
-        //     $pdo = $this->dbConnect();
-        //     $sql = "";
-        //     $q = $pdo->prepare($sql);
-        //     $q->bindValue("",,PDO::PARAM_INT);
+    //view表示(プロジェクトを1つだけ表示)
+    function  selectAllProjectView(){
+        $pdo = $this->dbConnect();
+        $currentDate = date("Y-m-d");
+        $sql = "SELECT 
+                    project.project_id AS project_id,
+                    project.project_name AS project_name,
+                    support_count,
+                    total_money,
+                    (SUM(DISTINCT project_support.total_money) / project.project_goal_money * 100) AS money_ratio,
+                    project.project_end AS project_end,
+                    project_thumbnail.project_thumbnail_image,
+                    IFNULL(project_heart.heart_count, 0) AS heart_count
+                FROM project
+                LEFT JOIN (
+                    SELECT 
+                        project_id, 
+                        SUM(support_money) AS total_money, 
+                        COUNT(project_id) AS support_count 
+                    FROM project_support 
+                    GROUP BY project_support.project_id
+                ) AS project_support ON project.project_id = project_support.project_id
+                LEFT JOIN project_course ON project.project_id = project_course.project_id
+                LEFT JOIN project_thumbnail ON project.project_id = project_thumbnail.project_id
+                LEFT JOIN (
+                    SELECT 
+                        project_id, 
+                        COUNT(*) AS heart_count 
+                    FROM project_heart 
+                    GROUP BY project_id
+                ) AS project_heart ON project.project_id = project_heart.project_id
+                WHERE project.project_start <= :currentDate 
+                    AND project.project_end >= :currentDate
+                GROUP BY project.project_id
+                LIMIT 1;
+            ";
+        $q = $pdo->prepare($sql);
+        $q ->bindValue(':currentDate', $currentDate, PDO::PARAM_STR);
+        $q->execute();
+        return $q->fetchAll();
+    }
 
 
-        //     $q->execute();
+    //ランキング表示
+    function  selectAllProjectRanking(){
+        $pdo = $this->dbConnect();
+        $currentDate = date("Y-m-d");
+        $sql = "SELECT 
+                    project.project_id AS project_id,
+                    project.project_name AS project_name,
+                    support_count,
+                    total_money,
+                    (SUM(DISTINCT project_support.total_money) / project.project_goal_money * 100) AS money_ratio,
+                    project.project_end AS project_end,
+                    project_thumbnail.project_thumbnail_image,
+                    IFNULL(project_heart.heart_count, 0) AS heart_count
+                FROM project
+                LEFT JOIN (
+                    SELECT 
+                        project_id, 
+                        SUM(support_money) AS total_money, 
+                        COUNT(project_id) AS support_count 
+                    FROM project_support 
+                    GROUP BY project_support.project_id
+                ) AS project_support ON project.project_id = project_support.project_id
+                LEFT JOIN project_course ON project.project_id = project_course.project_id
+                LEFT JOIN project_thumbnail ON project.project_id = project_thumbnail.project_id
+                LEFT JOIN (
+                    SELECT 
+                        project_id, 
+                        COUNT(*) AS heart_count 
+                    FROM project_heart 
+                    GROUP BY project_id
+                ) AS project_heart ON project.project_id = project_heart.project_id
+                WHERE project.project_start <= :currentDate AND project.project_end >= :currentDate
+                GROUP BY project.project_id
+                ORDER BY heart_count DESC
+            ";
+        $q = $pdo->prepare($sql);
+        $q ->bindValue(':currentDate', $currentDate, PDO::PARAM_STR);
+        $q->execute();
+        return $q->fetchAll();
 
-            
-        // }
+    }
 
+    // 新着表示
+    function  selectAllProjectNew(){
+        $pdo = $this->dbConnect();
+        $currentDate = date("Y-m-d");
+        $sql = "SELECT 
+                    project.project_id AS project_id,
+                    project.project_name AS project_name,
+                    support_count,
+                    total_money,
+                    (SUM(DISTINCT project_support.total_money) / project.project_goal_money * 100) AS money_ratio,
+                    project.project_end AS project_end,
+                    project_thumbnail.project_thumbnail_image,
+                    IFNULL(project_heart.heart_count, 0) AS heart_count
+                FROM project
+                LEFT JOIN (
+                    SELECT 
+                        project_id, 
+                        SUM(support_money) AS total_money, 
+                        COUNT(project_id) AS support_count 
+                    FROM project_support 
+                    GROUP BY project_support.project_id
+                ) AS project_support ON project.project_id = project_support.project_id
+                LEFT JOIN project_course ON project.project_id = project_course.project_id
+                LEFT JOIN project_thumbnail ON project.project_id = project_thumbnail.project_id
+                LEFT JOIN (
+                    SELECT 
+                        project_id, 
+                        COUNT(*) AS heart_count 
+                    FROM project_heart 
+                    GROUP BY project_id
+                ) AS project_heart ON project.project_id = project_heart.project_id
+                WHERE project.project_start <= :currentDate AND project.project_end >= :currentDate
+                GROUP BY project.project_id
+                ORDER BY project.project_id DESC
+            ";
+        $q = $pdo->prepare($sql);
+        $q ->bindValue(':currentDate', $currentDate, PDO::PARAM_STR);
+        $q->execute();
+        return $q->fetchAll();
+    }
 
-        
+    // おすすめ表示
+    function  selectAllProjectLike(){
+        $pdo = $this->dbConnect();
+        $currentDate = date("Y-m-d");
+        $sql = "SELECT 
+                    project.project_id AS project_id,
+                    project.project_name AS project_name,
+                    support_count,
+                    total_money,
+                    (SUM(DISTINCT project_support.total_money) / project.project_goal_money * 100) AS money_ratio,
+                    project.project_end AS project_end,
+                    project_thumbnail.project_thumbnail_image,
+                    IFNULL(project_heart.heart_count, 0) AS heart_count
+                FROM project
+                LEFT JOIN (
+                    SELECT 
+                        project_id, 
+                        SUM(support_money) AS total_money, 
+                        COUNT(project_id) AS support_count 
+                    FROM project_support 
+                    GROUP BY project_support.project_id
+                ) AS project_support ON project.project_id = project_support.project_id
+                LEFT JOIN project_course ON project.project_id = project_course.project_id
+                LEFT JOIN project_thumbnail ON project.project_id = project_thumbnail.project_id
+                LEFT JOIN (
+                    SELECT 
+                        project_id, 
+                        COUNT(*) AS heart_count 
+                    FROM project_heart 
+                    GROUP BY project_id
+                ) AS project_heart ON project.project_id = project_heart.project_id
+                WHERE project.project_start <= :currentDate AND project.project_end >= :currentDate
+                GROUP BY project.project_id
+            ";
+        $q = $pdo->prepare($sql);
+        $q ->bindValue(':currentDate', $currentDate, PDO::PARAM_STR);
+        $q->execute();
+        return $q->fetchAll();
+    }
 
+    //もうすぐ始まる表示
+    function  selectAllProjectReady(){
+        $pdo = $this->dbConnect();
+        $currentDate = date("Y-m-d");
+        $sql = "SELECT 
+                    project.project_id AS project_id,
+                    project.project_name AS project_name,
+                    support_count,
+                    total_money,
+                    (SUM(DISTINCT project_support.total_money) / project.project_goal_money * 100) AS money_ratio,
+                    project.project_end AS project_end,
+                    project_thumbnail.project_thumbnail_image,
+                    IFNULL(project_heart.heart_count, 0) AS heart_count
+                FROM project
+                LEFT JOIN (
+                    SELECT 
+                        project_id, 
+                        SUM(support_money) AS total_money, 
+                        COUNT(project_id) AS support_count 
+                    FROM project_support 
+                    GROUP BY project_support.project_id
+                ) AS project_support ON project.project_id = project_support.project_id
+                LEFT JOIN project_course ON project.project_id = project_course.project_id
+                LEFT JOIN project_thumbnail ON project.project_id = project_thumbnail.project_id
+                LEFT JOIN (
+                    SELECT 
+                        project_id, 
+                        COUNT(*) AS heart_count 
+                    FROM project_heart 
+                    GROUP BY project_id
+                ) AS project_heart ON project.project_id = project_heart.project_id
+                WHERE project.project_start > :currentDate
+                GROUP BY project.project_id
+            ";
+        $q = $pdo->prepare($sql);
+        $q ->bindValue(':currentDate', $currentDate, PDO::PARAM_STR);
+        $q->execute();
+        return $q->fetchAll();
+    }
 
-
-
-
-
-
+    //達成済み表示
+    function  selectAllProjectComplete(){
+        $pdo = $this->dbConnect();
+        $currentDate = date("Y-m-d");
+        $sql = "SELECT 
+                    project.project_id AS project_id,
+                    project.project_name AS project_name,
+                    support_count,
+                    total_money,
+                    (SUM(DISTINCT project_support.total_money) / project.project_goal_money * 100) AS money_ratio,
+                    project.project_end AS project_end,
+                    project_thumbnail.project_thumbnail_image,
+                    IFNULL(project_heart.heart_count, 0) AS heart_count
+                FROM project
+                LEFT JOIN (
+                    SELECT 
+                        project_id, 
+                        SUM(support_money) AS total_money, 
+                        COUNT(project_id) AS support_count 
+                    FROM project_support 
+                    GROUP BY project_support.project_id
+                ) AS project_support ON project.project_id = project_support.project_id
+                LEFT JOIN project_course ON project.project_id = project_course.project_id
+                LEFT JOIN project_thumbnail ON project.project_id = project_thumbnail.project_id
+                LEFT JOIN (
+                    SELECT 
+                        project_id, 
+                        COUNT(*) AS heart_count 
+                    FROM project_heart 
+                    GROUP BY project_id
+                ) AS project_heart ON project.project_id = project_heart.project_id
+                WHERE project.project_start <= :currentDate 
+                    AND project.project_end >= :currentDate
+                GROUP BY project.project_id
+                HAVING money_ratio >=100
+            ";
+        $q = $pdo->prepare($sql);
+        $q ->bindValue(':currentDate', $currentDate, PDO::PARAM_STR);
+        $q->execute();
+        return $q->fetchAll();
+    }
 
 
 
@@ -424,5 +714,15 @@ class DAO{
 
 
 }
+// function  (){
+    //     $pdo = $this->dbConnect();
+    //     $sql = "";
+    //     $q = $pdo->prepare($sql);
+    //     $q->bindValue("",,PDO::PARAM_INT);
 
+
+    //     $q->execute();
+
+        
+    // }
 ?>

@@ -82,6 +82,7 @@ CREATE TABLE project_support (
     support_method VARCHAR(191) NOT NULL,
     support_limit DATETIME NOT NULL,
     support_flag VARCHAR(191) NOT NULL,
+    support_money INT NOT NULL,
     project_id INT NOT NULL,
     project_course_detail_id INT NOT NULL,
     user_id INT NOT NULL,

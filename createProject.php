@@ -60,7 +60,7 @@ if(isset($_SESSION['id']) == false){
         </div>
     </header>
     <!-- ヘッダーここまで -->
-    
+
 
     <div class="createProject-area">
         <a href="top.php" class="backHome">＜ HOMEへ戻る</a>

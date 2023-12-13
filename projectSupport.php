@@ -95,6 +95,11 @@ if ($projectId !== null && $projectDetailId !== null) {
 
 </head>
 <body>
+    <!-- ヘッダーここから -->
+    <header class="header">
+        <img class="header-logo" src="img/IdecaLogo.png" onclick="window.location.href = 'top.php'">
+    </header>
+    <!-- ヘッダーここまで -->
     
     <div class="borderContents">
         <h3 class="text-center">応援購入の内容を確認する</h3>
@@ -116,8 +121,8 @@ if ($projectId !== null && $projectDetailId !== null) {
 
     </div>
     <form id="mainForm" action="projectSupportConfirm.php" method="post">
-    <input type="hidden" name="project_id" value="<?php echo $_POST['project_id'] ?>">
-    <input type="hidden" name="project_detail_id" value="<?php echo $_POST['project_detail_id'] ?>">
+    <input type="hidden" name="project_id" value="<?php echo $projectId ?>">
+    <input type="hidden" name="project_detail_id" value="<?php echo $projectDetailId ?>">
         <div class="borderContents">
             <h3>お届け先を選択してください。</h3>
 

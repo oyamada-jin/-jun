@@ -87,29 +87,14 @@ if(isset($_SESSION['id']) == false){
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 </head>
-<body class="background">
 
+<body class="background">
     <!-- ヘッダーここから -->
     <header class="header">
-        <a href="top.php"><img class="header-logo" src="img/IdecaLogo.png"></a>
-
-        <div class="search-bar">
-            <img class="search-icon" src="">
-            <input class="search-input" type="text">
-        </div>
-
-        <div class="header-contents-area">
-            <a href=""><div class="project-link">プロジェクトを始める</div></a>
-            <a href=""><div class="project-link">プロジェクト掲載</div></a>
-            <button class="header-button login-button">ログイン</button>
-            <button class="header-button signUp-button">新規登録</button>
-        </div>
+        <img class="header-logo" src="img/IdecaLogo.png" onclick="window.location.href = 'top.php'">
     </header>
-    <!-- ヘッダーここまで -->
+    <?php
 
-    <div class="mainArea">
-        <h1 class="projectSupportConfirm-title">公開内容確認</h1>
-        <?php
 
         //プロジェクトタイトル表示
         echo "<p>プロジェクト名：".$_POST['project_name']."</p>";

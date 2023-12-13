@@ -7,8 +7,8 @@ session_start();
 <!-- ログイン必須ページだけここのコードを残してください。 -->
 <?php
 if(isset($_SESSION['id']) == false){
-   header('Location: login.php');
-   exit();
+    header('Location: login.php');
+    exit();
 }
 ?>
 <!-- ログイン必須用はここまで -->
@@ -19,6 +19,10 @@ if(isset($_SESSION['id']) == false){
     require_once 'DAO.php';
     $dao = new DAO();
 
+    if($_SESSION['id'] != $_GET['uid']){
+        header('Location: login.php');
+        exit();
+    }
 ?>
 <!-- ここまで -->
 <!DOCTYPE html>
@@ -26,10 +30,10 @@ if(isset($_SESSION['id']) == false){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ここに論理ページ名を入力</title>
+    <title>設定</title>
 
     <!-- cssの導入 -->
-    
+
 
     <!-- javascriptの導入 -->
 
@@ -39,25 +43,12 @@ if(isset($_SESSION['id']) == false){
 
 </head>
 <body>
-    
-    <div>
-        <form action="insertAddressCheck.php" method="post">
-            <p>お名前【全角文字】</p>
-            <input type="text" name="chi_name">
-            <p>お名前カナ【全角カタカナ】</p>
-            <input type="text" name="kana_name">
-            <p>電話番号【半角数字】</p>
-            <input type="text" name="phone_number">
-            <p>郵便番号【半角数字】</p>
-            <input type="text" name="post_code">
-            <p>ご自宅住所【全角文字】</p>
-            <input type="text" name="user_address">
-            <p>お名前【全角英数字】</p>
-            <input type="text" name="mail_address">
+    <!-- ヘッダーここから -->
+    <header class="header">
+        <img class="header-logo" src="img/IdecaLogo.png" onclick="window.location.href = 'top.php'">
+    </header>
+    <!-- ヘッダーここまで -->
 
-            <input type="submit" value="登録する">
-        </form>
-    </div>
 
 
 <!-- bootstrapのjavascriptの導入 -->
