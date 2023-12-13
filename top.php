@@ -47,12 +47,14 @@ session_start();
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/top.css">
+    <link rel="stylesheet" href="css/postContents.css">
 
     <!-- javascriptの導入 -->
     <script src="./script/script.js"></script>
 
     <!-- bootstrapのCSSの導入 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
 </head>
 <body class="background">
@@ -62,8 +64,10 @@ session_start();
 
         <div class="search-bar">
             <form id="search" action="searchResult.php" method="get"></form>
-            <img class="search-icon" src="" onclick="document.getElementById('search-input-id').click()">
+
+            <i class="bi bi-search search-icon" onclick="document.getElementById('search-input-id').click()"></i>
             <input class="search-input" id="search-input-id" type="text" form="search" name="keyword">
+
         </div>
             <div class="header-contents-area">
                 <a href="createProject.php"><div class="project-link">プロジェクトを始める</div></a>
@@ -161,6 +165,7 @@ session_start();
             <div class="project-title">ランキング</div>
             <a href="" class="more-link"><div class="more">すべて見る ></div></a>
             <ul class="project-contents-list row justify-content-start">
+
                 <!-- <li class="project-contents-lists col-md-3">
                     <div class="rank" style="color: #d70026;">1</div>
                     <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
@@ -185,6 +190,87 @@ session_start();
                 }
 
                 ?>
+
+                <li class="project-contents-lists col-md-3">
+                    <div class="rank" style="color: #edb83d; font-weight: 600;">1</div>
+                    <!-- 投稿ここから -->
+                    <div class="postArea">
+                        <img src="img/postImage.png" alt="" class="postImage">
+                        <div class="postTextArea">
+                            <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
+                            <div class="postValuePercent">
+                                <div class="postValue">15,396,200円</div>
+                                <div class="postPercent">5132%</div>
+                            </div>
+                            <div class="postNumberDay">
+                                <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
+                                <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 投稿ここまで -->
+                </li>
+
+                <li class="project-contents-lists col-md-3">
+                    <div class="rank">2</div>
+                    <!-- 投稿ここから -->
+                    <div class="postArea">
+                        <img src="img/postImage.png" alt="" class="postImage">
+                        <div class="postTextArea">
+                            <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
+                            <div class="postValuePercent">
+                                <div class="postValue">15,396,200円</div>
+                                <div class="postPercent">5132%</div>
+                            </div>
+                            <div class="postNumberDay">
+                                <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
+                                <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 投稿ここまで -->
+                </li>
+
+                <li class="project-contents-lists col-md-3"> 
+                    <div class="rank">3</div>
+                    <!-- 投稿ここから -->
+                    <div class="postArea">
+                        <img src="img/postImage.png" alt="" class="postImage">
+                        <div class="postTextArea">
+                            <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
+                            <div class="postValuePercent">
+                                <div class="postValue">15,396,200円</div>
+                                <div class="postPercent">5132%</div>
+                            </div>
+                            <div class="postNumberDay">
+                                <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
+                                <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 投稿ここまで -->
+                </li>
+
+                <li class="project-contents-lists col-md-3">
+                    <div class="rank">4</div>
+                    <!-- 投稿ここから -->
+                    <div class="postArea">
+                        <img src="img/postImage.png" alt="" class="postImage">
+                        <div class="postTextArea">
+                            <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
+                            <div class="postValuePercent">
+                                <div class="postValue">15,396,200円</div>
+                                <div class="postPercent">5132%</div>
+                            </div>
+                            <div class="postNumberDay">
+                                <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
+                                <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 投稿ここまで -->
+                </li>
+
             </ul>
         </div>
 
@@ -193,6 +279,7 @@ session_start();
             <div class="project-title">新着プロジェクト</div>
             <a href="" class="more-link"><div class="more">すべて見る ></div></a>
                 <ul class="project-contents-list row justify-content-start">
+
                     <!-- <li class="project-contents-lists col-md-3">
                         <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
                     </li> -->
@@ -216,6 +303,102 @@ session_start();
                     }
 
                     ?>
+
+                    <li class="project-contents-lists col-md-3">
+                        <!-- 投稿ここから -->
+                        <div class="postArea">
+                            <img src="img/postImage.png" alt="" class="postImage">
+                            <div class="postTextArea">
+                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
+                                <div class="postValuePercent">
+                                    <div class="postValue">15,396,200円</div>
+                                    <div class="postPercent">5132%</div>
+                                </div>
+                                <div class="postNumberDay">
+                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
+                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 投稿ここまで -->
+                    </li>
+
+                    <li class="project-contents-lists col-md-3">
+                        <!-- 投稿ここから -->
+                        <div class="postArea">
+                            <img src="img/postImage.png" alt="" class="postImage">
+                            <div class="postTextArea">
+                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
+                                <div class="postValuePercent">
+                                    <div class="postValue">15,396,200円</div>
+                                    <div class="postPercent">5132%</div>
+                                </div>
+                                <div class="postNumberDay">
+                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
+                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 投稿ここまで -->
+                    </li>
+
+                    <li class="project-contents-lists col-md-3">
+                        <!-- 投稿ここから -->
+                        <div class="postArea">
+                            <img src="img/postImage.png" alt="" class="postImage">
+                            <div class="postTextArea">
+                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
+                                <div class="postValuePercent">
+                                    <div class="postValue">15,396,200円</div>
+                                    <div class="postPercent">5132%</div>
+                                </div>
+                                <div class="postNumberDay">
+                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
+                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 投稿ここまで -->
+                    </li>
+
+                    <li class="project-contents-lists col-md-3">
+                        <!-- 投稿ここから -->
+                        <div class="postArea">
+                            <img src="img/postImage.png" alt="" class="postImage">
+                            <div class="postTextArea">
+                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
+                                <div class="postValuePercent">
+                                    <div class="postValue">15,396,200円</div>
+                                    <div class="postPercent">5132%</div>
+                                </div>
+                                <div class="postNumberDay">
+                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
+                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 投稿ここまで -->
+                    </li>
+
+                    <li class="project-contents-lists col-md-3">
+                        <!-- 投稿ここから -->
+                        <div class="postArea">
+                            <img src="img/postImage.png" alt="" class="postImage">
+                            <div class="postTextArea">
+                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
+                                <div class="postValuePercent">
+                                    <div class="postValue">15,396,200円</div>
+                                    <div class="postPercent">5132%</div>
+                                </div>
+                                <div class="postNumberDay">
+                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
+                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 投稿ここまで -->
+                    </li>
+
                 </ul>
         </div>
 
@@ -224,6 +407,7 @@ session_start();
             <div class="project-title">もうすぐ始まるプロジェクト</div>
             <a href="" class="more-link"><div class="more">すべて見る ></div></a>
                 <ul class="project-contents-list row justify-content-start">
+
                     <!-- <li class="project-contents-lists col-md-3">
                         <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
                     </li> -->
@@ -247,6 +431,83 @@ session_start();
                     }
 
                     ?>
+
+                    <li class="project-contents-lists col-md-3">
+                        <!-- 投稿ここから -->
+                        <div class="postArea">
+                            <img src="img/postImage.png" alt="" class="postImage">
+                            <div class="postTextArea">
+                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
+                                <div class="postValuePercent">
+                                    <div class="postValue">15,396,200円</div>
+                                    <div class="postPercent">5132%</div>
+                                </div>
+                                <div class="postNumberDay">
+                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
+                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 投稿ここまで -->
+                    </li>
+
+                    <li class="project-contents-lists col-md-3">
+                        <!-- 投稿ここから -->
+                        <div class="postArea">
+                            <img src="img/postImage.png" alt="" class="postImage">
+                            <div class="postTextArea">
+                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
+                                <div class="postValuePercent">
+                                    <div class="postValue">15,396,200円</div>
+                                    <div class="postPercent">5132%</div>
+                                </div>
+                                <div class="postNumberDay">
+                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
+                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 投稿ここまで -->
+                    </li>
+
+                    <li class="project-contents-lists col-md-3">
+                        <!-- 投稿ここから -->
+                        <div class="postArea">
+                            <img src="img/postImage.png" alt="" class="postImage">
+                            <div class="postTextArea">
+                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
+                                <div class="postValuePercent">
+                                    <div class="postValue">15,396,200円</div>
+                                    <div class="postPercent">5132%</div>
+                                </div>
+                                <div class="postNumberDay">
+                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
+                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 投稿ここまで -->
+                    </li>
+
+                    <li class="project-contents-lists col-md-3">
+                        <!-- 投稿ここから -->
+                        <div class="postArea">
+                            <img src="img/postImage.png" alt="" class="postImage">
+                            <div class="postTextArea">
+                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
+                                <div class="postValuePercent">
+                                    <div class="postValue">15,396,200円</div>
+                                    <div class="postPercent">5132%</div>
+                                </div>
+                                <div class="postNumberDay">
+                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
+                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 投稿ここまで -->
+                    </li>
+
                 </ul>
         </div>
 
@@ -255,6 +516,7 @@ session_start();
             <div class="project-title">おすすめプロジェクト</div>
             <a href="" class="more-link"><div class="more">すべて見る ></div></a>
                 <ul class="project-contents-list row justify-content-start">
+
                     <!-- <li class="project-contents-lists col-md-3">
                         <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
                     </li> -->
@@ -278,6 +540,83 @@ session_start();
                     }
 
                     ?>
+
+                <li class="project-contents-lists col-md-3">
+                        <!-- 投稿ここから -->
+                        <div class="postArea">
+                            <img src="img/postImage.png" alt="" class="postImage">
+                            <div class="postTextArea">
+                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
+                                <div class="postValuePercent">
+                                    <div class="postValue">15,396,200円</div>
+                                    <div class="postPercent">5132%</div>
+                                </div>
+                                <div class="postNumberDay">
+                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
+                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 投稿ここまで -->
+                    </li>
+
+                    <li class="project-contents-lists col-md-3">
+                        <!-- 投稿ここから -->
+                        <div class="postArea">
+                            <img src="img/postImage.png" alt="" class="postImage">
+                            <div class="postTextArea">
+                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
+                                <div class="postValuePercent">
+                                    <div class="postValue">15,396,200円</div>
+                                    <div class="postPercent">5132%</div>
+                                </div>
+                                <div class="postNumberDay">
+                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
+                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 投稿ここまで -->
+                    </li>
+
+                    <li class="project-contents-lists col-md-3">
+                        <!-- 投稿ここから -->
+                        <div class="postArea">
+                            <img src="img/postImage.png" alt="" class="postImage">
+                            <div class="postTextArea">
+                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
+                                <div class="postValuePercent">
+                                    <div class="postValue">15,396,200円</div>
+                                    <div class="postPercent">5132%</div>
+                                </div>
+                                <div class="postNumberDay">
+                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
+                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 投稿ここまで -->
+                    </li>
+
+                    <li class="project-contents-lists col-md-3">
+                        <!-- 投稿ここから -->
+                        <div class="postArea">
+                            <img src="img/postImage.png" alt="" class="postImage">
+                            <div class="postTextArea">
+                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
+                                <div class="postValuePercent">
+                                    <div class="postValue">15,396,200円</div>
+                                    <div class="postPercent">5132%</div>
+                                </div>
+                                <div class="postNumberDay">
+                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
+                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 投稿ここまで -->
+                    </li>
+
                 </ul>
         </div>
 
@@ -286,6 +625,7 @@ session_start();
             <div class="project-title">達成したプロジェクト</div>
             <a href="" class="more-link"><div class="more">すべて見る ></div></a>
                 <ul class="project-contents-list row justify-content-start">
+
                     <!-- <li class="project-contents-lists col-md-3">
                         <img src="img/contentsImage.png" alt="コンテンツ" class="project-contents-lists-img">
                     </li> -->
@@ -309,6 +649,83 @@ session_start();
                     }
 
                     ?>
+
+                <li class="project-contents-lists col-md-3">
+                        <!-- 投稿ここから -->
+                        <div class="postArea">
+                            <img src="img/postImage.png" alt="" class="postImage">
+                            <div class="postTextArea">
+                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
+                                <div class="postValuePercent">
+                                    <div class="postValue">15,396,200円</div>
+                                    <div class="postPercent">5132%</div>
+                                </div>
+                                <div class="postNumberDay">
+                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
+                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 投稿ここまで -->
+                    </li>
+
+                    <li class="project-contents-lists col-md-3">
+                        <!-- 投稿ここから -->
+                        <div class="postArea">
+                            <img src="img/postImage.png" alt="" class="postImage">
+                            <div class="postTextArea">
+                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
+                                <div class="postValuePercent">
+                                    <div class="postValue">15,396,200円</div>
+                                    <div class="postPercent">5132%</div>
+                                </div>
+                                <div class="postNumberDay">
+                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
+                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 投稿ここまで -->
+                    </li>
+
+                    <li class="project-contents-lists col-md-3">
+                        <!-- 投稿ここから -->
+                        <div class="postArea">
+                            <img src="img/postImage.png" alt="" class="postImage">
+                            <div class="postTextArea">
+                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
+                                <div class="postValuePercent">
+                                    <div class="postValue">15,396,200円</div>
+                                    <div class="postPercent">5132%</div>
+                                </div>
+                                <div class="postNumberDay">
+                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
+                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 投稿ここまで -->
+                    </li>
+
+                    <li class="project-contents-lists col-md-3">
+                        <!-- 投稿ここから -->
+                        <div class="postArea">
+                            <img src="img/postImage.png" alt="" class="postImage">
+                            <div class="postTextArea">
+                                <p class="postText">次世代の食洗器VERUSH「水だけ」なのに驚きの洗浄力！1回0.5円で農薬・殺菌除去！【1台で野菜、果物から哺乳瓶もまとめて洗浄】</p>
+                                <div class="postValuePercent">
+                                    <div class="postValue">15,396,200円</div>
+                                    <div class="postPercent">5132%</div>
+                                </div>
+                                <div class="postNumberDay">
+                                    <div class="postUnder"><i class="bi bi-people"></i>　364人</div>
+                                    <div class="postUnder"><i class="bi bi-clock"></i>　5日</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 投稿ここまで -->
+                    </li>
+
                 </ul>
         </div>
     </div>

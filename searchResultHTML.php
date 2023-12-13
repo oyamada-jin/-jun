@@ -89,7 +89,7 @@ if(isset($_SESSION['id']) == false){
     </div>
 
     <!-- タグで検索 -->
-    <a href="#" style="text-decoration: none;"><button class="tag-button">タグで検索</button></a>
+    <a href="searchTag.php" style="text-decoration: none;"><button class="tag-button">タグで検索</button></a>
 
     <!-- フッター -->
     <footer class="footer container-fluid">
