@@ -25,7 +25,10 @@ session_start();
         die('Invalid request method');
     }
 
-    $userdata = $dao->selectUserById($searchUserId);
+    $userdata = null;
+    if(isset($_SESSION['id'])){
+        $userdata = $dao->selectUserById($_SESSION['id']);
+    }
     $userProject = $dao->searchProjectsByUserId($searchUserId);
 
     if($searchUserId == $_SESSION['id']){
