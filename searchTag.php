@@ -19,6 +19,10 @@ if(isset($_SESSION['id']) == false){
     require_once 'DAO.php';
     $dao = new DAO();
 
+    $userdata = null;
+    if(isset($_SESSION['id'])){
+        $userdata = $dao->selectUserById($_SESSION['id']);
+    }
 ?>
 <!-- ここまで -->
 <!DOCTYPE html>

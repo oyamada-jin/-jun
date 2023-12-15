@@ -19,6 +19,10 @@ if(isset($_SESSION['id']) == false){
     require_once 'DAO.php';
     $dao = new DAO();
 
+    $userdata = null;
+    if(isset($_SESSION['id'])){
+        $userdata = $dao->selectUserById($_SESSION['id']);
+    }
 ?>
 <!-- ここまで -->
 <!DOCTYPE html>
@@ -29,7 +33,7 @@ if(isset($_SESSION['id']) == false){
     <title>プロジェクト作成完了</title>
 
     <!-- cssの導入 -->
-
+    <link rel="stylesheet" href="css/header.css">
 
     <!-- javascriptの導入 -->
 

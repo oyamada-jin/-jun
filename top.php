@@ -187,7 +187,8 @@ session_start();
                         }
                             
                         echo "
-                                <div class='postArea'>
+
+                        <div class='postArea' onclick=\"window.location.href='projectDetail.php?pid=".$result['project_id']."'\">
                                     <img src='";
                                     echo (file_exists($result['project_thumbnail_image'])) ? $result['project_thumbnail_image'] : 'img/noImage_'.rand(1,2).'.jpg';
                                     echo "' alt='' class='postImage'>
@@ -278,7 +279,7 @@ session_start();
                             }
                                 
                             echo "
-                                    <div class='postArea'>
+                            <div class='postArea' onclick=\"window.location.href='projectDetail.php?pid=".$result['project_id']."'\">
                                         <img src='";
                                         echo (file_exists($result['project_thumbnail_image'])) ? $result['project_thumbnail_image'] : 'img/noImage_'.rand(1,2).'.jpg';
                                         echo "' alt='' class='postImage'>
@@ -333,7 +334,7 @@ session_start();
                             }
                                 
                             echo "
-                                    <div class='postArea'>
+                            <div class='postArea' onclick=\"window.location.href='projectDetail.php?pid=".$result['project_id']."'\">
                                         <img src='";
                                         echo (file_exists($result['project_thumbnail_image'])) ? $result['project_thumbnail_image'] : 'img/noImage_'.rand(1,2).'.jpg';
                                         echo "' alt='' class='postImage'>
@@ -388,7 +389,7 @@ session_start();
                             }
                                 
                             echo "
-                                    <div class='postArea'>
+                                    <div class='postArea' onclick=\"window.location.href='projectDetail.php?pid=".$result['project_id']."'\">
                                         <img src='";
                                         echo (file_exists($result['project_thumbnail_image'])) ? $result['project_thumbnail_image'] : 'img/noImage_'.rand(1,2).'.jpg';
                                         echo "' alt='' class='postImage'>
@@ -442,7 +443,7 @@ session_start();
                             }
                                 
                             echo "
-                                    <div class='postArea'>
+                            <div class='postArea' onclick=\"window.location.href='projectDetail.php?pid=".$result['project_id']."'\">
                                         <img src='";
                                         echo (file_exists($result['project_thumbnail_image'])) ? $result['project_thumbnail_image'] : 'img/noImage_'.rand(1,2).'.jpg';
                                         echo "' alt='' class='postImage'>

@@ -14,7 +14,6 @@ session_start();
     <link rel="stylesheet" href="css/login.css?<?php echo date('YmdHis'); ?>">
     <link rel="stylesheet" href="css/header.css?<?php echo date('YmdHis'); ?>">
 
-
     <!-- javascriptの導入 -->
     <script src="./script/script.js"></script>
 

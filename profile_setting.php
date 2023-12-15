@@ -1,5 +1,12 @@
 <?php
 session_start();
+
+require_once 'DAO.php';
+    $dao = new DAO();
+    $userdata = null;
+    if(isset($_SESSION['id'])){
+        $userdata = $dao->selectUserById($_SESSION['id']);
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">

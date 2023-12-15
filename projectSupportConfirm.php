@@ -19,6 +19,11 @@ if(isset($_SESSION['id']) == false){
     require_once 'DAO.php';
     $dao = new DAO();
 
+    
+    $userdata = null;
+    if(isset($_SESSION['id'])){
+        $userdata = $dao->selectUserById($_SESSION['id']);
+    }
 
     // データの取得
     $project = $dao->selectProjectAndCourseById((int)$_POST['project_id'],(int)$_POST['project_detail_id']);
@@ -45,7 +50,7 @@ if(isset($_SESSION['id']) == false){
 
     <!-- cssの導入 -->
     <link rel="stylesheet" href="css/projectSupportConfirm.css">
-
+    <link rel="stylesheet" href="css/header.css">
     <!-- javascriptの導入 -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 

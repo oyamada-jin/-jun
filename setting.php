@@ -23,6 +23,11 @@ if(isset($_SESSION['id']) == false){
         header('Location: login.php');
         exit();
     }
+    
+    $userdata = null;
+    if(isset($_SESSION['id'])){
+        $userdata = $dao->selectUserById($_SESSION['id']);
+    }
 ?>
 <!-- ここまで -->
 <!DOCTYPE html>
@@ -33,7 +38,7 @@ if(isset($_SESSION['id']) == false){
     <title>設定</title>
 
     <!-- cssの導入 -->
-
+    <link rel="stylesheet" href="css/header.css">
 
     <!-- javascriptの導入 -->
 
