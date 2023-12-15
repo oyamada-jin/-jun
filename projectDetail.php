@@ -10,6 +10,11 @@ session_start();
     require_once 'DAO.php';
     $dao = new DAO();
 
+    $userdata=null;
+    if(isset($_SESSION['id'])){
+        $userdata = $dao->selectUserById($_SESSION['id']);
+    }
+
 ?>
 <!-- ここまで -->
 <!DOCTYPE html>
@@ -20,8 +25,8 @@ session_start();
     <title>応援プロジェクトID入力</title>
 
     <!-- cssの導入 -->
-
-
+    <link rel="stylesheet" href="css/header.css">
+    
     <!-- javascriptの導入 -->
 
 
@@ -43,6 +48,7 @@ session_start();
                 <a href="createProject.php"><div class="project-link">プロジェクトを始める</div></a>
                 <a href="createProject.php"><div class="project-link">プロジェクト掲載</div></a>
             <?php
+            
                 if(isset($_SESSION['id'])){
                         echo"
                             <div class='user-content'>

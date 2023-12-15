@@ -18,7 +18,10 @@ if(isset($_SESSION['id']) == false){
     //DAOの呼び出し
     require_once 'DAO.php';
     $dao = new DAO();
-
+    $userdata=null;
+    if(isset($_SESSION['id'])){
+        $userdata = $dao->selectUserById($_SESSION['id']);
+    }
 ?>
 <!-- ここまで -->
 <!DOCTYPE html>
@@ -30,6 +33,7 @@ if(isset($_SESSION['id']) == false){
 
     <!-- cssの導入 -->
     <link rel="stylesheet" href="css/style.css?v=2">
+    <link rel="stylesheet" href="css/header.css">
 
     <!-- javascriptの導入 -->
     <script src="./script/script.js"></script>

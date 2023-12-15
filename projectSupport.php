@@ -82,7 +82,7 @@ if ($projectId !== null && $projectDetailId !== null) {
 
     <!-- cssの導入 -->
     <link rel="stylesheet" href="css/projectSupport.css">
-
+    <link rel="stylesheet" href="css/header.css">
 
 
     <!-- javascriptの導入 -->

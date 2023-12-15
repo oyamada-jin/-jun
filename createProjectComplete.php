@@ -29,7 +29,7 @@ if(isset($_SESSION['id']) == false){
     <title>プロジェクト作成完了</title>
 
     <!-- cssの導入 -->
-
+    <link rel="stylesheet" href="css/header.css">
 
     <!-- javascriptの導入 -->
 
