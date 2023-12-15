@@ -24,8 +24,8 @@ session_start();
     <title>新規登録</title>
 
     <!-- cssの導入 -->
-    <link rel="stylesheet" href="css/style.css?v=2">
-    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/SignUp.css">
+
     <!-- javascriptの導入 -->
     <script src="./script/script.js"></script>
 
@@ -40,24 +40,42 @@ session_start();
     </header>
     <!-- ヘッダーここまで -->
 
-    <h2>サインイン</h2>
+        <div class="search-bar">
+            <img class="search-icon" src="">
+            <input class="search-input" type="text">
+        </div>
 
-    <form action="signUpCheck.php" method="post">
-        
-        <p>メールアドレス</p>
-        <input type="text" name="user_mail" placeholder="メールアドレス" required><br>
+        <div class="header-contents-area">
+            <div class="project-link">プロジェクトを始める</div>
+            <div class="project-link">プロジェクト掲載</div>
+            <button class="header-button login-button">ログイン</button>
+            <button class="header-button signUp-button">新規登録</button>
+        </div>
+    </header>
+    <!-- ヘッダーここまで -->
+    <div class="null"></div>
+    <div class="container">
+        <div class="form-container">
+            <h2 class="form-title">サインイン</h2>
+            <form action="signUpCheck.php" method="post">
+                <div class="form-group">
+                        <p>メールアドレス</p>
+                        <input type="text" name="user_mail" class="form-Input" placeholder="メールアドレス" required><br>
 
-        <p>パスワード</p>
-        <input type="password" name="user_password" placeholder="パスワード" required><br>
+                        <p>パスワード</p>
+                        <input type="password" name="user_password"class="form-Input" placeholder="パスワード" required><br>
 
-        <p>ユーザ名</p>
-        <input type="text" name="user_name" placeholder="ユーザ名" required><br>
+                        <p>ユーザー名</p>
+                        <input type="text" name="user_name" class="form-Input" placeholder="ユーザ名" required><br>
 
-        <input type="submit" value="サインイン">
+                    <input type="submit" class="form-submit" value="サインイン">
 
-    </form>
+                </div>
+                <a href="login.php">既にサインイン済みの方</a>
 
-    <a href="login.php">既にサインイン済みの方</a>
+            </form>
+        </div>
+    </div>
 
 <!-- bootstrapのjavascriptの導入 -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
