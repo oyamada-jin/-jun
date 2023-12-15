@@ -50,18 +50,28 @@ $searchArray = $dao->board_get_randam();
 shuffle($searchArray);
 $firstThree = array_slice($searchArray, 0, 3);
 ?>
+
 <?php foreach ($firstThree as $row) : ?>
     <div>
         <img src="<?php echo $row['user_icon']; ?>" class="user_icon_ft">
         <?php echo $row['user_name']; ?>
         <?php echo $row['comment_time']; ?><br>
         <?php echo $row['comment_content']; ?>
-        <a href="ajax.php" class="hart" data-comment-id="<?php echo $row['comment_id']; ?>">
-            <img src="img/button/good_button.png">
-        </a><br>
+
+        <!-- フォームを追加 -->
+        <form action="insert_bord_good.php" method="post">
+            <input type="hidden" name="comment_id" value="<?php echo $row['comment_id']; ?>">
+            <button type="submit">
+                <img src="img/button/good_button.png">
+            </button>
+        </form>
+        <br>
     </div>
 <?php endforeach; ?>
-?>
+
+
+
+
 <h1>みんなのアイデア</h1>
 <?php
 

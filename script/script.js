@@ -25,9 +25,42 @@ document.addEventListener("DOMContentLoaded", function () {
             ${row.user_name}
             ${row.comment_time}<br>
             ${row.comment_content}
-            <img src="img/button/good_button.png" class="hart" data-comment-id="${row.comment_id}"><br>`;
+            <form action="insert_bord_good.php" method="post" class="heart-form">
+                <input type="hidden" name="comment_id" value="${row.comment_id}">
+                <button type="submit">
+                    <img src="img/button/good_button.png" class="hart" data-comment-id="${row.comment_id}">
+                </button>
+            </form><br>`;
             commentsContainer.appendChild(commentDiv);
         });
+
+        // ハートボタンにクリックイベントを追加
+        const heartForms = document.querySelectorAll('.heart-form');
+        heartForms.forEach(function (form) {
+            form.addEventListener('submit', handleHeartSubmit);
+        });
+    }
+    function handleHeartSubmit(event) {
+        event.preventDefault();
+    
+        const commentId = event.currentTarget.querySelector('[name="comment_id"]').value;
+    
+        // AJAXを使用してinsert_bord_good.phpにPOSTリクエストを送信
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'insert_bord_good.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    
+        // ハートの追加か削除かを判断するためのデータを送信
+        var data = 'comment_id=' + encodeURIComponent(commentId);
+        xhr.send(data);
+    
+        // サーバーからのレスポンスを受け取り、必要に応じて処理
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                // レスポンスを処理するコード（任意）
+                console.log(xhr.responseText);
+            }
+        };
     }
 
     // 新しい順ボタンのクリックイベント
@@ -48,41 +81,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 初期表示
     displayInitialData();
-});
-$(document).on('click', '.hart', function() {
-    const $img = $(this);
-    let action = '';
-    let commentId = $img.data('comment-id');
-
-    if ($img.attr('src') === 'img/button/good_button.png') {
-        $img.attr('src', 'img/button/good_button2.png');
-        action = 'add';
-    } else {
-        $img.attr('src', 'img/button/good_button.png');
-        action = 'delete';
-    }
-
-    // ハートがクリックされたときの通常のリクエスト
-    $.ajax({
-        type: 'POST',
-        url: 'ajax.php',
-        data: {
-            action: action,
-            commentId: commentId
-        },
-        success: function(response) {
-            // 成功時の処理を記述
-            console.log(response);
-            
-            // 遷移しない
-
-            // ここでハート画像に遷移するためのリンクを追加
-            const link = $('<a>').attr('href', 'ajax.php');
-            $img.wrap(link);
-        },
-        error: function(xhr, status, error) {
-            // エラー時の処理を記述
-            console.error(error);
-        }
-    });
 });
