@@ -25,6 +25,8 @@ session_start();
 
     <!-- cssの導入 -->
     <link rel="stylesheet" href="css/SignUp.css">
+    <link rel="stylesheet" href="css/header.css">
+
 
     <!-- javascriptの導入 -->
     <script src="./script/script.js"></script>
@@ -40,38 +42,26 @@ session_start();
     </header>
     <!-- ヘッダーここまで -->
 
-        <div class="search-bar">
-            <img class="search-icon" src="">
-            <input class="search-input" type="text">
-        </div>
-
-        <div class="header-contents-area">
-            <div class="project-link">プロジェクトを始める</div>
-            <div class="project-link">プロジェクト掲載</div>
-            <button class="header-button login-button">ログイン</button>
-            <button class="header-button signUp-button">新規登録</button>
-        </div>
-    </header>
     <!-- ヘッダーここまで -->
     <div class="null"></div>
-    <div class="container">
+    <div class="container" style="margin-bottom: 30px; margin-top: 30px;">
         <div class="form-container">
             <h2 class="form-title">サインイン</h2>
             <form action="signUpCheck.php" method="post">
                 <div class="form-group">
-                        <p>メールアドレス</p>
+                        <p style="text-align: center;">メールアドレス</p>
                         <input type="text" name="user_mail" class="form-Input" placeholder="メールアドレス" required><br>
 
-                        <p>パスワード</p>
+                        <p style="text-align: center;">パスワード</p>
                         <input type="password" name="user_password"class="form-Input" placeholder="パスワード" required><br>
 
-                        <p>ユーザー名</p>
+                        <p style="text-align: center;">ユーザー名</p>
                         <input type="text" name="user_name" class="form-Input" placeholder="ユーザ名" required><br>
 
                     <input type="submit" class="form-submit" value="サインイン">
 
                 </div>
-                <a href="login.php">既にサインイン済みの方</a>
+                <a href="login.php" style="color: #000;"><p style="text-align: center;">既にサインイン済みの方</P></a>
 
             </form>
         </div>

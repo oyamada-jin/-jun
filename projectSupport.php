@@ -94,7 +94,7 @@ if ($projectId !== null && $projectDetailId !== null) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 </head>
-<body>
+<body class="body">
     <!-- ヘッダーここから -->
     <header class="header">
         <img class="header-logo" src="img/IdecaLogo.png" onclick="window.location.href = 'top.php'">
@@ -102,17 +102,17 @@ if ($projectId !== null && $projectDetailId !== null) {
     <!-- ヘッダーここまで -->
     
     <div class="borderContents">
-        <h3 class="text-center">応援購入の内容を確認する</h3>
+        <h3 class="text-center" style="color: #d70026;">応援購入の内容を確認する</h3>
     </div>
 
     <div class="borderContents">
         <?php 
             echo "<img src='".$project['project_course_thumbnail']."' class='Img' alt='コースサムネイル'><br/>";
-            echo "<h5>・請求金額</h5>";
+            echo "<h5>請求金額</h5>";
             echo "<p>".$project['project_course_value']."円（税込み）</p>";
-            echo "<h5>・コース名</h5>";
+            echo "<h5>コース名</h5>";
             echo "<p>".$project['project_course_name']."</p><hr>";
-            echo "<h5>・コース内容</h5>";
+            echo "<h5>コース内容</h5>";
             echo "<p>".$project['project_course_intro']."</p>";
 
 
@@ -124,7 +124,7 @@ if ($projectId !== null && $projectDetailId !== null) {
     <input type="hidden" name="project_id" value="<?php echo $projectId ?>">
     <input type="hidden" name="project_detail_id" value="<?php echo $projectDetailId ?>">
         <div class="borderContents">
-            <h3>お届け先を選択してください。</h3>
+            <h3 style="color: #d70026;">お届け先を選択してください</h3>
 
             <?php
                 if(!empty($addressArray)){
@@ -148,7 +148,7 @@ if ($projectId !== null && $projectDetailId !== null) {
 
         <div class="borderContents">
 
-            <h3 data-bs-toggle="modal" data-bs-target="#staticBackdrop">お届け先を追加する</h3>
+            <h3 data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="color: #d70026;">お届け先を追加する</h3>
 
             <!-- Modal -->
             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -192,7 +192,7 @@ if ($projectId !== null && $projectDetailId !== null) {
 
 
         <div class="borderContents">
-            <h3>支払方法</h3>
+            <h3 style="color: #d70026;">支払方法</h3>
         </div>
 
         <div class="borderContents">
@@ -228,20 +228,23 @@ if ($projectId !== null && $projectDetailId !== null) {
 
 
     <div class="borderContents">
-        <h3>支払い期限</h3>
-        <p>〇前払いなり、以下の支払い方法に応じてお支払いいただくこととなります。</p>
-        <p>〇クレジットカード：リターンの注文受付完了において課金されます。</p>
-        <p>〇コンビニ払い・ペイジー決済・銀行振込：注文が完了され次第、お支払い番号を発行し、
+        <h3 style="color: #d70026;">支払い期限</h3>
+        <p>・前払いなり、以下の支払い方法に応じてお支払いいただくこととなります。</p>
+        <p>・クレジットカード：リターンの注文受付完了において課金されます。</p>
+        <p>・コンビニ払い・ペイジー決済・銀行振込：注文が完了され次第、お支払い番号を発行し、
             Ｅメールをお知らせしますので、お支払い番号の発行日を含めて7日以内かつプロジェクト終了日までに代金をお支払いください。
         </p>
-        <p>〇お支払期限を過ぎますとご注文が自動的にキャンセルとなりますのでご注意ください。
+        <p>・お支払期限を過ぎますとご注文が自動的にキャンセルとなりますのでご注意ください。
             なお、キャンセルが発生した場合でも、所定の手数料が発生いたしますことをご理解いただきますようお願い申し上げます。
             何かご不明点がございましたら、お気軽にお問い合わせください。何卒よろしくお願いいたします。
         </p>
     </div>
 
-    <button>戻る</button>
-    <button type="submit" form="mainForm">次へ</button>
+    <div class="buttonArea">
+        <button class="button" style="background-color: darkgrey;">戻る</button>
+        <button class="button" type="submit" form="mainForm">次へ</button>
+    </div>
+    
     
 
 <!-- bootstrapのjavascriptの導入 -->
