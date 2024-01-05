@@ -45,10 +45,17 @@ if(isset($_SESSION['id']) == false){
     </header>
     <!-- ヘッダーここまで -->
     
-    プロジェクトの作成が完了しました。
+    <p style="text-align: center; margin-top: 100px; font-size: 30px">プロジェクトの作成が完了しました。</p>
     
 
-    <button onclick="window.location.href='top.php'">トップに戻る</button>
+    <button style="display: block;
+    font-size: 20px;
+    padding: 15px 200px; 
+    color: #000b29;
+    background-color:#edb83d ;
+    border-radius: 4px;
+    border:#edb83d;
+    margin: 60px auto 30px;" onclick="window.location.href='top.php'">トップに戻る</button>
 
 <!-- bootstrapのjavascriptの導入 -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

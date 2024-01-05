@@ -10,6 +10,8 @@ session_start();
 
     <!-- cssの導入 -->
     <link rel="stylesheet" href="css/p_syousai.css">
+    <link rel="stylesheet" href="css/footer.css">
+
 
     <!-- javascriptの導入 -->
     <script src="./script/p_syousai.js"></script>
@@ -126,6 +128,68 @@ session_start();
 </div>
 </div>
     <!-- メインここまで -->
+
+    <!-- フッター -->
+    <footer class="footer container-fluid">
+        <div class="row">
+            <!-- カテゴリ -->
+            <div class="footer-category col-md-5 container-fluid">
+                <div class="footer-category-title">カテゴリ</div>
+                <ul class="footer-category-list">
+                    <li class="footer-category-lists">テクノロジー・ガジェット</li>
+                    <li class="footer-category-lists">まちづくり・地域活性化</li>
+                    <li class="footer-category-lists">プロダクト</li>
+                    <li class="footer-category-lists">音楽</li>
+                    <li class="footer-category-lists">フード・飲食店</li>
+                    <li class="footer-category-lists">チャレンジ</li>
+                    <li class="footer-category-lists">アニメ・映画</li>
+                    <li class="footer-category-lists">スポーツ</li>
+                    <li class="footer-category-lists">ファッション</li>
+                    <li class="footer-category-lists">映像・映画</li>
+                    <li class="footer-category-lists">ゲーム・サービス開発</li>
+                    <li class="footer-category-lists">書籍・雑誌出版</li>
+                    <li class="footer-category-lists">ビジネス・企業</li>
+                    <li class="footer-category-lists">ビューティー・ヘルスケア</li>
+                    <li class="footer-category-lists">アート・写真</li>
+                    <li class="footer-category-lists">舞台・パフォーマンス</li>
+                    <li class="footer-category-lists">ソーシャルグッド</li>
+                </ul>
+            </div>
+
+                <!-- プロジェクト -->
+                <div class="footer-project col-md-3">
+                    <div class="border-height">
+                        <div class="footer-project-title">プロジェクト</div>
+                            <ul class="footer-project-list">
+                                <li class="footer-project-lists">すべてのプロジェクト</li>
+                                <li class="footer-project-lists">プロジェクト掲示板</li>
+                                <li class="footer-project-lists">ランキング</li>
+                                <li class="footer-project-lists">新着プロジェクト</li>
+                                <li class="footer-project-lists">もうすぐ始まるプロジェクト</li>
+                                <li class="footer-project-lists">おすすめプロジェクト</li>
+                                <li class="footer-project-lists">達成したプロジェクト</li>
+                                <li class="footer-project-lists">ピックアッププロジェクト</li>
+                            </ul>
+                    </div>
+                </div>
+
+            <!-- IDECAについて -->
+            <div class="footer-about col-md-4">
+                <div class="footer-about-title">IDECAについて</div>
+                <ul class="footer-about-list">
+                    <li class="footer-about-lists">IDECAとは</li>
+                    <li class="footer-about-lists">ヘルプ</li>
+                    <li class="footer-about-lists">お問い合わせ</li><br>
+                    <li class="footer-about-lists">各種設定・利用規約</li>
+                    <li class="footer-about-lists">プライバシーポリシー</li>
+                </ul>
+            </div>            
+        </div>
+
+        <div class="copyrightArea">
+            <p class="copyright-text">Copyright @ IDECA, Inc. All Rights Reserved.</p>
+        </div>
+    </footer>
 </body>
 <!-- bootstrapのjavascriptの導入 -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
