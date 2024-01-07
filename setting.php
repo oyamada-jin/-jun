@@ -1,7 +1,16 @@
+<!-- 多分sessionは全ページ必須？なので消さないでください。 -->
 <?php
 session_start();
 ?>
+<!-- sessionここまで -->
 
+<!-- ログイン必須ページだけここのコードを残してください。 -->
+<?php
+if(isset($_SESSION['id']) == false){
+    header('Location: login.php');
+    exit();
+}
+?>
 <!-- ログイン必須用はここまで -->
 
 <!-- DAOを使用する場合は残してください。 -->
@@ -10,6 +19,11 @@ session_start();
     require_once 'DAO.php';
     $dao = new DAO();
 
+    if($_SESSION['id'] != $_GET['uid']){
+        header('Location: login.php');
+        exit();
+    }
+    
     $userdata = null;
     if(isset($_SESSION['id'])){
         $userdata = $dao->selectUserById($_SESSION['id']);
@@ -21,15 +35,13 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>新規登録</title>
+    <title>設定</title>
 
     <!-- cssの導入 -->
-    <link rel="stylesheet" href="css/SignUp.css">
     <link rel="stylesheet" href="css/header.css">
 
-
     <!-- javascriptの導入 -->
-    <script src="./script/script.js"></script>
+
 
     <!-- bootstrapのCSSの導入 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -42,30 +54,7 @@ session_start();
     </header>
     <!-- ヘッダーここまで -->
 
-    <!-- ヘッダーここまで -->
-    <div class="null"></div>
-    <div class="container" style="margin-bottom: 30px; margin-top: 30px;">
-        <div class="form-container">
-            <h2 class="form-title">サインイン</h2>
-            <form action="signUpCheck.php" method="post">
-                <div class="form-group">
-                        <p style="text-align: center;">メールアドレス</p>
-                        <input type="text" name="user_mail" class="form-Input" placeholder="メールアドレス" required><br>
 
-                        <p style="text-align: center;">パスワード</p>
-                        <input type="password" name="user_password"class="form-Input" placeholder="パスワード" required><br>
-
-                        <p style="text-align: center;">ユーザー名</p>
-                        <input type="text" name="user_name" class="form-Input" placeholder="ユーザ名" required><br>
-
-                    <input type="submit" class="form-submit" value="サインイン">
-
-                </div>
-                <a href="login.php" style="color: #000;"><p style="text-align: center;">既にサインイン済みの方</P></a>
-
-            </form>
-        </div>
-    </div>
 
 <!-- bootstrapのjavascriptの導入 -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

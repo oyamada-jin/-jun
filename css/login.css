@@ -1,0 +1,94 @@
+/* 非表示 */
+.noneDisplay{
+    display: none;
+}
+
+/* body {
+    background-image: url('/hai.svg');
+    background-size: cover;
+} */
+
+/* body {
+    background-image: url('hai.svg');
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; 
+    margin: 0; 
+} */
+
+.haikei {
+    /* position: absolute; */
+    /* left: 441px; x座標 */
+    /* top: 140px; y座標 */
+    width: 398px; /* 幅 */
+    height: 636px; /* 高さ */
+    margin: 30px auto;
+
+    text-align: center;
+    padding: 20px;
+    border-radius: 4px;
+    background-color: #F8F5F2; 
+    box-sizing: border-box;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid #000000;
+}
+
+
+.login {
+    font-size: 24px;
+    margin-bottom: 20px;
+    margin-left: 35%;
+    margin-right: 35%;
+    margin-top: 10%;
+    
+}
+
+.signUp {
+    margin-left: 25%;
+    margin-right: 25%;
+    color: black;
+    
+
+}
+
+#loginbutton {
+    background-color:#EDB83D;
+    margin-top: 5%;
+}
+
+form {
+    width: 300px;
+    margin: 0 auto;
+}
+
+p {
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+input[type="submit"] {
+    background-color: #007bff; /* ログインボタンの背景色を設定 */
+    color: #fff;
+    cursor: pointer;
+}
+
+a {
+    display: block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #007bff; /* リンクの色を設定 */
+}
+
+a:hover {
+    text-decoration: underline; /* ホバー時に下線を表示 */
+}
