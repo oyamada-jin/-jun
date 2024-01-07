@@ -549,6 +549,7 @@ class DAO{
         $sql = "SELECT 
                     project.project_id AS project_id,
                     project.project_name AS project_name,
+                    project.project_goal_money AS project_goal_money,
                     IFNULL(project_support.support_count, 0) AS support_count,
                     IFNULL(project_support.total_money, 0) AS total_money,
                     (IFNULL(SUM(DISTINCT project_support.total_money), 0) / project.project_goal_money * 100) AS money_ratio,
@@ -703,9 +704,174 @@ class DAO{
         return $q->fetchAll();
     }
 
+    function  selectProjectDetailById($project_id){
+        $pdo = $this->dbConnect();
+        $currentDate = date("Y-m-d");
+        $sql = "SELECT 
+                    project.project_id AS project_id,
+                    project.project_name AS project_name,
+                    IFNULL(project_support.support_count, 0) AS support_count,
+                    IFNULL(project_support.total_money, 0) AS total_money,
+                    (IFNULL(SUM(DISTINCT project_support.total_money), 0) / project.project_goal_money * 100) AS money_ratio,
+                    project.project_end AS project_end,
+                    project.project_goal_money,
+                    project.user_id,
+                    IFNULL(project_heart.heart_count, 0) AS heart_count
+                FROM project
+                LEFT JOIN (
+                    SELECT 
+                        project_id, 
+                        COALESCE(SUM(support_money), 0) AS total_money, 
+                        COALESCE(COUNT(project_id), 0) AS support_count 
+                    FROM project_support 
+                    GROUP BY project_support.project_id
+                ) AS project_support ON project.project_id = project_support.project_id
+                LEFT JOIN project_course ON project.project_id = project_course.project_id
+                LEFT JOIN project_thumbnail ON project.project_id = project_thumbnail.project_id
+                LEFT JOIN (
+                    SELECT 
+                        project_id, 
+                        COUNT(*) AS heart_count 
+                    FROM project_heart 
+                    GROUP BY project_id
+                ) AS project_heart ON project.project_id = project_heart.project_id
+                WHERE project.project_id = :project_id
+                GROUP BY project.project_id
+        ";
+        $q = $pdo->prepare($sql);
+        $q->bindValue(":project_id",$project_id,PDO::PARAM_INT);
 
 
+        $q->execute();
 
+        return $q->fetch();
+    }
+
+    
+    
+    function  selectProjectTagById($project_id){
+        $pdo = $this->dbConnect();
+        $sql = "SELECT tag.tag_name 
+                FROM project_tag
+                LEFT JOIN tag
+                    ON project_tag.tag_id = tag.tag_id
+                WHERE project_id = :project_id";
+        $q = $pdo->prepare($sql);
+        $q->bindValue(":project_id",$project_id,PDO::PARAM_INT);
+
+        $q->execute();
+        return $q->fetchAll();        
+    }
+
+    function  selectProjectThumbnailById($project_id){
+        $pdo = $this->dbConnect();
+        $sql = "SELECT project_thumbnail_image FROM project_thumbnail WHERE project_id = :project_id";
+        $q = $pdo->prepare($sql);
+        $q->bindValue(":project_id",$project_id,PDO::PARAM_INT);
+
+        $q->execute();
+        return $q->fetchAll();        
+    }
+
+    function  selectProjectIntroById($project_id){
+        $pdo = $this->dbConnect();
+        $sql = "SELECT project_intro_flag,project_intro_image, project_intro_text
+                FROM project_intro
+                WHERE project_id = :project_id
+                ORDER BY project_id,project_intro_detail_id
+        ";
+        $q = $pdo->prepare($sql);
+        $q->bindValue(":project_id",$project_id,PDO::PARAM_INT);
+
+        $q->execute();
+        return $q->fetchAll();        
+    }
+
+    function  selectProjectCourseById($project_id){
+        $pdo = $this->dbConnect();
+        $sql = "SELECT
+                    project_course.project_id,
+                    project_course.project_course_name,
+                    project_course.project_course_thumbnail,
+                    project_course.project_course_intro,
+                    project_course.project_course_value,
+                    COALESCE(supported_users.total_support_users_count, 0) AS total_support_users_count
+                FROM project_course
+                LEFT JOIN (
+                    SELECT project_id, COUNT(DISTINCT user_id) AS total_support_users_count
+                    FROM project_support
+                    GROUP BY project_id
+                ) AS supported_users ON supported_users.project_id = project_course.project_id
+                WHERE project_course.project_id = :project_id
+        ";
+        $q = $pdo->prepare($sql);
+        $q->bindValue(":project_id",$project_id,PDO::PARAM_INT);
+
+        $q->execute();
+        return $q->fetchAll();
+    }
+
+    function checkIfHeartExists($user_id, $project_id) {
+        $pdo = $this->dbConnect();
+    
+        $sql = "SELECT COUNT(*) AS record_count FROM project_heart WHERE user_id = :user_id AND project_id = :project_id";
+    
+        $q = $pdo->prepare($sql);
+        $q->bindValue(":user_id", $user_id, PDO::PARAM_INT);
+        $q->bindValue(":project_id", $project_id, PDO::PARAM_INT);
+    
+        $q->execute();
+    
+        $result = $q->fetch(PDO::FETCH_ASSOC);
+    
+        return $result['record_count'] > 0;
+    }
+
+    // データベースからproject_heartレコードを削除する関数
+    function unlikeProject($user_id, $project_id) {
+        $pdo = $this->dbConnect();
+
+        $sql = "DELETE FROM project_heart WHERE user_id = :user_id AND project_id = :project_id";
+
+        $q = $pdo->prepare($sql);
+        $q->bindValue(":user_id", $user_id, PDO::PARAM_INT);
+        $q->bindValue(":project_id", $project_id, PDO::PARAM_INT);
+
+        $q->execute();
+    }
+
+    // データベースに新しいproject_heartレコードを追加する関数
+    function likeProject($user_id, $project_id) {
+        $pdo = $this->dbConnect();
+
+        $sql = "INSERT INTO project_heart (user_id, project_id) VALUES (:user_id, :project_id)";
+
+        $q = $pdo->prepare($sql);
+        $q->bindValue(":user_id", $user_id, PDO::PARAM_INT);
+        $q->bindValue(":project_id", $project_id, PDO::PARAM_INT);
+
+        $q->execute();
+    }
+
+    function selectUploadUserById($user_id){
+        $pdo = $this->dbConnect();
+        $sql = "SELECT user.user_id, user.user_name, user.user_icon, user.user_intro, counters.totalProjectCount
+        FROM user 
+        LEFT JOIN 
+            (SELECT COUNT(*) AS totalProjectCount,user_id FROM project WHERE user_id = :user_id1) 
+        AS counters 
+            ON user.user_id = counters.user_id
+        WHERE user.user_id = :user_id2";
+        $q = $pdo->prepare($sql);
+        $q->bindValue(":user_id1",$user_id,PDO::PARAM_INT);
+        $q->bindValue(":user_id2",$user_id,PDO::PARAM_INT);
+
+        $q->execute();
+
+        return $q->fetch();
+    }
+
+    
 
 
 
