@@ -172,3 +172,10 @@ body {
     border-radius: 4px;
     background: #EDB83B;
 }
+
+
+/* 追加css */
+/* アクティブな項目のスタイル */
+.everyoneIdeas-head1-order.active {
+    color: red; /* アクティブ時のテキストカラー */
+}

@@ -159,6 +159,10 @@ session_start();
     </div>
 
 
+    <!-- アイデア掲示板画面(board.php)へ移行する -->
+    <a href="board.php" style="text-decoration: none;"><button class="board-button">アイデア掲示板へ</button></a>
+
+
     <!-- 各プロジェクト -->
     <div class="projects">
 

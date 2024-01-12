@@ -56,21 +56,21 @@ class DAO{
             // ユーザーが存在するか確認
             $user = $ps->fetch(PDO::FETCH_ASSOC);
         
-            if ($user) {
-                // ログイン成功時の処理
-                session_start();
-                $_SESSION['user_id'] = $user['user_id'];
-                $_SESSION['user_name'] = $user['user_name'];
-                // 他のユーザー情報も必要に応じてセッションに保存できます
-        
-                // ログイン成功時のリダイレクト
-                header('Location: top.php'); // ログイン成功後のページにリダイレクト
-                exit();
-            } else {
-                // ログイン失敗時の処理
-                echo "<script>alert('メールアドレスが間違っています。');</script>";
-                echo "<script>location.href='login.php';</script>";
-                exit();
+            if ($ps->rowCount() > 0) {//                //パスワードの照合のため、login_check.phpに移動
+                $log_check = $ps->fetchAll();
+                //SESSION使うかもしれないから一応置いとく
+                return $log_check;
+                
+            }else{
+                //データベースに登録していないとき
+                function func_alert($message){
+                    echo "<script>alert('$message');</script>";
+                    //アラートのOKを押したら新規登録画面に移動
+                    echo "<script>location.href='login.php';</script>";
+                }
+                func_alert("メールアドレスが間違っています。");
+                $log_check = $ps->fetchAll();
+                return $log_check;
             }
         }
         
@@ -106,11 +106,11 @@ class DAO{
             return $searchUser;
         }
 
-        //掲示板コメント投稿
+        // 掲示板コメント投稿
         public function post_bord_comment($post_comment){
-            $pdo=$this->dbConnect();
-            $sql= "INSERT INTO board_comment(comment_id,comment_content,comment_time,parent_comment_id,user_id) VALUES (0,?,CURRENT_DATE(),NULL,?)";
-            $ps= $pdo->prepare($sql);
+            $pdo = $this->dbConnect();
+            $sql = "INSERT INTO board_comment(comment_id, comment_content, comment_time, parent_comment_id, user_id) VALUES (0, ?, CURRENT_TIMESTAMP, NULL, ?)";
+            $ps = $pdo->prepare($sql);
             $ps->bindValue(1, $post_comment, PDO::PARAM_STR);
             $ps->bindValue(2, $_SESSION['id'], PDO::PARAM_STR);
             $ps->execute();
@@ -131,7 +131,7 @@ class DAO{
 
         public function get_time_comment(){
             $pdo=$this->dbConnect();
-            $sql="SELECT bc.comment_content,bc.comment_time,u.user_name,u.user_icon
+            $sql="SELECT bc.comment_id,bc.comment_content,bc.comment_time,u.user_name,u.user_icon
                    FROM board_comment AS bc LEFT JOIN board_heart AS bh ON bc.comment_id = bh.comment_id LEFT JOIN user AS u ON bc.user_id = u.user_id ORDER BY bc.comment_time DESC;";
             $ps= $pdo->prepare($sql);
             $ps->execute();
