@@ -210,7 +210,7 @@ session_start();
                         echo '<h2>' . $courseInfo['project_course_name'] . '</h2>';
                         echo '<p>' . $courseInfo['project_course_intro'] . '</p>';
                         echo '<div class="sien"><span>支援者: ' . $courseInfo['total_support_users_count'] . '人</span></div><br>';
-                        echo '<a href="projectSupport.php?project_id=' . $project_id . '&course_id=' . $courseInfo['project_id'] . '"><button>支援に進む</button></a>';
+                        echo '<a href="projectSupport.php?project_id=' . $project_id . '&project_detail_id=' . $courseInfo['project_id'] . '"><button>支援に進む</button></a>';
                         echo '</div>';
                     }
                     ?>

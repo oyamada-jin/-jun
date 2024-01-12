@@ -6,10 +6,10 @@ session_start();
 
 <!-- ログイン必須ページだけここのコードを残してください。 -->
 <?php
-if(isset($_SESSION['id']) == false){
-   header('Location: login.php');
-   exit();
-}
+// if(isset($_SESSION['id']) == false){
+//    header('Location: login.php');
+//    exit();
+// }
 ?>
 <!-- ログイン必須用はここまで -->
 
@@ -33,7 +33,6 @@ if(isset($_SESSION['id']) == false){
     <title>ホーム画面</title>
 
     <!-- cssの導入 -->
-    <link rel="stylesheet" href="css/style.css?v=2">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/IdeaPost.css">

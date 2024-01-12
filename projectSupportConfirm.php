@@ -102,6 +102,7 @@ if(isset($_SESSION['id']) == false){
         <button class="button" style="background-color: darkgrey;">戻る</button>
         <button class="button" onclick="submitForm()">確定する</button>
     </div>
+
     
 
 <script>
