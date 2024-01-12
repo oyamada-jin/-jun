@@ -71,11 +71,11 @@ if(isset($_SESSION['id']) == false){
         
         <?php 
             echo "<img src='".$project['project_course_thumbnail']."' class='Img' alt='コースサムネイル'><br/>";
-            echo "<h5>・請求金額</h5>";
+            echo "<h5>請求金額</h5>";
             echo "<p>".$project['project_course_value']."円（税込み）</p>";
-            echo "<h5>・コース名</h5>";
+            echo "<h5>コース名</h5>";
             echo "<p>".$project['project_course_name']."</p><hr>";
-            echo "<h5>・コース内容</h5>";
+            echo "<h5>コース内容</h5>";
             echo "<p>".$project['project_course_intro']."</p>";
 
 
@@ -98,9 +98,11 @@ if(isset($_SESSION['id']) == false){
         <p><?php if($_POST['howToPay']==="card"){echo "クレジットカード決済";}else if($_POST['howToPay']==="convenience"){echo "コンビニ払い";} else if($_POST['howToPay']==="payEasy"){echo "ペイジー決済";}else if($_POST['howToPay']==="bank"){echo "銀行振込";}  ?></p>
 
     </div>
-
-    <button>戻る</button>
-    <button onclick="submitForm()">確定する</button>
+    <div class="buttonArea">
+        <button class="button" style="background-color: darkgrey;">戻る</button>
+        <button class="button" onclick="submitForm()">確定する</button>
+    </div>
+    
 
 <script>
     function submitForm() {

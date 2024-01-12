@@ -93,88 +93,91 @@ if(isset($_SESSION['id']) == false){
     <header class="header">
         <img class="header-logo" src="img/IdecaLogo.png" onclick="window.location.href = 'top.php'">
     </header>
-    <?php
+    <div class="mainArea">
+        <?php
 
+        
+                //プロジェクトタイトル表示
+            echo "<p>プロジェクト名：".$_POST['project_name']."</p>";
 
-        //プロジェクトタイトル表示
-        echo "<p>プロジェクト名：".$_POST['project_name']."</p>";
+            echo "<hr>";
 
-        echo "<hr>";
+            //プロジェクトサムネイル全件表示
+            echo "<p>サムネイル画像</p>";
 
-        //プロジェクトサムネイル全件表示
-        echo "<p>サムネイル画像</p>";
-
-        if(!empty($thumbnailArray)){
-            foreach ($thumbnailArray as $imgName) {
-                echo "<img src='".$imgName."'>";
-            }
-        }
-
-
-
-        echo "<hr>";
-
-        //目標金額表示
-        echo "<p>".$_POST['project_goal_money']."</p>";
-
-        echo "<hr>";
-
-        //プロジェクト期間表示
-        echo "<p>開始".$_POST['project_start']."</p>";
-        echo "<p>終了".$_POST['project_end']."</p>";
-
-        echo "<hr>";
-
-        //プロジェクトコース表示
-        for($j = 0; $j < $_POST['project_course_piece']; $j++){
-
-            echo "<p>コース名：".$_POST['project_course_name'][$j]."</p>";
-
-            if(!empty($courseArray[$j])){
-                echo "<p>コース画像：";
-            
-                echo "<img src='".$courseArray[$j]."'>";
-                
-                echo "</p>";     
-            }
-            echo "<p>コース説明：".$_POST['project_course_intro'][$j]."</p>";
-            echo "<p>コース料金：".$_POST['project_course_value'][$j]."</p>";
-        }
-
-        echo "<hr>";
-
-        $introText = 0;//プロジェクト内容に出現したテキストの数を保持
-        $introImg = 0;//プロジェクト内容に出現した画像の数を保持
-        //プロジェクト内容表示
-        echo "<p>プロジェクト内容</p>";
-        for($k = 0; $k < $_POST['project_intro_piece']; $k++){
-
-
-            if ($_POST['project_intro_flag'][$k] == "0") {//テキストボックスの場合  
-                
-                echo "<p>".$_POST['project_intro_text'][$introText]."</p>";
-
-                $introText++;
-            }else if($_POST['project_intro_flag'][$k] == "1"){//画像の場合
-
-                echo "<img src='".$introArray[$introImg]."'>";
-                
-                $introImg++;
+            if(!empty($thumbnailArray)){
+                foreach ($thumbnailArray as $imgName) {
+                    echo "<img src='".$imgName."'>";
+                }
             }
 
-        }
 
-        echo "<hr>";
 
-        //タグ情報表示
-        for ($l=0; $l < $_POST['project_tag_piece']; $l++) { 
-            
-            echo "<p>タグ".($l+1).":".$_POST['project_tag_Text'][$l]."</p>";
+            echo "<hr>";
 
-            
-        }
+            //目標金額表示
+            echo "<p>".$_POST['project_goal_money']."</p>";
 
-        ?>
+            echo "<hr>";
+
+            //プロジェクト期間表示
+            echo "<p>開始".$_POST['project_start']."</p>";
+            echo "<p>終了".$_POST['project_end']."</p>";
+
+            echo "<hr>";
+
+            //プロジェクトコース表示
+            for($j = 0; $j < $_POST['project_course_piece']; $j++){
+
+                echo "<p>コース名：".$_POST['project_course_name'][$j]."</p>";
+
+                if(!empty($courseArray[$j])){
+                    echo "<p>コース画像：";
+                
+                    echo "<img src='".$courseArray[$j]."'>";
+                    
+                    echo "</p>";     
+                }
+                echo "<p>コース説明：".$_POST['project_course_intro'][$j]."</p>";
+                echo "<p>コース料金：".$_POST['project_course_value'][$j]."</p>";
+            }
+
+            echo "<hr>";
+
+            $introText = 0;//プロジェクト内容に出現したテキストの数を保持
+            $introImg = 0;//プロジェクト内容に出現した画像の数を保持
+            //プロジェクト内容表示
+            echo "<p>プロジェクト内容</p>";
+            for($k = 0; $k < $_POST['project_intro_piece']; $k++){
+
+
+                if ($_POST['project_intro_flag'][$k] == "0") {//テキストボックスの場合  
+                    
+                    echo "<p>".$_POST['project_intro_text'][$introText]."</p>";
+
+                    $introText++;
+                }else if($_POST['project_intro_flag'][$k] == "1"){//画像の場合
+
+                    echo "<img src='".$introArray[$introImg]."'>";
+                    
+                    $introImg++;
+                }
+
+            }
+
+            echo "<hr>";
+
+            //タグ情報表示
+            for ($l=0; $l < $_POST['project_tag_piece']; $l++) { 
+                
+                echo "<p>タグ".($l+1).":".$_POST['project_tag_Text'][$l]."</p>";
+
+                
+            }
+        
+
+            ?>
+        </div>
 
         <div class="buttonArea">
             <button class = "backButton" onclick="clickReturns()">　戻る　</button>
