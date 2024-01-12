@@ -5,15 +5,16 @@ body {
 } 
 
 .background {
-    background-color: #f8f5f2;
+    background-color: #FFFAFA;
 }
 
 .mainArea {
-    width: 800px;
-    background-color: #FFFAFA;
-    margin: 44px 0px;
-    padding: 44px;
-    margin-left: auto; margin-right: auto;
+    margin: 100px 500px 0;
+    padding: 20px;
+    border-radius: 4px;
+    border: #000b29 solid 2px;
+    background-color: #f8f5f2;
+
 }
 
 .projectSupportConfirm-title {
@@ -26,11 +27,7 @@ p {
 }
 
 .buttonArea {
-    margin: 0 auto;
-    padding-top: 50px   ;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    text-align: center;
 }
 
 .backButton {
