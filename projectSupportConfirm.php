@@ -65,42 +65,45 @@ if(isset($_SESSION['id']) == false){
         <img class="header-logo" src="img/IdecaLogo.png" onclick="window.location.href = 'top.php'">
     </header>
     <!-- ヘッダーここまで -->
-    
-    <div class="borderContents">
-        <h3>以下の内容でよろしいですか？</h3>
-        
-        <?php 
-            echo "<img src='".$project['project_course_thumbnail']."' class='Img' alt='コースサムネイル'><br/>";
-            echo "<h5>・請求金額</h5>";
-            echo "<p>".$project['project_course_value']."円（税込み）</p>";
-            echo "<h5>・コース名</h5>";
-            echo "<p>".$project['project_course_name']."</p><hr>";
-            echo "<h5>・コース内容</h5>";
-            echo "<p>".$project['project_course_intro']."</p>";
+    <div class="haikei">
+        <div class="borderContents">
+            <h3>以下の内容でよろしいですか？</h3>
+            
+            <?php 
+                echo "<img src='".$project['project_course_thumbnail']."' class='Img' alt='コースサムネイル'><br/>";
+                echo "<h5>・請求金額</h5>";
+                echo "<p>".$project['project_course_value']."円（税込み）</p>";
+                echo "<h5>・コース名</h5>";
+                echo "<p>".$project['project_course_name']."</p><hr>";
+                echo "<h5>・コース内容</h5>";
+                echo "<p>".$project['project_course_intro']."</p>";
 
 
-           
-        ?>
-        <hr>
+            
+            ?>
+            <hr>
 
-        <h5>お届け先</h5>
-        <?php echo "<p>"
-            .$address['chi_name']
-            .$address['kana_name']
-            .$address['post_code']
-            .$address['user_address']
-            .$address['mail_address'].
-            "</p>" 
-        ?>
-        <hr>
+            <h5>お届け先</h5>
+            <?php echo "<p>"
+                .$address['chi_name']
+                .$address['kana_name']
+                .$address['post_code']
+                .$address['user_address']
+                .$address['mail_address'].
+                "</p>" 
+            ?>
+            <hr>
 
-        <h3>支払方法</h3>
-        <p><?php if($_POST['howToPay']==="card"){echo "クレジットカード決済";}else if($_POST['howToPay']==="convenience"){echo "コンビニ払い";} else if($_POST['howToPay']==="payEasy"){echo "ペイジー決済";}else if($_POST['howToPay']==="bank"){echo "銀行振込";}  ?></p>
+            <h3>支払方法</h3>
+            <p><?php if($_POST['howToPay']==="card"){echo "クレジットカード決済";}else if($_POST['howToPay']==="convenience"){echo "コンビニ払い";} else if($_POST['howToPay']==="payEasy"){echo "ペイジー決済";}else if($_POST['howToPay']==="bank"){echo "銀行振込";}  ?></p>
 
+        </div>
+
+        <button>戻る</button>
+        <button onclick="submitForm()">確定する</button>
     </div>
-
-    <button>戻る</button>
-    <button onclick="submitForm()">確定する</button>
+    
+    
 
 <script>
     function submitForm() {

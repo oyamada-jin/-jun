@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 初期表示を行う関数
     function displayInitialData() {
-        commentsContainer.innerHTML = "";
+        commentsContainer.innerHTML = '';
         if (currentSort === "newest") {
             displayComments(searchTimeASC);
         } else if (currentSort === "likes") {

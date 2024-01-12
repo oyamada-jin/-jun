@@ -25,6 +25,7 @@ session_start();
 
     <!-- cssの導入 -->
     <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/postContents.css">
 
     <!-- javascriptの導入 -->
 
@@ -74,18 +75,24 @@ session_start();
         $keyword = isset($_GET['search']) ? $_GET['search'] : '';
         $searchResults = $dao->searchProjects($keyword);
 
-        // 結果の表示
         foreach ($searchResults as $result) {
-            echo "<div onclick=\"window.location.href = 'projectDetail.php?pid=".$result['project_id']."';\">";
-            echo "Project ID: " . $result['project_id'] . '<br>';
-            echo "Project Name: " . $result['project_name'] . '<br>';
-            echo "Support Count: " . $result['support_count'] . '人<br>';
-            echo "Total Money: " . $result['total_money'] . '円<br>';
-            echo "Money Ratio: " . (int)$result['money_ratio'] . '%<br>';
-            echo "Remaining Days: " . (int)((strtotime($result['project_end']) - time()) / (60 * 60 * 24)) . '日<br>';
-            echo "Thumbnail Image: " . $result['project_thumbnail_image'] . '<br>';
-            echo "</div>";
-            echo "<hr>";
+            echo "
+                <div class='postArea' onclick=\"window.location.href='projectDetail.php?pid=".$result['project_id']."'\">
+                    <img src='".(file_exists($result['project_thumbnail_image']) ? $result['project_thumbnail_image'] : 'img/noImage_'.rand(1,2).'.jpg')."' alt='' class='postImage'>
+                    <div class='postTextArea'>
+                        <p class='postText'>$result[project_name]</p>
+                        <div class='postValuePercent'>
+                            <div class='postValue'>".number_format($result['total_money'])."円</div>
+                            <div class='postPercent'>".(int)$result['money_ratio']."%</div>
+                        </div>
+                        <div class='postNumberDay'>
+                            <div class='postUnder'><i class='bi bi-people'></i>　".$result['support_count']."人</div>
+                            <div class='postUnder'><i class='bi bi-clock'></i>　".(int)((strtotime($result['project_end']) - time()) / (60 * 60 * 24))."日</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 投稿ここまで -->
+            ";
         }
     ?>
 

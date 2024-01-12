@@ -6,10 +6,10 @@ session_start();
 
 <!-- ログイン必須ページだけここのコードを残してください。 -->
 <?php
-if(isset($_SESSION['id']) == false){
-   header('Location: login.php');
-   exit();
-}
+// if(isset($_SESSION['id']) == false){
+//    header('Location: login.php');
+//    exit();
+// }
 ?>
 <!-- ログイン必須用はここまで -->
 
