@@ -115,14 +115,16 @@ if(isset($_SESSION['id']) == false){
 
             echo "<hr>";
 
-            //目標金額表示
-            echo "<p>".$_POST['project_goal_money']."</p>";
+
+        //目標金額表示
+        echo "<p>達成金額：".$_POST['project_goal_money']."円</p>";
 
             echo "<hr>";
 
-            //プロジェクト期間表示
-            echo "<p>開始".$_POST['project_start']."</p>";
-            echo "<p>終了".$_POST['project_end']."</p>";
+
+        //プロジェクト期間表示
+        echo "<p>開始日時：".$_POST['project_start']."</p>";
+        echo "<p>終了日時：".$_POST['project_end']."</p>";
 
             echo "<hr>";
 

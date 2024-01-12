@@ -80,32 +80,30 @@ if(isset($_SESSION['id']) == false){
 
 
 
-            
-            ?>
-            <hr>
+           
+        ?>
+        <hr>
 
-            <h5>お届け先</h5>
-            <?php echo "<p>"
-                .$address['chi_name']
-                .$address['kana_name']
-                .$address['post_code']
-                .$address['user_address']
-                .$address['mail_address'].
-                "</p>" 
-            ?>
-            <hr>
+        <h5>お届け先</h5>
+        <?php echo "<p>"
+            .$address['chi_name']
+            .$address['kana_name']
+            .$address['post_code']
+            .$address['user_address']
+            .$address['mail_address'].
+            "</p>" 
+        ?>
+        <hr>
 
-            <h3>支払方法</h3>
-            <p><?php if($_POST['howToPay']==="card"){echo "クレジットカード決済";}else if($_POST['howToPay']==="convenience"){echo "コンビニ払い";} else if($_POST['howToPay']==="payEasy"){echo "ペイジー決済";}else if($_POST['howToPay']==="bank"){echo "銀行振込";}  ?></p>
+        <h3>支払方法</h3>
+        <p><?php if($_POST['howToPay']==="card"){echo "クレジットカード決済";}else if($_POST['howToPay']==="convenience"){echo "コンビニ払い";} else if($_POST['howToPay']==="payEasy"){echo "ペイジー決済";}else if($_POST['howToPay']==="bank"){echo "銀行振込";}  ?></p>
 
-        </div>
-
-        
     </div>
     <div class="buttonArea">
         <button class="button" style="background-color: darkgrey;">戻る</button>
         <button class="button" onclick="submitForm()">確定する</button>
     </div>
+
     
 
 <script>
