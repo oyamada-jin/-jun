@@ -44,11 +44,9 @@ if ($projectId !== null && $projectDetailId !== null) {
     // データの取得
     $project = $dao->selectProjectAndCourseById($projectId, $projectDetailId);
 
-    // 取得したデータがあるかどうかの確認
-    if (!empty($project)) {
-        var_dump($project);
-    } else {
-        header("Location: projectDetail.php");
+    // 取得したデータがない場合プロジェクト詳細画面へ遷移させる
+    if (empty($project)) {
+        header("Location: projectDetail.php?pid=$projectId");
         exit();
     }
 
@@ -70,7 +68,6 @@ if ($projectId !== null && $projectDetailId !== null) {
     // }
 
     $addressArray = $dao ->selectAllAddressById($_SESSION['id']); 
-
 
 ?>
 <!DOCTYPE html>

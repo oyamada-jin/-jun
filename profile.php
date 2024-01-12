@@ -14,7 +14,7 @@ session_start();
     $searchUserId;
     //このユーザページが閲覧しているユーザの物か判別する変数
     $isMine;
-
+    $_SESSION['id'] = 1; 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $searchUserId = $_POST['user_id'];
     } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
