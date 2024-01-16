@@ -15,7 +15,7 @@ session_start();
     <link rel="stylesheet" href="css/header.css?<?php echo date('YmdHis'); ?>">
 
     <!-- javascriptの導入 -->
-    <script src="./script/script.js"></script>
+    <!-- <script src="./script/script.js"></script> -->
 
     <!-- bootstrapのCSSの導入 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -40,10 +40,10 @@ session_start();
     <form action="loginCheck.php" method="post">
 
         <p style="text-align: center;">メールアドレス</p>
-        <input name="user_mail" placeholder="メールアドレス"><br>
+        <input type="text" name="user_mail" placeholder="メールアドレス" autocomplete="email"><br>
 
         <p style="text-align: center; margin-top: 25px;">パスワード</p>
-        <input type="password" name="user_password" placeholder="パスワード"><br>
+        <input type="password" name="user_password" placeholder="パスワード" autocomplete="current-password"><br>
 
         <input type="submit" id="loginbutton" value="ログイン">
 

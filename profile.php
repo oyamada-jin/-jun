@@ -60,23 +60,25 @@ session_start();
 
 </head>
 <!-- <body style="background-image: url('hai.svg');"> -->
-    <body style="background-color: #fff;">
+<body style="background-color: #fff;">
     <!-- ヘッダーここから -->
     <header class="header">
         <img class="header-logo" src="img/IdecaLogo.png" onclick="window.location.href = 'top.php'">
 
-        <div class="search-bar">
+        <div class="search-bar" onclick="document.getElementById('search-input-id').click()">
             <form id="search" action="searchResult.php" method="get"></form>
-            <img class="search-icon" src="" onclick="document.getElementById('search-input-id').click()">
+
+            <i class="bi bi-search search-icon"></i>
             <input class="search-input" id="search-input-id" type="text" form="search" name="keyword">
+
         </div>
             <div class="header-contents-area">
                 <a href="createProject.php"><div class="project-link">プロジェクトを始める</div></a>
-                <a href="createProject.php"><div class="project-link">プロジェクト掲載</div></a>
+                <a href="board.php"><div class="project-link">アイデア掲示板</div></a>
             <?php
                 if(isset($_SESSION['id'])){
                         echo"
-                            <div class='user-content'>
+                            <div class='user-content' onclick=\"window.location.href = 'profile.php?user_id=".$_SESSION['id']."'\" >
                                 <img src='".$userdata['user_icon']."' class='user-icon'>
                                 <p class='user-name'>".$userdata['user_name']."</p>
                             </div>        

@@ -41,8 +41,6 @@ session_start();
         <img class="header-logo" src="img/IdecaLogo.png" onclick="window.location.href = 'top.php'">
     </header>
     <!-- ヘッダーここまで -->
-
-    <!-- ヘッダーここまで -->
     <div class="null"></div>
     <div class="container" style="margin-bottom: 30px; margin-top: 30px;">
         <div class="form-container">

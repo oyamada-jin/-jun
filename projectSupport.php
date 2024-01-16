@@ -125,16 +125,19 @@ if ($projectId !== null && $projectDetailId !== null) {
 
             <?php
                 if(!empty($addressArray)){
+                    $counter=1;
                     foreach ($addressArray as $address) {
                         
+                        if($counter>=2){
+                            echo "<hr/>";
+                        }
+                        
                         echo "<label for='".$address['address_detail_id']."'>
-                                <input type='radio' id='".$address['address_detail_id']."' value='".$address['address_detail_id']."' name='address'>"
-                                    .$address['chi_name']
-                                    .$address['kana_name']
-                                    .$address['post_code']
+                                <input type='radio' id='".$address['address_detail_id']."' value='".$address['address_detail_id']."' name='address'>〒"
+                                    .substr($address['post_code'],0,3)."-".substr($address['post_code'],3)." "
                                     .$address['user_address']
-                                    .$address['mail_address']
-                            ."</label><hr/>";
+                            ."</label>";
+                        $counter++;
                     }
                 }
 
@@ -185,14 +188,10 @@ if ($projectId !== null && $projectDetailId !== null) {
 
 
 
-
-
-
         <div class="borderContents">
+
             <h3 style="color: #d70026;">支払方法</h3>
-        </div>
 
-        <div class="borderContents">
             <label for="radio1">
                 <p>    
                    <input type="radio" id="radio1" name="howToPay" value="card" form="mainForm">

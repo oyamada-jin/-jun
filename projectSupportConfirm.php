@@ -84,13 +84,10 @@ if(isset($_SESSION['id']) == false){
         <hr>
 
         <h5>お届け先</h5>
-        <?php echo "<p>"
-            .$address['chi_name']
-            .$address['kana_name']
-            .$address['post_code']
-            .$address['user_address']
-            .$address['mail_address'].
-            "</p>" 
+        <?php echo 
+            "<p>〒"
+                .substr($address['post_code'],0,3)."-".substr($address['post_code'],3)." ".$address['user_address'].
+            "</p>"; 
         ?>
         <hr>
 

@@ -14,6 +14,9 @@ session_start();
     $viewArray = $dao->selectAllProjectView();
 
     //ランキング表示
+    $pickupArray = $dao->selectAllProjectPickup();
+
+    //ランキング表示
     $rankingArray = $dao->selectAllProjectRanking();
 
     // 新着表示
@@ -50,7 +53,6 @@ session_start();
     <link rel="stylesheet" href="css/postContents.css">
 
     <!-- javascriptの導入 -->
-    <script src="./script/script.js"></script>
 
     <!-- bootstrapのCSSの導入 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -62,20 +64,20 @@ session_start();
     <header class="header">
         <img class="header-logo" src="img/IdecaLogo.png" onclick="window.location.href = 'top.php'">
 
-        <div class="search-bar">
+        <div class="search-bar" onclick="document.getElementById('search-input-id').click()">
             <form id="search" action="searchResult.php" method="get"></form>
 
-            <i class="bi bi-search search-icon" onclick="document.getElementById('search-input-id').click()"></i>
+            <i class="bi bi-search search-icon"></i>
             <input class="search-input" id="search-input-id" type="text" form="search" name="keyword">
 
         </div>
             <div class="header-contents-area">
                 <a href="createProject.php"><div class="project-link">プロジェクトを始める</div></a>
-                <a href="createProject.php"><div class="project-link">プロジェクト掲載</div></a>
+                <a href="board.php"><div class="project-link">アイデア掲示板</div></a>
             <?php
                 if(isset($_SESSION['id'])){
                         echo"
-                            <div class='user-content'>
+                            <div class='user-content' onclick=\"window.location.href = 'profile.php?user_id=".$_SESSION['id']."'\" >
                                 <img src='".$userdata['user_icon']."' class='user-icon'>
                                 <p class='user-name'>".$userdata['user_name']."</p>
                             </div>        
@@ -136,25 +138,41 @@ session_start();
     </div>
 
     <!-- ピックアッププロジェクト -->
-    <div class="project-pickUp">
+    <div class="project-pickUp row">
         <div class="project-pickUp-title">PICK UP　プロジェクト</div>
 
-        <ul class="project-pickUp-list">
-            <li class="project-pickUp-lists">
-                <img src="img/project-pickUp-contents.png" alt="ピックアップコンテンツ" class="project-pickUp-contentsImage">
-            </li>
+        <ul class="project-contents-list offset-2 col-8 row justify-content-start center-block">
+            
+            <?php
 
-            <li class="project-pickUp-lists">
-                <img src="img/project-pickUp-contents.png" alt="ピックアップコンテンツ" class="project-pickUp-contentsImage">
-            </li>
-                
-            <li class="project-pickUp-lists">
-                 <img src="img/project-pickUp-contents.png" alt="ピックアップコンテンツ" class="project-pickUp-contentsImage">
-            </li>
+                foreach ($pickupArray as $result) {
+                    echo "<li class='project-contents-lists col-md-3'>";
+                        
+                    echo "
 
-            <li class="project-pickUp-lists">
-                <img src="img/project-pickUp-contents.png" alt="ピックアップコンテンツ" class="project-pickUp-contentsImage">
-            </li>
+                    <div class='postArea' onclick=\"window.location.href='projectDetail.php?pid=".$result['project_id']."'\">
+                                <img src='";
+                                echo (file_exists($result['project_thumbnail_image'])) ? $result['project_thumbnail_image'] : 'img/noImage_'.rand(1,2).'.jpg';
+                                echo "' alt='' class='postImage'>
+                                <div class='postTextArea'>
+                                    <p class='postText'>$result[project_name]</p>
+                                    <div class='postValuePercent'>
+                                        <div class='postValue'>".number_format($result['total_money'])."円</div>
+                                        <div class='postPercent'>".(int)$result['money_ratio']."%</div>
+                                    </div>
+                                    <div class='postNumberDay'>
+                                        <div class='postUnder'><i class='bi bi-people'></i>　".$result['support_count']."人</div>
+                                        <div class='postUnder'><i class='bi bi-clock'></i>　".(int)((strtotime($result['project_end']) - time()) / (60 * 60 * 24))."日</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 投稿ここまで -->
+                        </li>
+                    
+                    ";
+                }
+
+            ?>
         </ul>
     </div>
 

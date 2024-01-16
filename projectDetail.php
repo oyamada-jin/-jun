@@ -61,19 +61,20 @@ session_start();
     <header class="header">
         <img class="header-logo" src="img/IdecaLogo.png" onclick="window.location.href = 'top.php'">
 
-        <div class="search-bar">
+        <div class="search-bar" onclick="document.getElementById('search-input-id').click()">
             <form id="search" action="searchResult.php" method="get"></form>
-            <img class="search-icon" src="" onclick="document.getElementById('search-input-id').click()">
+
+            <i class="bi bi-search search-icon"></i>
             <input class="search-input" id="search-input-id" type="text" form="search" name="keyword">
+
         </div>
             <div class="header-contents-area">
                 <a href="createProject.php"><div class="project-link">プロジェクトを始める</div></a>
-                <a href="createProject.php"><div class="project-link">プロジェクト掲載</div></a>
+                <a href="board.php"><div class="project-link">アイデア掲示板</div></a>
             <?php
-            
                 if(isset($_SESSION['id'])){
                         echo"
-                            <div class='user-content'>
+                            <div class='user-content' onclick=\"window.location.href = 'profile.php?user_id=".$_SESSION['id']."'\" >
                                 <img src='".$userdata['user_icon']."' class='user-icon'>
                                 <p class='user-name'>".$userdata['user_name']."</p>
                             </div>        
@@ -171,13 +172,13 @@ session_start();
             </div>
             <div class="row">
                 <div class="col-xs-12 col-lg-8">
-                    <div class="goods">
+                    <div class="goods ms-5">
                         <h1>・プロジェクト紹介</h1>
                         <?php
                         foreach ($intro as $introPiece) {
                             if ($introPiece['project_intro_flag'] == '0') {
                                 // テキストの場合
-                                echo "<div class='text-intro'>" . $introPiece['project_intro_text'] . "</div>";
+                                echo "<p class='text-intro'>" . $introPiece['project_intro_text'] . "</p>";
                             } elseif ($introPiece['project_intro_flag'] == '1') {
                                 // 画像の場合
                                 echo "<div class='image-intro'><img src='" . $introPiece['project_intro_image'] . "' alt='Introduction Image'></div>";
@@ -189,7 +190,7 @@ session_start();
                 <div class="col-xs-12 col-lg-4">
                     
                     <!-- 投稿ユーザの情報 -->
-                    <div class="plofile">
+                    <div class="plofile" onclick="window.location.href='profile.php?user_id=<?php echo $createUserdata['user_id'] ?>'">
                         <img src="<?php echo $createUserdata['user_icon']; ?>" alt="User Icon">
                         <p><?php echo $createUserdata['user_name']; ?></p>
                         <p>他に<?php echo $createUserdata['totalProjectCount']; ?>件のプロジェクトを掲載しています</p>
@@ -202,6 +203,7 @@ session_start();
 
                     <!-- コース情報 -->
                     <?php
+                    $courseCounter=0;
                     foreach ($course as $courseInfo) {
                         echo '<div class="plan">';
                         echo '<p id="p_money">' . $courseInfo['project_course_value'] . '円</p>';
@@ -210,8 +212,9 @@ session_start();
                         echo '<h2>' . $courseInfo['project_course_name'] . '</h2>';
                         echo '<p>' . $courseInfo['project_course_intro'] . '</p>';
                         echo '<div class="sien"><span>支援者: ' . $courseInfo['total_support_users_count'] . '人</span></div><br>';
-                        echo '<a href="projectSupport.php?project_id=' . $project_id . '&project_detail_id=' . $courseInfo['project_id'] . '"><button>支援に進む</button></a>';
+                        echo '<a href="projectSupport.php?project_id=' . $project_id . '&project_detail_id=' . $courseCounter . '"><button>支援に進む</button></a>';
                         echo '</div>';
+                        $courseCounter++;
                     }
                     ?>
 

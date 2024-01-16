@@ -56,21 +56,12 @@ class DAO{
             // ユーザーが存在するか確認
             $user = $ps->fetch(PDO::FETCH_ASSOC);
         
-            if ($ps->rowCount() > 0) {//                //パスワードの照合のため、login_check.phpに移動
-                $log_check = $ps->fetchAll();
-                //SESSION使うかもしれないから一応置いとく
-                return $log_check;
-                
-            }else{
-                //データベースに登録していないとき
-                function func_alert($message){
-                    echo "<script>alert('$message');</script>";
-                    //アラートのOKを押したら新規登録画面に移動
-                    echo "<script>location.href='login.php';</script>";
-                }
-                func_alert("メールアドレスが間違っています。");
-                $log_check = $ps->fetchAll();
-                return $log_check;
+            if ($ps->rowCount() > 0) {
+                // パスワードの照合のため、loginCheck.phpに移動
+                return $user;
+            } else {
+                // データベースに登録していないとき
+                return false;
             }
         }
         
@@ -625,6 +616,46 @@ class DAO{
         return $q->fetchAll();
     }
 
+    //pickupプロジェクト表示
+    function  selectAllProjectPickup(){
+        $pdo = $this->dbConnect();
+        $currentDate = date("Y-m-d");
+        $sql = "SELECT 
+                    project.project_id AS project_id,
+                    project.project_name AS project_name,
+                    IFNULL(project_support.support_count, 0) AS support_count,
+                    IFNULL(project_support.total_money, 0) AS total_money,
+                    (IFNULL(SUM(DISTINCT project_support.total_money), 0) / project.project_goal_money * 100) AS money_ratio,
+                    project.project_end AS project_end,
+                    project_thumbnail.project_thumbnail_image,
+                    IFNULL(project_heart.heart_count, 0) AS heart_count
+                FROM project
+                LEFT JOIN (
+                    SELECT 
+                        project_id, 
+                        COALESCE(SUM(support_money),0) AS total_money, 
+                        COALESCE(COUNT(project_id),0) AS support_count 
+                    FROM project_support 
+                    GROUP BY project_support.project_id
+                ) AS project_support ON project.project_id = project_support.project_id
+                LEFT JOIN project_course ON project.project_id = project_course.project_id
+                LEFT JOIN project_thumbnail ON project.project_id = project_thumbnail.project_id
+                LEFT JOIN (
+                    SELECT 
+                        project_id, 
+                        COUNT(*) AS heart_count 
+                    FROM project_heart 
+                    GROUP BY project_id
+                ) AS project_heart ON project.project_id = project_heart.project_id
+                WHERE project.project_start <= :currentDate AND project.project_end >= :currentDate
+                GROUP BY project.project_id
+                ORDER BY RAND()";
+                $q = $pdo->prepare($sql);
+                $q ->bindValue(':currentDate', $currentDate, PDO::PARAM_STR);
+                $q->execute();
+                return $q->fetchAll();
+
+    }
 
     //ランキング表示
     function  selectAllProjectRanking(){
@@ -1002,15 +1033,5 @@ class DAO{
 
 
 }
-// function  (){
-    //     $pdo = $this->dbConnect();
-    //     $sql = "";
-    //     $q = $pdo->prepare($sql);
-    //     $q->bindValue("",,PDO::PARAM_INT);
 
-
-    //     $q->execute();
-
-        
-    // }
 ?>

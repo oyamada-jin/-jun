@@ -80,15 +80,22 @@
     font-size: 12px;
     margin-left: 15px;
 }
-.user-content{
+
+.user-content {
+    margin-left: 30px;
     width: 200px;
     white-space: nowrap;
-}
-.user-icon{
-    width: 60px;
-    height: 60px;
+    display: flex; /* Flexコンテナとして要素を横に配置 */
+    align-items: center; /* 子要素を垂直方向に中央揃え */
 }
 
-.user-name{
+.user-icon {
+    width: 60px;
+    height: 60px;
+    margin-right: 10px; /* アイコンとユーザー名の間に余白を設ける */
+}
+
+.user-name {
     color: #FFFFFF;
+    margin: 0; /* マージンをリセットして余白を除去 */
 }
